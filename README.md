@@ -1,6 +1,8 @@
-<h1>시퀀스 다이어그램</h1>
+# 시퀀스 다이어그램
 
-<h3><유저 대기열 토큰 발급 API></h3>
+## <유저 대기열 토큰 발급 API>
+
+
 ```mermaid
 sequenceDiagram
     participant 유저
@@ -14,7 +16,9 @@ sequenceDiagram
 
 ```
 
-<h3><잔액 충전/조회 API></h3>
+## <잔액 충전/조회 API>
+
+
 ```mermaid
 sequenceDiagram
     participant 유저
@@ -27,7 +31,10 @@ sequenceDiagram
     잔액 ->>- 유저 :  잔액 조회 응답
 ```
 
-<h3><예약 가능 날짜/좌석 API></h3>
+## <예약 가능 날짜/좌석 API>
+
+
+
 ```mermaid
 sequenceDiagram
     participant 유저
@@ -42,7 +49,9 @@ sequenceDiagram
     콘서트 예약 가능 정보 ->>- 유저 : 예약 가능 날짜/좌석 조회 응답
 ```
 
-<h3><좌석 예약 요청 API></h3>
+## <좌석 예약 요청 API>
+
+
 ```mermaid
 sequenceDiagram
     participant 유저
@@ -60,5 +69,6 @@ sequenceDiagram
 
 ```
 
-<h1>ERD 다이어그램</h1>
+# ERD 다이어그램
+
 ![ERD](https://github.com/tak-tack/hhplus_3th_reserve/assets/118045239/beb094ed-7f36-4a79-ba0d-d7f5bc2044d8)
