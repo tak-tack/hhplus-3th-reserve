@@ -61,3 +61,4 @@ sequenceDiagram
 ```
 
 <h1>ERD 다이어그램</h1>
+![ERD](https://github.com/tak-tack/hhplus_3th_reserve/assets/118045239/beb094ed-7f36-4a79-ba0d-d7f5bc2044d8)
