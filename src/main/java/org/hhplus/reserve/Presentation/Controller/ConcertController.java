@@ -1,5 +1,17 @@
-package org.hhplus.reserve.hhplus_3th_reserve.Presentation.Controller;
+package org.hhplus.reserve.Presentation.Controller;
 
+import lombok.RequiredArgsConstructor;
+import org.hhplus.reserve.Presentation.DTO.ConcertAvailableResponseDTO;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+@RequestMapping("/concert")
+@RequiredArgsConstructor
 public class ConcertController {
 
     /*
@@ -10,6 +22,13 @@ public class ConcertController {
         > 좌석 정보는 1 ~ 50 까지의 좌석번호로 관리됩니다.
         >
      */
+    @PostMapping("/reservation")
+    public ConcertAvailableResponseDTO ReservationApplication(
+            @RequestBody ConcertAvailableResponseDTO concertResponseDTO
+    ){
+        //concertResponseDTO.setUserId(1);
+        return ConcertAvailableResponseDTO.builder().build();
+    }
 
     /*
     **좌석 예약 요청 API**
@@ -18,6 +37,10 @@ public class ConcertController {
     - 만약 배정 시간 내에 결제가 완료되지 않는다면 좌석에 대한 임시 배정은 해제되어야 하며 다른 사용자는 예약할 수 없어야 한다.
 
      */
+    @GetMapping("/{concertId}/availability")
+    public ConcertAvailableResponseDTO ReservationAvailable(@PathVariable Integer concertId){
+        return ConcertAvailableResponseDTO.builder().build();
+    }
 
     /*
     **잔액 충전 / 조회 API**
@@ -26,10 +49,24 @@ public class ConcertController {
 - 사용자 식별자 및 충전할 금액을 받아 잔액을 충전합니다.
 - 사용자 식별자를 통해 해당 사용자의 잔액을 조회합니다.
      */
+    @GetMapping("/{userId}/balance/select")
+    public ConcertAvailableResponseDTO BalanceSelectApplication(){
+        return ConcertAvailableResponseDTO.builder().build();
+    }
+
+    @GetMapping("/{userId}/balance/charge")
+    public ConcertAvailableResponseDTO BalanceChargeApplication(){
+        return ConcertAvailableResponseDTO.builder().build();
+    }
+
     /*
     **결제 API**
 
 - 결제 처리하고 결제 내역을 생성하는 API 를 작성합니다.
 - 결제가 완료되면 해당 좌석의 소유권을 유저에게 배정하고 대기열 토큰을 만료시킵니다.
      */
+    @GetMapping("/{userId}/payment")
+    public ConcertAvailableResponseDTO PaymentApplication(){
+        return ConcertAvailableResponseDTO.builder().build();
+    }
 }

@@ -10,8 +10,8 @@ spring:
   jpa:
     properties:
       hibernate:
-        format_sql: true #true : JPA의 구현체인 Hibernate가 동작하면서 발생한 SQL 가독성 증가.
+        format_sql: true
 
     show-sql: true
     hibernate:
-      ddl-auto: create #update 어플리케이션 기동 시 entity 에서 정의한것이 update 혹은 create 가 된다.
+      ddl-auto: create

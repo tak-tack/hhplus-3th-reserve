@@ -25,6 +25,13 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Lombok 라이브러리
+	compileOnly ('org.projectlombok:lombok')
+	annotationProcessor ('org.projectlombok:lombok')
+	// MYSQL & JPA연동
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 }
 
 tasks.named('test') {

@@ -1,4 +1,4 @@
-package org.hhplus.reserve.hhplus_3th_reserve;
+package org.hhplus.reserve;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -181,7 +181,7 @@ sequenceDiagram
 |---------------|---------------------------------------------------------------------------------------------|
 | Endpoint      | POST /concert/{userId}/reservation                                                          |
 | Request       | Content-Type : 헤더 : application/json // 매개변수 : Integer userId, Integer concertOptionId      |
-| Response      | 상태코드 : 200 OK // 본문 {"reservationId": "Integer "."concertOptionid":"Integer " ,"seat":"01"} |
+| Response      | 상태코드 : 200 OK // 본문 {"reservationId": "Integer "."concertOptionId":"Integer " ,"seat":"01"} |
 | Error         | 상태코드 : 404 Not Found                                                                        |
 | Authorization | token                                                                                       |
 
@@ -202,5 +202,45 @@ sequenceDiagram
 | Response      | 상태코드 : 200 OK // 본문 {"token": "string"}                                                       |
 | Error         | 상태코드 : 400 404 Bad Not Reqeust Found                                                          |
 | Authorization | token                                                                                         |
+
+</details>
+
+<details>
+<summary>Mock API</summary>
+1. 유저 대기열 토큰
+
+|               |                                                                                |
+|---------------|--------------------------------------------------------------------------------|
+| Request       | Content-Type : 헤더 : application/json // 매개변수 : Integer userId, Integer concertOptionId |
+| Response      | 상태코드 : 200 OK // 본문 {"token": "string"}                                                |
+
+
+2. 예약 가능 날짜/좌석 API
+
+|               |                                                                                |
+|---------------|--------------------------------------------------------------------------------|
+| Request       | Content-Type : 헤더 : application/json // 매개변수 : Integer concertId                                                           |
+| Response      | 상태코드 : 200 OK // 본문 {"concertOptionId": "Integer ","availableSeats": [{"date": "2023-07-15","seats": ["01", "02", "03"]}]} |
+
+3. 좌석 예약 요청 API
+
+|               |                                                                                |
+|---------------|--------------------------------------------------------------------------------|
+| Request       | Content-Type : 헤더 : application/json // 매개변수 : Integer userId, Integer concertOptionId      |
+| Response      | 상태코드 : 200 OK // 본문 {"reservationId": "Integer "."concertOptionId":"Integer " ,"seat":"01"} |
+
+4. 잔액 충전 / 조회 API
+
+|               |                                                                                |
+   |---------------|--------------------------------------------------------------------------------|
+   | Request       | Content-Type : 헤더 : application/json // 매개변수 : Integer userId, Integer balance |
+   | Response      | 상태코드 : 200 OK // 본문 {"token": "string","balance" : "Integer"}                  |
+
+5.결재 API
+
+|               |                                                                                |
+|---------------|--------------------------------------------------------------------------------|
+| Request       | Content-Type : 헤더 : application/json // 매개변수 : Integer userId userId, Integer concertOptionId |
+| Response      | 상태코드 : 200 OK // 본문 {"token": "string"}                                                       |
 
 </details>
