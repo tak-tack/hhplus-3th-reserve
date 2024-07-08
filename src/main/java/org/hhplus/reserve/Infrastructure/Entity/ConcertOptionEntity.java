@@ -1,0 +1,24 @@
+package org.hhplus.reserve.Infrastructure.Entity;
+
+import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Entity
+@Table(name="Concert_Option")
+@AllArgsConstructor
+@NoArgsConstructor
+public class ConcertOptionEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer concertOptionId;
+    private Integer concertId;
+    private LocalDateTime concertDate;
+}

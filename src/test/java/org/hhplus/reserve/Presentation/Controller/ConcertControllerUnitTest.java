@@ -1,11 +1,15 @@
 package org.hhplus.reserve.Presentation.Controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hhplus.reserve.Business.Service.Impl.TokenService;
+import org.hhplus.reserve.Presentation.DTO.TokenRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.TokenResponseDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -14,26 +18,29 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-import static org.junit.jupiter.api.Assertions.*;
-
-@WebMvcTest(ConcertControllerTest.class)
+@WebMvcTest(ConcertController.class)
 class ConcertControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
+    @MockBean
+    private TokenService tokenService;
+    @InjectMocks
+    ConcertController concertController;
 
     @Test
-    @WithMockUser(username = "테스트_최고관리자", roles = {"SUPER"})
+    //@WithMockUser(username = "테스트_최고관리자", roles = {"SUPER"})
     @DisplayName("토큰 발행 호출 테스트")
     void authentication() throws Exception{
-        Integer userId = 1;
-        TokenResponseDTO tokenResponseDTO = new TokenResponseDTO(1,userId);
-        //ConcertController concertController = new ConcertController();
+        //Integer userId = 1;
+        //TokenResponseDTO tokenResponseDTO = new TokenResponseDTO(1,1);
+        TokenRequestDTO tokenRequestDTO = new TokenRequestDTO(1);
+        ObjectMapper objectMapper = new ObjectMapper();
         //given
         //given()
         //when
-        mockMvc.perform(get("/concert/authentication/{userId}",1))
+        mockMvc.perform(post("/concert/authentication").content(
+                objectMapper.writeValueAsString(tokenRequestDTO))
+                                .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

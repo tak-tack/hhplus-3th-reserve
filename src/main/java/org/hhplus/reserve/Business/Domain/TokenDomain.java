@@ -5,11 +5,15 @@ import lombok.Setter;
 import org.hhplus.reserve.Presentation.DTO.TokenResponseDTO;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Getter
 @Setter
 public class TokenDomain {
-    Integer tokenId;
-    Integer userId;
+    private UUID user_UUID;
+    private Integer userId;
+    private String create_dt;
 
     public TokenResponseDTO toDTO()
     {
