@@ -2,6 +2,7 @@ package org.hhplus.reserve.Presentation.Controller;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Presentation.DTO.ConcertAvailableResponseDTO;
+import org.hhplus.reserve.Presentation.DTO.TokenResponseDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -14,6 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConcertController {
 
+    @GetMapping("/authentication/{userId}")
+    public TokenResponseDTO authentication(@PathVariable Integer userId){
+        //TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
+        return TokenResponseDTO.builder().userId(userId).tokenId(1).build();
+    }
     /*
     예약 가능 날짜 / 좌석 API**
     - 예약가능한 날짜와 해당 날짜의 좌석을 조회하는 API 를 각각 작성합니다.
