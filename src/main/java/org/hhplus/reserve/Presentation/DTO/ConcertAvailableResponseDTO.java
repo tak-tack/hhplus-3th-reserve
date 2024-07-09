@@ -16,15 +16,15 @@ public class ConcertAvailableResponseDTO {
     //public static class Available
 
         private Integer concertOptionId;
-        private List<AvailableSeat> availableSeat;
+        private List<AvailableSeatDTO> availableSeats;
 
         @Getter
         @Setter
         @AllArgsConstructor
         @NoArgsConstructor
-        public static class AvailableSeat
+        public static class AvailableSeatDTO
         {
-            private List<Integer> seat;
+            private List<Integer> seats;
             private LocalDateTime ConcertStartTime;
         }
 

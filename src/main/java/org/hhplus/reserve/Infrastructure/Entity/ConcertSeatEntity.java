@@ -17,7 +17,9 @@ public class ConcertSeatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer seatId;
-    private Integer concertOptionId;
+    @ManyToOne
+    @JoinColumn
+    private ConcertOptionEntity concertOptionId;
     private Integer seatNum; // 1~50
     private Integer seatPrice;
     // seatStatus

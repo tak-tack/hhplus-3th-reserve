@@ -19,9 +19,12 @@ public class ConcertOptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     //@OneToMany Consert_Seat
+    @Column(name="concert_option_id")
     private Integer concertOptionId;
     @ManyToOne // ConcertEntity
-    @JoinColumn
-    private ConcertEntity concertId;
+    @JoinColumn(name="concert_id")
+//    //@Column(name="concert_id")
+//    private ConcertEntity concertEntity;
+    @Column(name="concert_date")
     private LocalDateTime concertDate;
 }
