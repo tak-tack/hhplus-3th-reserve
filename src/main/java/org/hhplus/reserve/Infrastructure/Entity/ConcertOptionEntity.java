@@ -18,7 +18,10 @@ import java.time.LocalDateTime;
 public class ConcertOptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    //@OneToMany Consert_Seat
     private Integer concertOptionId;
-    private Integer concertId;
+    @ManyToOne // ConcertEntity
+    @JoinColumn
+    private ConcertEntity concertId;
     private LocalDateTime concertDate;
 }

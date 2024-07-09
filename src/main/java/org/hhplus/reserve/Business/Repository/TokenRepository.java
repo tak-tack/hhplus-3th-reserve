@@ -7,5 +7,6 @@ import java.time.LocalDateTime;
 public interface TokenRepository {
 
     TokenDomain save(Integer userId);
-    TokenDomain check(Integer userId);
+    boolean exist(Integer userId);
+    TokenDomain select(Integer userId);
 }

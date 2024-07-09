@@ -22,12 +22,15 @@ public class TokenRepositoryImpl implements TokenRepository {
     }
 
     // 토큰 중복 확인
-    public TokenDomain check(Integer userId){
-        TokenEntity tokenEntity = tokenJpaRepository.findByUserId(userId);
-        return tokenEntity.toDomain();
+    public boolean exist(Integer userId){
+        return tokenJpaRepository.existsByUserId(userId);
     }
 
     // 토큰 요청
+    public TokenDomain select(Integer userId){
+        return tokenJpaRepository.findByUserId(userId).toDomain();
+    }
+
 
 
 

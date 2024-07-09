@@ -36,16 +36,26 @@ public class ConcertControllerIntegrationTest {
     @BeforeEach
     void setUp()
     {
-        tokenRepository.save(2);
-//        TokenRequestDTO tokenRequestDTO = new TokenRequestDTO(1);
-//        concertServiceFacade.AuthenticationApplication(tokenRequestDTO);
     }
 
     @Test
     @DisplayName("토큰 발급 요청 API - 성공")
     void authenticationSUCESS() throws Exception{
         TokenRequestDTO tokenRequestDTO = new TokenRequestDTO(1);
-        //tokenService.applyAuth(1);
+        mockMvc.perform(post("/concert/authentication").content(
+                                objectMapper.writeValueAsString(tokenRequestDTO))
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+
+    }
+
+    @Test
+    @DisplayName("토큰 발급 요청 API - 실패 - userId 중복")
+    void authenticationFAIL1() throws Exception{
+        tokenService.applyAuth(1);
+        TokenRequestDTO tokenRequestDTO = new TokenRequestDTO(1);
         mockMvc.perform(post("/concert/authentication").content(
                                 objectMapper.writeValueAsString(tokenRequestDTO))
                         .contentType(APPLICATION_JSON))

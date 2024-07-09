@@ -12,4 +12,5 @@ public interface TokenJpaRepository extends JpaRepository<TokenEntity, UUID> {
 
     @Query("select user_UUID from TokenEntity where userId = :userId")
     TokenEntity findByUserId(@Param("userId") Integer userId);
+    boolean existsByUserId(@Param("userId") Integer userId);
 }
