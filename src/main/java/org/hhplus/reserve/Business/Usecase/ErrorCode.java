@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Application;
+package org.hhplus.reserve.Business.Usecase;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

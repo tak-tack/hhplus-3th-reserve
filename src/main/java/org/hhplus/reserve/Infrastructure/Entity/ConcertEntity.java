@@ -23,9 +23,10 @@ public class ConcertEntity {
     Integer concertId;
     String concertName;
 
-    @OneToMany
-    @JoinColumn(name="concert_id")
-    private List<ConcertOptionEntity> concertOptionEntities = new ArrayList<>();
+//    @OneToMany
+//    @JoinColumn(name="concert_id")
+//    private List<ConcertOptionEntity> concertOptionEntities = new ArrayList<>();
+    Integer concertOptionId;
 
     public ConcertDomain toDomain()
     {

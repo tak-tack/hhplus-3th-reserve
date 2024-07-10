@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.data.jpa.repository.config.JpaMetamodelMappingContext
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.when;
@@ -25,7 +27,7 @@ import static org.mockito.BDDMockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.lenient;
 
-@ExtendWith(MockitoExtension.class) // Juint5 에서 Mokito를 사용하겠다
+//@ExtendWith(MockitoExtension.class) // Juint5 에서 Mokito를 사용하겠다 => 다신안씀
 //@MockBean(JpaMetamodelMappingContextFactoryBean.class)
 /*
 Cannot invoke "org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository.save(Object)" because "this.concertJpaRepository" is null
@@ -51,29 +53,29 @@ class ConcertServiceUnitTest {
     private ConcertServiceImpl concertService;
 
     private List<ConcertEntity> concertEntities;
+
     @BeforeEach
     void setUp(){
-//       concertEntities = Arrays.asList(
-//                new ConcertEntity(1,"아이유콘서트"),
-//                new ConcertEntity(2,"뉴진스콘서트")
-//        );
+        MockitoAnnotations.openMocks(this); // Mock 객체 초기화
+        concertEntities = Arrays.asList(
+                new ConcertEntity(1,"아이유콘서트",1),
+                new ConcertEntity(2,"뉴진스콘서트",1)
+        );
 
     }
-
+//초기화하라는애가 하나있다
     @Test
     @DisplayName("공연 목록 조회")
     public void concertList(){
-//        ConcertEntity concertEntity = ConcertEntity.builder()
-//                .concertId(3)
-//                .concertName("박효신콘서트")
-//                .build();//new ConcertEntity(1,"박효신콘서트");
-//        concertJpaRepository.save(concertEntity);
-
+        // given
+        List<ConcertDomain> concertDomains = concertEntities.stream()
+                .map(ConcertEntity::toDomain)
+                .collect(Collectors.toList());
+        System.out.println("테스트코드 리스트 사이즈 : " + concertDomains.size());
         //given
-        when(concertJpaRepository.findAll()).thenReturn(concertEntities);
+        when(concertRepository.findAll()).thenReturn(concertDomains);
         //when
-        List<ConcertDomain> concertList = concertService.ConcertList().stream().toList();
-        //List<ConcertDomain> concertList = concertRepository.findAll();
+        List<ConcertDomain> concertList = concertService.ConcertList();
         //then
         assertEquals(2,concertList.size());
     }

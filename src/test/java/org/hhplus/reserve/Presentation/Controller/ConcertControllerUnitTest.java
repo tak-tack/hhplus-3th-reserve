@@ -1,12 +1,12 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hhplus.reserve.Business.Service.Impl.TokenService;
-import org.hhplus.reserve.Presentation.DTO.TokenRequestDTO;
-import org.hhplus.reserve.Presentation.DTO.TokenResponseDTO;
+import org.hhplus.reserve.Business.Service.TokenService;
+import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,8 +24,17 @@ class ConcertControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private TokenService tokenService;
+    @Mock
+
     @InjectMocks
     ConcertController concertController;
+
+//    ConcertAvailableResponseDTO concertAvailableResponseDTO =
+//            ConcertAvailableResponseDTO.builder()
+//                    .concertOptionId(1)
+//                    .build();
+//    ConcertAvailableResponseDTO.AvailableSeatDTO.
+
 
     @Test
     //@WithMockUser(username = "테스트_최고관리자", roles = {"SUPER"})

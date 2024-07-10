@@ -2,10 +2,9 @@ package org.hhplus.reserve.Business.Domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hhplus.reserve.Presentation.DTO.TokenResponseDTO;
+import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 import org.springframework.beans.BeanUtils;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter

@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Presentation.DTO;
+package org.hhplus.reserve.Presentation.DTO.ConcertAvailable;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -16,16 +16,18 @@ public class ConcertAvailableResponseDTO {
     //public static class Available
 
         private Integer concertOptionId;
-        private List<AvailableSeatDTO> availableSeats;
+        //private LocalDateTime ConcertStartTime;
 
         @Getter
         @Setter
+        @Builder
         @AllArgsConstructor
         @NoArgsConstructor
         public static class AvailableSeatDTO
         {
+            private LocalDateTime availableSeats;
             private List<Integer> seats;
-            private LocalDateTime ConcertStartTime;
+
         }
 
 

@@ -1,30 +1,25 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Application.ConcertServiceFacade;
-import org.hhplus.reserve.Business.Service.Impl.TokenService;
-import org.hhplus.reserve.Presentation.DTO.ConcertAvailableResponseDTO;
-import org.hhplus.reserve.Presentation.DTO.TokenRequestDTO;
-import org.hhplus.reserve.Presentation.DTO.TokenResponseDTO;
+import org.hhplus.reserve.Business.Usecase.UserFacade;
+import org.hhplus.reserve.Business.Service.TokenService;
+import org.hhplus.reserve.Presentation.DTO.ConcertAvailable.ConcertAvailableResponseDTO;
+import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
+import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/concert")
 @RequiredArgsConstructor
 public class ConcertController {
     private final TokenService tokenService;
-    private final ConcertServiceFacade concertServiceFacade;
+    private final UserFacade userFacade;
     /*
-
+    토큰 인증 발급 API
      */
     @PostMapping("/authentication")
     public TokenResponseDTO authentication(@RequestBody TokenRequestDTO tokenRequestDTO){
-        return concertServiceFacade.AuthenticationApplication(tokenRequestDTO);
+        return userFacade.AuthenticationApplication(tokenRequestDTO);
     }
 
     /*

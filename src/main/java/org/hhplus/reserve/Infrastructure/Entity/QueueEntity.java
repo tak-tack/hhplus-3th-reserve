@@ -6,25 +6,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hhplus.reserve.Infrastructure.Enum.QueueStatus;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
-@Table(name="Concert_Seat")
+@Table(name="Queue")
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConcertSeatEntity {
+public class QueueEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer seatId;
-    private Integer concertOptionId;
-    private Integer seatNum; // 1~50
-    private Integer seatPrice;
-    // seatStatus
+    private Integer queueId;
+    private UUID userUUID;
+    private QueueStatus queueStatus;
     @CreatedDate
     private String create_dt;
 

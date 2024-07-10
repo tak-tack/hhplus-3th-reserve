@@ -1,10 +1,10 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hhplus.reserve.Business.Application.ConcertServiceFacade;
+import org.hhplus.reserve.Business.Usecase.ConcertServiceFacade;
 import org.hhplus.reserve.Business.Repository.TokenRepository;
-import org.hhplus.reserve.Business.Service.Impl.TokenService;
-import org.hhplus.reserve.Presentation.DTO.TokenRequestDTO;
+import org.hhplus.reserve.Business.Service.TokenService;
+import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
