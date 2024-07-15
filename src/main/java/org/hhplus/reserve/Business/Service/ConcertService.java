@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface ConcertService {
 
-    List<ConcertDomain> ConcertList();
+    List<ConcertResponseDTO> ConcertList();
 
-    List<ConcertOptionDomain> getConcertAvailabillity(List<ConcertResponseDTO> concertResponseDTOs);
 }

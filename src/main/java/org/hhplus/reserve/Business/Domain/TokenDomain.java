@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class TokenDomain {
-    private UUID user_UUID;
+    private String user_UUID;
     private Integer userId;
     private String create_dt;
 
@@ -19,5 +19,8 @@ public class TokenDomain {
         TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
         BeanUtils.copyProperties(this,tokenResponseDTO);
         return  tokenResponseDTO;
+    }
+    public String setUser_Uuid(UUID user_UUID){
+        return this.user_UUID = user_UUID.toString();
     }
 }

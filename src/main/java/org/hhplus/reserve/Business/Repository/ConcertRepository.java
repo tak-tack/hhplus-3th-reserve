@@ -9,5 +9,6 @@ import java.util.List;
 public interface ConcertRepository {
 
     //ConcertOptionEntity findByConcert(Integer concertId);
-    List<ConcertDomain> findAll();
+    List<Integer> findByConcertid();
+    List<ConcertDomain> findAllConcertWithSeats(List<Integer> concertIds);
 }

@@ -1,6 +1,7 @@
-package org.hhplus.reserve.Infrastructure.Enum;
+package org.hhplus.reserve.Business.Enum;
 
 public enum ReservationStatus {
-    WAITING//예약대기
-    ,RESERVED//예약선점완료
+    RSERVATION_WATING, // 예약대기
+    RESERVATION_FINISHED // 예약완료
+
 }

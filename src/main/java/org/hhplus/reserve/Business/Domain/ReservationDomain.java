@@ -1,7 +1,6 @@
 package org.hhplus.reserve.Business.Domain;
 
-import org.hhplus.reserve.Infrastructure.Enum.ReservationStatus;
-import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
+import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
 import org.springframework.beans.BeanUtils;
 
@@ -13,7 +12,7 @@ public class ReservationDomain {
     private UUID user_Uuid;
     private Integer concertOptionId;
     private Integer seatId;
-    private ReservationStatus reservationStatus;
+    private ConcertSeatStatus concertSeatStatus;
     private LocalDateTime createDt;
 
     public ReservationResponseDTO toDTO()

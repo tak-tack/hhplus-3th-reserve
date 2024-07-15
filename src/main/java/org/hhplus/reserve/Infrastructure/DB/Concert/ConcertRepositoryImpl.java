@@ -15,11 +15,11 @@ public class ConcertRepositoryImpl implements ConcertRepository {
     private final ConcertJpaRepository concertJpaRepository;
 
     @Override
-    public List<ConcertDomain> findAll(){
-        return concertJpaRepository.findAll()
-                .stream()
-                .map(ConcertEntity::toDomain)
-                .collect(Collectors.toList()); //.toList(); //
+    public List<Integer> findByConcertid(){
+        return concertJpaRepository.findByConcertid().orElse(null);
+    }
+    public List<ConcertDomain> findAllConcertWithSeats(List<Integer> concertIds){
+        return concertJpaRepository.findConcertsWithSeats(concertIds).stream().map(ConcertEntity::toDomain).collect(Collectors.toList());
     }
 
 }

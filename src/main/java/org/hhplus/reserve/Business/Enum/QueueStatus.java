@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Infrastructure.Enum;
+package org.hhplus.reserve.Business.Enum;
 
 public enum QueueStatus {
     WAITING, PROCESSING, FINISH

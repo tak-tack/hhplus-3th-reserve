@@ -1,26 +1,22 @@
 package org.hhplus.reserve.Business.Domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
 import org.hhplus.reserve.Presentation.DTO.ConcertAvailable.ConcertAvailableResponseDTO;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@Setter
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ConcertOptionDomain {
 
     private Integer concertOptionId;
-    private Integer concertId;
-    private LocalDateTime concertDate;
-
-    public ConcertAvailableResponseDTO toDTO(){
-        ConcertAvailableResponseDTO concertAvailableResponseDTO = new ConcertAvailableResponseDTO();
-        BeanUtils.copyProperties(this,concertAvailableResponseDTO);
-        return concertAvailableResponseDTO;
-
-    }
-
-
+    private String ConcertDate;
+    private Set<ConcertSeatDomain> concertSeats;
 }

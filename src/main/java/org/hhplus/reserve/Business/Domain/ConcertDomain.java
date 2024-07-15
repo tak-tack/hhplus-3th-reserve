@@ -7,6 +7,10 @@ import lombok.Setter;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.ConcertAvailable.ConcertAvailableResponseDTO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.RequestEntity;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -15,11 +19,21 @@ import org.springframework.beans.BeanUtils;
 public class ConcertDomain {
     private Integer concertId;
     private String concertName;
+    private Set<ConcertOptionDomain> concertOptions;
 
-    public ConcertResponseDTO toDTO()
+    public Set<ConcertResponseDTO> toDTO()
     {
-        ConcertResponseDTO concertResponseDTO = new ConcertResponseDTO();
-        BeanUtils.copyProperties(this, concertResponseDTO);
-        return concertResponseDTO;
+        return concertOptions.stream()
+                .map(option -> {
+                    ConcertResponseDTO concertResponseDTO = new ConcertResponseDTO();
+                    BeanUtils.copyProperties(this,concertResponseDTO);
+                    concertResponseDTO.setConcertDate(option.getConcertDate());
+                    concertResponseDTO.setSeats(option.getConcertSeats().stream()
+                            .map(seat -> new ConcertResponseDTO.SeatInfo(seat.getConcertSeatNum(), seat.getConcertSeatPrice(),seat.getConcertSeatStatus()))
+                            .collect(Collectors.toList()));
+                    return  concertResponseDTO;
+
+    }).collect(Collectors.toSet());
+
     }
 }

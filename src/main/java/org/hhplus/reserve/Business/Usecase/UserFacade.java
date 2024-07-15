@@ -28,13 +28,11 @@ public class UserFacade {
     public TokenResponseDTO AuthenticationApplication(TokenRequestDTO tokenRequestDTO){
         return this.tokenService.applyAuth(tokenRequestDTO.getUserId());
     }
-    public List<ConcertAvailableResponseDTO> ReservationAvailable(TokenRequestDTO tokenRequestDTO){
+    public List<ConcertResponseDTO> ReservationAvailable(TokenRequestDTO tokenRequestDTO){
        TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(tokenRequestDTO.getUserId()); // 토큰 발급 확인
        queueService.applyQueue(tokenResponseDTO.getUser_UUID()); // 대기열 진입
-        List<ConcertResponseDTO> concertResponseDTOs =
-                concertService.ConcertList().stream().map(ConcertDomain::toDTO).toList(); // 예약 가능 콘서트 조회
-        return concertService.getConcertAvailabillity(concertResponseDTOs).
-                stream().map(ConcertOptionDomain::toDTO).toList(); // 예약가능 날짜/좌석 조회
+        return concertService.ConcertList(); // 예약 가능 콘서트의 날짜, 좌석 반환
+
     }
     public ReservationResponseDTO ReservationConcert(ReservationRequestDTO reservationRequestDTO){
         TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(reservationRequestDTO.getUserId()); // 토큰 발급 확인

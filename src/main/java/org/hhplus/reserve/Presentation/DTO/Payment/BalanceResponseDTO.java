@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @ToString
 @Builder
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 public class BalanceResponseDTO {
 }

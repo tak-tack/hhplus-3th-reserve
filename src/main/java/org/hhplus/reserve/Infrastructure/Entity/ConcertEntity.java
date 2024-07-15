@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -23,16 +25,17 @@ public class ConcertEntity {
     Integer concertId;
     String concertName;
 
-//    @OneToMany
-//    @JoinColumn(name="concert_id")
-//    private List<ConcertOptionEntity> concertOptionEntities = new ArrayList<>();
-    Integer concertOptionId;
+    @OneToMany(mappedBy = "concert", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ConcertOptionEntity> concertOptions; // concert_option 테이블과 join 관계
 
     public ConcertDomain toDomain()
     {
         ConcertDomain concertDomain = new ConcertDomain();
         BeanUtils.copyProperties(this,concertDomain);
-        return concertDomain;
+        concertDomain.setConcertOptions(this.concertOptions.stream()
+                .map(ConcertOptionEntity::toDomain)
+                .collect(Collectors.toSet()));
+        return  concertDomain;
 
     }
 
