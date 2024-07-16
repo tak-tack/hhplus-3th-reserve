@@ -1,6 +1,7 @@
 package org.hhplus.reserve.Presentation.DTO.Reservation;
 
 import lombok.*;
+import org.hhplus.reserve.Business.Enum.ReservationStatus;
 
 import java.util.UUID;
 @Getter

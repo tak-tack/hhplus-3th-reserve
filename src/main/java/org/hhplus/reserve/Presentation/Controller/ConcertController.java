@@ -5,6 +5,8 @@ import org.hhplus.reserve.Business.Usecase.UserFacade;
 import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.ConcertAvailable.ConcertAvailableResponseDTO;
+import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
+import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 import org.springframework.web.bind.annotation.*;
@@ -34,11 +36,10 @@ public class ConcertController {
      */
 
     @PostMapping("/reservation")
-    public ConcertAvailableResponseDTO ReservationApplication(
-            @RequestBody TokenRequestDTO tokenRequestDTO
+    public List<ReservationResponseDTO> ReservationApplication(
+            @RequestBody ReservationRequestDTO reservationRequestDTO
     ){
-        //concertResponseDTO.setUserId(1);
-        return ConcertAvailableResponseDTO.builder().build();
+        return userFacade.ReservationConcert(reservationRequestDTO);
     }
 
 

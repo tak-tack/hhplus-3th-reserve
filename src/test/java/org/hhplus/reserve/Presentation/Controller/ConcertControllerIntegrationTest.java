@@ -10,6 +10,7 @@ import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertOptionEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
+import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -201,6 +202,19 @@ public class ConcertControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andDo(print());
         //userFacade.ReservationAvailable(tokenRequestDTO);
+    }
+
+    @Test
+    @DisplayName("콘서트 예약 API - 성공")
+    void ResertvationSUCESS() throws Exception{
+        tokenRepository.save(1);
+        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(1,1,1);
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(post("/concert/reservation").content(
+                                objectMapper.writeValueAsString(reservationRequestDTO))
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 
 }

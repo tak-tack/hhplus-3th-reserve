@@ -34,12 +34,12 @@ public class UserFacade {
         return concertService.ConcertList(); // 예약 가능 콘서트의 날짜, 좌석 반환
 
     }
-    public ReservationResponseDTO ReservationConcert(ReservationRequestDTO reservationRequestDTO){
+    public List<ReservationResponseDTO> ReservationConcert(ReservationRequestDTO reservationRequestDTO){
         TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(reservationRequestDTO.getUserId()); // 토큰 발급 확인
         queueService.applyQueue(tokenResponseDTO.getUser_UUID()); // 대기열 진입
-        return reservationService.reserve(reservationRequestDTO.getUserId(), // 콘서트 예약
-                                            reservationRequestDTO.getConcertOptionId(),
-                                            reservationRequestDTO.getSeatId()).toDTO();
+        List<ReservationResponseDTO> reservationResponseDTO = reservationService.temporaryReserve(reservationRequestDTO);
+        concertService.ConcertSeatUpdateToReserved(reservationRequestDTO.getSeatId());// 좌석 임시 예약 완료
+        return reservationResponseDTO;
     }
 
     public BalanceResponseDTO Balnace(BalanceRequestDTO balanceRequestDTO){

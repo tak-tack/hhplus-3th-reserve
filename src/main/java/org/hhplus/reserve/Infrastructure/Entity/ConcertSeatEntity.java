@@ -1,5 +1,6 @@
 package org.hhplus.reserve.Infrastructure.Entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.*;
@@ -25,12 +26,13 @@ public class ConcertSeatEntity {
     private Integer concertSeatNum; // 1~50
     private Integer concertSeatPrice;
     private ConcertSeatStatus concertSeatStatus = ConcertSeatStatus.WAITING;
-    // seatStatus
     @ManyToOne
     @JoinColumn(name = "concert_option_id", nullable = false)
     private ConcertOptionEntity concertOption;
     @CreatedDate
     private String create_dt;
+    @Nullable
+    private String modifyDt;
 
     @PrePersist // 해당 엔티티를 저장하기 이전에 실행
     public void onPrePersist(){

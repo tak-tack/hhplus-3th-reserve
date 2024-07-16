@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hhplus.reserve.Business.Service.Impl.TokenServiceImpl;
 import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Business.Usecase.UserFacade;
+import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,6 +67,20 @@ class ConcertControllerTest {
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
+
+    }
+
+    @Test
+    @DisplayName("콘서트 예약 API")
+    void ReservationSUCESS() throws Exception{
+        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(1,1,1);
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(post("/concert/reservation").content(
+                objectMapper.writeValueAsString(reservationRequestDTO))
+                .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+
 
     }
 }
