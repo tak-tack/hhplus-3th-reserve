@@ -26,6 +26,7 @@ public class ReservationEntity {
     private Integer concertOptionId;
     private Integer seatId;
     private Integer userId;
+    @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
     @CreatedDate
     private String createDt;

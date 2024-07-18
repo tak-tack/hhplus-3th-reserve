@@ -8,9 +8,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BalanceRequestDTO {
+// 결재 DTO
+public class PaymentRequestDTO {
     private Integer userId;
-    private Integer amount;
+    private Integer chargeAmount;
 }
 
 

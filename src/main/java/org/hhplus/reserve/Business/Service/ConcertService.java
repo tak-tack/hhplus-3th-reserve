@@ -10,5 +10,6 @@ public interface ConcertService {
 
     List<ConcertResponseDTO> ConcertList();
     void ConcertSeatUpdateToReserved(Integer concertSeatId);
+    Integer ConcertSeatPrice(Integer concertSeatId);
 
 }

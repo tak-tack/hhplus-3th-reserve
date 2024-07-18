@@ -35,8 +35,7 @@ public class QueueEntity {
 
     @PrePersist // 해당 엔티티를 저장하기 이전에 실행
     public void onPrePersist(){
-        this.create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));//.toString();
-        //this.modify_dt = LocalDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        this.create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
     }
 
     public QueueDomain toDomain()

@@ -25,6 +25,7 @@ public class ConcertSeatEntity {
     private Integer concertSeatId;
     private Integer concertSeatNum; // 1~50
     private Integer concertSeatPrice;
+    @Enumerated(EnumType.STRING)
     private ConcertSeatStatus concertSeatStatus = ConcertSeatStatus.WAITING;
     @ManyToOne
     @JoinColumn(name = "concert_option_id", nullable = false)

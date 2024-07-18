@@ -42,8 +42,10 @@ public interface QueueJpaRepository extends JpaRepository<QueueEntity, Integer> 
     void updateQueue(@Param("modifyDt") String modifyDt, @Param("queueStatus") QueueStatus queueStatus);
     @Modifying
     @Transactional
-    @Query(value="INSERT into dba.queue (useruuid,queue_status, modify_dt) values (:userUuid, :queueStatus, null)",nativeQuery = true)
-    void saveByUserUuid(@Param("userUuid") UUID userUuid, @Param("queueStatus")QueueStatus queueStatus);
+    @Query(value="INSERT into dba.queue (useruuid ,queue_status, modify_dt) values (:userUuid, :queueStatus, null)",nativeQuery = true)
+    void saveByUserUuid(@Param("userUuid") UUID userUuid,
+                        @Param("queueStatus")QueueStatus queueStatus
+    );
 
 
 }

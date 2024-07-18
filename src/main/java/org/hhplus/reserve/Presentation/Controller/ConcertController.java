@@ -5,6 +5,8 @@ import org.hhplus.reserve.Business.Usecase.UserFacade;
 import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.ConcertAvailable.ConcertAvailableResponseDTO;
+import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
+import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
@@ -63,13 +65,13 @@ public class ConcertController {
     - 사용자 식별자를 통해 해당 사용자의 잔액을 조회합니다.
      */
     @GetMapping("/{userId}/balance/select")
-    public ConcertAvailableResponseDTO BalanceSelectApplication(){
-        return ConcertAvailableResponseDTO.builder().build();
+    public List<PaymentResponseDTO> BalanceSelect(@PathVariable(name="userId") Integer userId){
+        return userFacade.UserPaymentSelect(userId);
     }
 
-    @GetMapping("/{userId}/balance/charge")
-    public ConcertAvailableResponseDTO BalanceChargeApplication(){
-        return ConcertAvailableResponseDTO.builder().build();
+    @PostMapping("/{userId}/balance/charge")
+    public List<PaymentResponseDTO> BalanceCharge(@RequestBody PaymentRequestDTO paymentRequestDTO){
+        return userFacade.UserPaymentCharge(paymentRequestDTO);
     }
 
     /*
@@ -77,8 +79,8 @@ public class ConcertController {
     - 결제 처리하고 결제 내역을 생성하는 API 를 작성합니다.
     - 결제가 완료되면 해당 좌석의 소유권을 유저에게 배정하고 대기열 토큰을 만료시킵니다.
      */
-    @GetMapping("/{userId}/payment")
-    public ConcertAvailableResponseDTO PaymentApplication(){
-        return ConcertAvailableResponseDTO.builder().build();
-    }
+//    @GetMapping("/{userId}/payment")
+//    public ConcertAvailableResponseDTO PaymentApplication(){
+//        return ConcertAvailableResponseDTO.builder().build();
+//    }
 }

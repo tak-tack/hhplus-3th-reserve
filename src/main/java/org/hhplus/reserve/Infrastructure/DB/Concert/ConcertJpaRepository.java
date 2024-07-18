@@ -33,4 +33,9 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
     @Query("UPDATE ConcertSeatEntity SET  concertSeatStatus = :concertSeatStatus, modifyDt =:modifyDt WHERE concertSeatId =:concertSeatId")
     void updateConcertSeat(@Param("concertSeatStatus")ConcertSeatStatus concertSeatStatus, @Param("modifyDt") String modifyDt, @Param("concertSeatId")Integer concertSeatId);
 
+    // 결재API 를 위한 예약 좌석 seatId로 seatPrcie 조회
+    @Transactional
+    @Query("SELECT cs.concertSeatPrice FROM ConcertSeatEntity cs WHERE cs.concertSeatId = :concertSeatId")
+    Optional<Integer> findPriceBySeatId(@Param("concertSeatId") Integer concertSeatId);
+
 }

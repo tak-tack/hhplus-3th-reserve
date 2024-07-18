@@ -31,7 +31,4 @@ public class TokenRepositoryImpl implements TokenRepository {
         return tokenJpaRepository.findByUserId(userId).toDomain();
     }
 
-
-
-
 }

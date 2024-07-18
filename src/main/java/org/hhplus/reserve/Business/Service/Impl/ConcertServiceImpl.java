@@ -18,8 +18,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ConcertServiceImpl implements ConcertService {
+    private static final Logger log = LoggerFactory.getLogger(ConcertServiceImpl.class);
     private final ConcertRepository concertRepository;
 
+    // 콘서트 조회
     @Override
     public List<ConcertResponseDTO> ConcertList(){
         List<Integer> concertList = concertRepository.findByConcertid();
@@ -32,9 +34,18 @@ public class ConcertServiceImpl implements ConcertService {
                             concertDomain.toDTO().stream()).collect(Collectors.toList());
     }
 
+    // 결재 API 를 위한 콘서트 좌석 가격 조회
+    @Override
+    public Integer ConcertSeatPrice(Integer concertSeatId){
+        log.info("concertservie - concertSeatId : "+ concertSeatId);
+        return concertRepository.findSeatPriceByConcertSeatId(concertSeatId);
+    }
+
+    //  결재 성공 후 콘서트 좌석 상태 변경
     @Override
     public void ConcertSeatUpdateToReserved(Integer concertSeatId){
         String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
         concertRepository.updateSeat(ConcertSeatStatus.RESERVED,modifyDt,concertSeatId);
     }
+
 }

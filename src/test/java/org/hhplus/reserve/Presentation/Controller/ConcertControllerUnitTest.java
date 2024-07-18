@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hhplus.reserve.Business.Service.Impl.TokenServiceImpl;
 import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Business.Usecase.UserFacade;
+import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
 import org.junit.jupiter.api.DisplayName;
@@ -41,17 +42,11 @@ class ConcertControllerTest {
 
 
     @Test
-    //@WithMockUser(username = "테스트_최고관리자", roles = {"SUPER"})
     @DisplayName("토큰 발행 호출 테스트")
     void authentication() throws Exception{
-        //Integer userId = 1;
-        //TokenResponseDTO tokenResponseDTO = new TokenResponseDTO(1,1);
         TokenRequestDTO tokenRequestDTO = new TokenRequestDTO(1);
         ObjectMapper objectMapper = new ObjectMapper();
-        //given
-        //given()
-        //when
-        mockMvc.perform(post("/concert/authentication").content(
+         mockMvc.perform(post("/concert/authentication").content(
                 objectMapper.writeValueAsString(tokenRequestDTO))
                                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -73,7 +68,7 @@ class ConcertControllerTest {
     @Test
     @DisplayName("콘서트 예약 API")
     void ReservationSUCESS() throws Exception{
-        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(1,1,1);
+        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(1,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                 objectMapper.writeValueAsString(reservationRequestDTO))
@@ -82,5 +77,28 @@ class ConcertControllerTest {
                 .andDo(print());
 
 
+    }
+
+    @Test
+    @DisplayName("잔액 조회 API")
+    void BalanceSelectSUCESS() throws Exception{
+        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(1,1000);
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(get("/concert/{userId}/balance/select",1)
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("잔액 충전 API")
+    void BalanceChargeSUCESS() throws Exception{
+        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(1,1000);
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(post("/concert/{userId}/balance/charge",paymentRequestDTO.getUserId()).content(
+                                objectMapper.writeValueAsString(paymentRequestDTO))
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
     }
 }

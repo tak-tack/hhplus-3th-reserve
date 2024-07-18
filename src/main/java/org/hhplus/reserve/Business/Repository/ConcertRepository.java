@@ -11,5 +11,6 @@ public interface ConcertRepository {
 
     List<Integer> findByConcertid();
     List<ConcertDomain> findAllConcertWithSeats(List<Integer> concertIds);
+    Integer findSeatPriceByConcertSeatId(Integer concertSeatId);
     void updateSeat(ConcertSeatStatus concertSeatStatus, String modifyDt, Integer concertSeatId);
 }

@@ -13,6 +13,7 @@ import java.util.UUID;
 public class ReservationRequestDTO {
 
     private Integer userId;
+    private String concertDt;
     private Integer concertOptionId;
     private Integer seatId;
 }
