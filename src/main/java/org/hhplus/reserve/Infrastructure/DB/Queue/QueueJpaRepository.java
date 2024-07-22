@@ -1,51 +1,44 @@
 package org.hhplus.reserve.Infrastructure.DB.Queue;
 
-import org.hhplus.reserve.Infrastructure.Entity.QueueEntity;
 import org.hhplus.reserve.Business.Enum.QueueStatus;
+import org.hhplus.reserve.Infrastructure.Entity.QueueEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface QueueJpaRepository extends JpaRepository<QueueEntity, Integer> {
 
-    //
-    @Transactional
-    @Query("SELECT queueId, queueStatus, userUUID, create_dt,modify_dt FROM QueueEntity WHERE userUUID = :userUUID AND queueStatus = :queueStatus")
-    Optional<List<QueueEntity>> findByWaitingUuid(@Param("userUUID") UUID userUUID, @Param("queueStatus")QueueStatus queueStatus);
+    @Query("SELECT q FROM QueueEntity q WHERE q.userId = :userId AND q.queueStatus = :queueStatus")
+    Optional<List<QueueEntity>> findByWaitingUserId(@Param("userId") Integer userId, @Param("queueStatus")String queueStatus);
 
-    @Transactional
-    @Query("SELECT queueId, queueStatus, userUUID, create_dt,modify_dt FROM QueueEntity WHERE userUUID = :userUuid")
-    Optional<List<QueueEntity>> findByUuid(@Param("userUuid") UUID userUuid);
-
+    @Query("SELECT q FROM QueueEntity q WHERE q.userId = :userId")
+    List<QueueEntity> findByUserId(@Param("userId") Integer userId);
 
     // 마지막 큐데이터(행)
-    @Transactional
-    @Query("SELECT create_dt FROM QueueEntity WHERE queueStatus = :queueStatus ORDER BY create_dt DESC LIMIT 1")
-    Optional<String> findLastQueue(@Param("queueStatus")QueueStatus queueStatus);
+    @Query("SELECT createDt FROM QueueEntity WHERE queueStatus = :queueStatus ORDER BY createDt DESC LIMIT 1")
+    Optional<String> findLastQueue(@Param("queueStatus") QueueStatus queueStatus);
 
     // 대기중인 큐데이터
-    @Transactional
-    @Query("SELECT COUNT(*) FROM QueueEntity WHERE create_dt > :lastQueueDate")
+    @Query("SELECT COUNT(*) FROM QueueEntity WHERE createDt > :lastQueueDate")
     Optional<Integer> countWaitingQueue(@Param("lastQueueDate") String lastQueueDate);
 
     // 큐데이터 상태 변경
     // 마지막 큐데이터의 lastQueueDate
     @Modifying
-    @Transactional
-    @Query("UPDATE QueueEntity q SET q.modify_dt = :modifyDt, q.queueStatus = :queueStatus WHERE q.queueId IN (SELECT q2.queueId FROM QueueEntity q2 WHERE q2.queueStatus = :queueStatus ORDER BY q2.create_dt LIMIT 50)")
-    void updateQueue(@Param("modifyDt") String modifyDt, @Param("queueStatus") QueueStatus queueStatus);
-    @Modifying
-    @Transactional
-    @Query(value="INSERT into dba.queue (useruuid ,queue_status, modify_dt) values (:userUuid, :queueStatus, null)",nativeQuery = true)
-    void saveByUserUuid(@Param("userUuid") UUID userUuid,
-                        @Param("queueStatus")QueueStatus queueStatus
-    );
+    @Query("UPDATE QueueEntity q SET q.modifyDt = :modifyDt, q.queueStatus = :queueStatus WHERE q.queueId IN " +
+            "(SELECT q2.queueId FROM QueueEntity q2 WHERE q2.queueStatus = :queueStatus ORDER BY q2.createDt LIMIT 50)")
+    void update(@Param("modifyDt") String modifyDt, @Param("queueStatus") QueueStatus queueStatus);
 
+    @Modifying
+    @Query(value="INSERT into dba.queue (user_Id ,queue_Status, create_Dt, modify_Dt) values " +
+            "(:userId, :queueStatus, :createDt ,null)",nativeQuery = true)
+    void register(@Param("userId") Integer userId,
+                        @Param("createDt") String createDt,
+                        @Param("queueStatus")String queueStatus
+    );
 
 }

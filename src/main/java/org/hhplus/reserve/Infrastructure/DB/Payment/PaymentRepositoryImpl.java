@@ -3,8 +3,9 @@ package org.hhplus.reserve.Infrastructure.DB.Payment;
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Domain.PaymentDomain;
 import org.hhplus.reserve.Business.Repository.PaymentRepository;
+import org.hhplus.reserve.Business.Usecase.CustomException;
+import org.hhplus.reserve.Business.Usecase.ErrorCode;
 import org.hhplus.reserve.Infrastructure.Entity.PaymentEntity;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -23,23 +24,22 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     @Override
     @Transactional
     public Integer findUserAmountByUserId(Integer userId) {
-        log.info("paymentRepo - findUserAmountByUserId - userId: " + userId);
-        return paymentJpaRepository.findUserAmountByUserId(userId).orElseThrow(RuntimeException::new);
+        return paymentJpaRepository.findUserAmountByUserId(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND,userId.toString()));
     }
 
     // userId의 데이터 조회
     @Override
     @Transactional
     public List<PaymentDomain> findUserByUserId(Integer userId) {
-        log.info("PaymentRepository findUserByUserId - userid : " + userId);
-        return paymentJpaRepository.findUserByUserId(userId).orElseThrow(RuntimeException::new).stream().map(PaymentEntity::toDomain).toList();
+        return paymentJpaRepository.findUserByUserId(userId).filter(list -> !list.isEmpty())
+                .orElseThrow(() -> new RuntimeException("No payments found for user ID: " + userId))
+                .stream().map(PaymentEntity::toDomain).toList();
     }
 
-    // payment updat
+    // payment update
     @Override
     @Transactional
     public void update(Integer paymentAmount, Integer userId) {
-        log.info("PaymentRepository update - userid : " + userId);
         paymentJpaRepository.update(paymentAmount, userId);
     }
 
@@ -47,8 +47,6 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     @Override
     @Transactional
     public void register(Integer userId, Integer paymentAmount) {
-        log.info("PaymentRepository save - userid : " + userId);
-        log.info("PaymentRepository save - userid : " + paymentAmount);
         paymentJpaRepository.Register(userId, paymentAmount);
     }
 

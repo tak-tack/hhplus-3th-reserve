@@ -10,11 +10,7 @@ import lombok.Setter;
 import org.hhplus.reserve.Business.Domain.QueueDomain;
 import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,17 +22,12 @@ public class QueueEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer queueId;
-    private UUID userUUID;
+    private Integer userId;
+    @Enumerated(EnumType.STRING)
     private QueueStatus queueStatus;
-    @CreatedDate
-    private String create_dt;
+    private String createDt;
     @Nullable
-    private String modify_dt;
-
-    @PrePersist // 해당 엔티티를 저장하기 이전에 실행
-    public void onPrePersist(){
-        this.create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
-    }
+    private String modifyDt;
 
     public QueueDomain toDomain()
     {

@@ -13,25 +13,23 @@ import java.util.List;
 public interface ReservationJpaRepository extends JpaRepository<ReservationEntity, Integer> {
 
     @Modifying
-    @Transactional
     @Query(value="INSERT into dba.reservation (reservation_id,concert_option_id" +
             ", reservation_status" +
             ", seat_id" +
             ", user_id" +
             ", create_dt" +
-            ", modify_dt) values (default,:concertOptionId, :reservationStatus, :seatId, :userId, null, :modifyDt)",nativeQuery = true)
+            ", modify_dt) values (default,:concertOptionId, :reservationStatus, :seatId, :userId, :createDt , :modifyDt)",nativeQuery = true)
     void register(@Param("concertOptionId") Integer concertOptionId,
                   @Param("reservationStatus") String reservationStatus,
                   @Param("seatId") Integer seatId,
                   @Param("userId") Integer userId,
+                  @Param("createDt") String createDt,
                   @Param("modifyDt") String modifyDt);
 
     @Modifying
-    @Transactional
     @Query(value = "UPDATE dba.reservation r SET r.reservation_status = :reservationStatus, r.modify_dt = :modifyDt WHERE r.reservation_id in (:reservationIds)", nativeQuery = true)
     void update(String reservationStatus, String modifyDt, List<Integer> reservationIds);
 
-    @Transactional
     @Query("SELECT r FROM ReservationEntity r WHERE r.userId = :userId")
     List<ReservationEntity> findByUserId(Integer userId);
 }

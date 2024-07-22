@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Presentation.config;
+package org.hhplus.reserve.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface QueueService {
-    List<QueueResponseDTO> applyQueue(UUID userUuid);
+    List<QueueResponseDTO> applyQueue(Integer userId);
 }

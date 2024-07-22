@@ -17,10 +17,10 @@ import java.util.UUID;
 @NoArgsConstructor
 public class QueueDomain {
     private Integer queueId;
-    private UUID userUUID;
+    private Integer userId;
     private QueueStatus queueStatus;
-    private String create_dt;
-    private String modify_dt;
+    private String createDt;
+    private String modifyDt;
 
     public QueueResponseDTO toDTO()
     {

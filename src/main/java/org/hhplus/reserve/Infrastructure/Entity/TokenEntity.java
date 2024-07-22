@@ -25,11 +25,11 @@ public class TokenEntity {
     private UUID user_UUID;
     private Integer userId;
     @CreatedDate
-    private String create_dt;
+    private String createDt;
 
     @PrePersist // 해당 엔티티를 저장하기 이전에 실행
     public void onPrePersist(){
-        this.create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        this.createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
     }
 
     public TokenDomain toDomain()
