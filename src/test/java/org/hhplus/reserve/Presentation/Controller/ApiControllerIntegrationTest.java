@@ -6,6 +6,8 @@ import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.hhplus.reserve.Business.Repository.PaymentRepository;
 import org.hhplus.reserve.Business.Repository.QueueRepository;
 import org.hhplus.reserve.Business.Repository.TokenRepository;
+import org.hhplus.reserve.Business.Service.QueueService;
+import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertOptionJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertSeatJpaRepository;
@@ -14,6 +16,7 @@ import org.hhplus.reserve.Infrastructure.Entity.ConcertOptionEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
+import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,6 +62,10 @@ class ApiControllerIntegrationTest {
     private ObjectMapper objectMapper;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private QueueService queueService;
 
     @BeforeEach
     void setUp()
@@ -126,10 +133,24 @@ class ApiControllerIntegrationTest {
 
         concertJpaRepository.save(concert1);
 
-        for(int i =1; i<5; i++)
+
+        for(int i = 1; i<60; i++)
         {
-            final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
-            queueRepository.saveByUserId(i,create_dt,QueueStatus.WAITING.name());
+            final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
+            queueRepository.saveByUserId(i,create_dt, QueueStatus.WAITING.name());
+        }
+
+        for(int i =1; i<60; i++)
+        {
+            final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
+            ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(i,"2024-07-23",i,i);
+            //queueRepository.saveByUserId(i,create_dt,QueueStatus.WAITING.name());
+            // 토큰 저장
+            tokenService.applyAuth(i);
+            // 토큰 발급 확인
+            TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(reservationRequestDTO.getUserId());
+            // 대기열 진입
+            //queueService.applyQueue(tokenResponseDTO.getUserId());
 
         }
     }
@@ -138,7 +159,8 @@ class ApiControllerIntegrationTest {
     @DisplayName("예약 가능 조회 API - 성공")
     void ReservationAvailableSUCESS() throws Exception{
         Integer userId = 1;
-        tokenRepository.save(userId);
+        paymentRepository.register(1,200000);
+        //tokenRepository.save(userId);
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
                         .header("userId",userId.toString())
                         .content(objectMapper.writeValueAsString(1))
@@ -163,10 +185,11 @@ class ApiControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
-        Integer userId = 1;
+        Integer userId = 76;
         tokenRepository.save(userId); // 유저 토큰 생성
         paymentRepository.register(userId,100000); // 유저 결재포인트 생성
-        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(1,"2024-07-16",1,1);
+        ReservationRequestDTO reservationRequestDTO =
+                new ReservationRequestDTO(userId,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))

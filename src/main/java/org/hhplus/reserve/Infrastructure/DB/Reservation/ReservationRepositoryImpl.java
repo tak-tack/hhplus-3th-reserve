@@ -2,7 +2,6 @@ package org.hhplus.reserve.Infrastructure.DB.Reservation;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Domain.ReservationDomain;
-import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.hhplus.reserve.Business.Repository.ReservationRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ReservationEntity;
 import org.slf4j.Logger;

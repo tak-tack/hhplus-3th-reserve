@@ -22,14 +22,18 @@ public class UserFacade {
     private final ReservationService reservationService;
     private final PaymentService paymentService;
 
+    private final ScheduledTasks scheduledTasks;
+
     public TokenResponseDTO AuthenticationApplication(TokenRequestDTO tokenRequestDTO){
         return this.tokenService.applyAuth(tokenRequestDTO.getUserId());
     }
     public List<ConcertResponseDTO> ReservationAvailable(TokenRequestDTO tokenRequestDTO){
         // 토큰 발급 확인
-       //TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(tokenRequestDTO.getUserId());
+       TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(tokenRequestDTO.getUserId());
         // 대기열 진입
-       //queueService.applyQueue(tokenResponseDTO.getUserId());
+       queueService.applyQueue(tokenResponseDTO.getUserId());
+        // 대기열 통과
+        scheduledTasks.controlQueue();
         // 예약 가능 콘서트의 날짜, 좌석 반환
         return concertService.ConcertList();
 
@@ -39,6 +43,10 @@ public class UserFacade {
         TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(reservationRequestDTO.getUserId());
         // 대기열 진입
         queueService.applyQueue(tokenResponseDTO.getUserId());
+        // 대기열 통과 1초당 50명씩 스케줄링으로 구현되어있긴함
+        scheduledTasks.controlQueue();
+        // 대기열 검증
+        queueService.checkQueue(tokenResponseDTO.getUserId());
         // 좌석 임시 예약 완료
         List<ReservationResponseDTO> reservationResponseDTO =
                 reservationService.temporaryReserve(reservationRequestDTO);

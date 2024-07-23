@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface QueueService {
     List<QueueResponseDTO> applyQueue(Integer userId);
+    List<QueueResponseDTO> checkQueue(Integer userId);
+    void updateQueue();
 }
