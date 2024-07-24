@@ -30,6 +30,11 @@ public interface QueueJpaRepository extends JpaRepository<QueueEntity, Integer> 
     @Query("SELECT qe2.queueId FROM  QueueEntity qe2 WHERE qe2.queueStatus = :currentStatus ORDER BY qe2.createDt LIMIT 50")
     List<Integer> findQueueIdsByStatus(@Param("currentStatus") QueueStatus currentStatus);
 
+    // 큐 데이터 상태 변경
+    @Modifying
+    @Query(value="UPDATE dba.queue qe1 SET qe1.modify_Dt = :newModifyDt, qe1.queue_Status = :newStatus WHERE qe1.queue_Id IN :queueIds" , nativeQuery = true)
+    void updateQueueStatusByIds(@Param("newModifyDt") String newModifyDt, @Param("newStatus") QueueStatus newStatus, @Param("queueIds") List<Integer> queueIds);
+
     @Modifying
     @Query(value="INSERT into dba.queue (user_Id ,queue_Status, create_Dt, modify_Dt) values " +
             "(:userId, :queueStatus, :createDt ,null)",nativeQuery = true)
@@ -38,9 +43,6 @@ public interface QueueJpaRepository extends JpaRepository<QueueEntity, Integer> 
                         @Param("queueStatus")String queueStatus
     );
 
-    // 큐 데이터 상태 변경
-    @Modifying
-    @Query(value="UPDATE dba.queue qe1 SET qe1.modify_Dt = :newModifyDt, qe1.queue_Status = :newStatus WHERE qe1.queue_Id IN :queueIds" , nativeQuery = true)
-    void updateQueueStatusByIds(@Param("newModifyDt") String newModifyDt, @Param("newStatus") QueueStatus newStatus, @Param("queueIds") List<Integer> queueIds);
+
 
 }

@@ -7,6 +7,7 @@ spring:
     url: jdbc:mysql://localhost:3306/dba
     username: root
     password: 595959
+
   jpa:
     properties:
       hibernate:
@@ -15,6 +16,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+
 logging:
   level:
     org.hhplus.reserve.interceptor: DEBUG

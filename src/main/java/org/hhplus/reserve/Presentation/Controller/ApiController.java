@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Usecase.UserFacade;
+import org.hhplus.reserve.Business.Usecase.Facade.UserFacade;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;

@@ -26,7 +26,6 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 @Rollback
 class ConcertServiceIntegrationTest {
 
@@ -38,10 +37,6 @@ class ConcertServiceIntegrationTest {
     @Autowired
     private ConcertJpaRepository concertJpaRepository;
 
-    @BeforeEach
-    void setUp() {
-        // 필요한 초기화 작업
-    }
 
     @Test
     void testConcertListSuccess() {

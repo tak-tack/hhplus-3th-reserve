@@ -7,6 +7,7 @@ import org.hhplus.reserve.Business.Service.PaymentServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 @Rollback
 class PaymentServiceIntegrationTest {
 
@@ -27,16 +27,12 @@ class PaymentServiceIntegrationTest {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    @BeforeEach
-    void setUp() {
-        // 필요한 초기화 작업
-    }
-
     @Test
-    void testReservationPaymentSuccess() {
+    @DisplayName("예약 결제 Service - 성공")
+    void ReservationPaymentSUCCESS() {
         Integer userId = 1;
-        Integer seatPrice = 100;
-        Integer userBalance = 200;
+        Integer seatPrice = 100000;
+        Integer userBalance = 200000;
 
         // 테스트 데이터를 DB에 저장
         paymentRepository.register(userId, userBalance);
@@ -49,10 +45,11 @@ class PaymentServiceIntegrationTest {
     }
 
     @Test
-    void testReservationPaymentFailure() {
+    @DisplayName("예약 좌석 결제 Service - 실패 - 잔액부족")
+    void ReservationPaymentFAIL() {
         Integer userId = 1;
-        Integer seatPrice = 100;
-        Integer userBalance = 50;
+        Integer seatPrice = 100000;
+        Integer userBalance = 5000;
 
         // 테스트 데이터를 DB에 저장
         paymentRepository.register(userId, userBalance);
@@ -66,12 +63,12 @@ class PaymentServiceIntegrationTest {
     }
 
     @Test
-    void testUserPaymentFind() {
+    @DisplayName("유저 잔액 조회 Service - 성공")
+    void UserPaymentFindSUCESS() {
         Integer userId = 1;
 
         // 테스트 데이터를 DB에 저장
-        paymentRepository.register(userId, 100);
-
+        paymentRepository.register(userId, 10000);
         List<PaymentResponseDTO> result = paymentService.UserPaymentFind(userId);
 
         assertNotNull(result);
@@ -79,10 +76,11 @@ class PaymentServiceIntegrationTest {
     }
 
     @Test
-    void testUserPaymentCharge() {
+    @DisplayName("유저 잔액 충전 Service - 성공")
+    void UserPaymentChargeSUCESS() {
         Integer userId = 1;
-        Integer chargeAmount = 100;
-        Integer userBalance = 50;
+        Integer chargeAmount = 10000;
+        Integer userBalance = 50000;
 
         // 테스트 데이터를 DB에 저장
         paymentRepository.register(userId, userBalance);

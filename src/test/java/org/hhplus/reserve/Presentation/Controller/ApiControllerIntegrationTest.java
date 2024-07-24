@@ -8,6 +8,7 @@ import org.hhplus.reserve.Business.Repository.QueueRepository;
 import org.hhplus.reserve.Business.Repository.TokenRepository;
 import org.hhplus.reserve.Business.Service.QueueService;
 import org.hhplus.reserve.Business.Service.TokenService;
+import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertOptionJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertSeatJpaRepository;
@@ -16,13 +17,16 @@ import org.hhplus.reserve.Infrastructure.Entity.ConcertOptionEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
-import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -33,6 +37,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.concurrent.ScheduledFuture;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,10 +45,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class ApiControllerIntegrationTest {
 
+    private static final Logger log = LoggerFactory.getLogger(ApiControllerIntegrationTest.class);
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -66,10 +73,15 @@ class ApiControllerIntegrationTest {
     private TokenService tokenService;
     @Autowired
     private QueueService queueService;
+    @Autowired
+    private ScheduledTasks scheduledTasks;
+
+    @Autowired
+    private ThreadPoolTaskScheduler taskScheduler;
+    private ScheduledFuture<?> scheduledFuture;
 
     @BeforeEach
-    void setUp()
-    {
+    void setUp() throws InterruptedException {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .build();
@@ -133,37 +145,48 @@ class ApiControllerIntegrationTest {
 
         concertJpaRepository.save(concert1);
 
+        Thread thread1 = new Thread(() -> {
+            for (int i = 1; i < 300; i++) {
+                // 토큰 저장
+                tokenService.applyAuth(i);
+            }
+        });
 
-        for(int i = 1; i<60; i++)
-        {
-            final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
-            queueRepository.saveByUserId(i,create_dt, QueueStatus.WAITING.name());
-        }
+        Thread thread2 = new Thread(() -> {
+            for (int i = 1; i < 300; i++) {
+                // 대기열 유저 저장
+                final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
+                queueRepository.saveByUserId(i,create_dt, QueueStatus.WAITING.name());
+            }
+        });
+        scheduledFuture = taskScheduler.scheduleAtFixedRate(scheduledTasks::controlQueue,100); // 스케줄러 실행
+        // 쓰레드 시작
+        thread1.start();
+        thread2.start();
 
-        for(int i =1; i<60; i++)
-        {
-            final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
-            ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(i,"2024-07-23",i,i);
-            //queueRepository.saveByUserId(i,create_dt,QueueStatus.WAITING.name());
-            // 토큰 저장
-            tokenService.applyAuth(i);
-            // 토큰 발급 확인
-            TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(reservationRequestDTO.getUserId());
-            // 대기열 진입
-            //queueService.applyQueue(tokenResponseDTO.getUserId());
+        // 두 쓰레드가 끝날 때까지 기다림
+        thread1.join();
+        thread2.join();
+    }
 
+    @AfterEach
+    public void tearDown() {
+        // 스케줄러 중지
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(true);
+            log.info("스케줄러중지");
         }
     }
 
     @Test
     @DisplayName("예약 가능 조회 API - 성공")
     void ReservationAvailableSUCESS() throws Exception{
-        Integer userId = 1;
-        paymentRepository.register(1,200000);
-        //tokenRepository.save(userId);
+        Integer userId = 305;
+        tokenRepository.save(userId); // 유저 토큰 생성
+        //paymentRepository.register(1,200000);
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
                         .header("userId",userId.toString())
-                        .content(objectMapper.writeValueAsString(1))
+                        .content(objectMapper.writeValueAsString(userId))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -185,7 +208,7 @@ class ApiControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
-        Integer userId = 76;
+        Integer userId = 305;
         tokenRepository.save(userId); // 유저 토큰 생성
         paymentRepository.register(userId,100000); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO =
@@ -219,10 +242,10 @@ class ApiControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 실패 - CASE : 잔액부족")
     void ReservationFAIL2() throws Exception{
-        Integer userId = 1;
+        Integer userId = 67;
         tokenRepository.save(userId); // 유저 토큰 생성
-        paymentRepository.register(1,100); // 유저 결재포인트 생성
-        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(1,"2024-07-16",1,1);
+        paymentRepository.register(userId,100); // 유저 결재포인트 생성
+        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(67,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))

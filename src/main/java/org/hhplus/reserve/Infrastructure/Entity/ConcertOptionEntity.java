@@ -36,7 +36,7 @@ public class ConcertOptionEntity {
 
     @PrePersist // 해당 엔티티를 저장하기 이전에 실행
     public void onPrePersist(){
-        this.create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        this.create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
     }
 
     public ConcertOptionDomain toDomain(){

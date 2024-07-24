@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
-    // 좌석 결재
+    // 예약 좌석 결제
     @Override
     @Transactional
     public String ReservationPayment(Integer userId, Integer seatPrice){

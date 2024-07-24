@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.util.AssertionErrors.assertFalse;
 
 @SpringBootTest
-@Transactional
 @Rollback
 class ReservationServiceIntegrationTest {
 

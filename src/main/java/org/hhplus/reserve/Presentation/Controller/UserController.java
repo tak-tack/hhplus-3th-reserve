@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Usecase.UserFacade;
+import org.hhplus.reserve.Business.Usecase.Facade.UserFacade;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 import org.springframework.web.bind.annotation.*;
@@ -18,5 +18,5 @@ public class UserController {
     public TokenResponseDTO authentication(@RequestBody TokenRequestDTO tokenRequestDTO){
         return userFacade.AuthenticationApplication(tokenRequestDTO);
     }
-
+// 코
 }

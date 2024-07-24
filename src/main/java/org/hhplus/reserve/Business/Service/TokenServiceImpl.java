@@ -21,27 +21,38 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     @Transactional
+    // 토큰 발급
     public TokenResponseDTO applyAuth(Integer userId){
-        boolean existToken =  tokenRepository.exist(userId);
-        if(!existToken)
-        {
-            return tokenRepository.save(userId).toDTO();
-        }else{ // 중복 예외처리
+//        tokenRepository.exist(userId).orElseThrow(()
+//                -> new CustomException(ErrorCode.USER_DUPLICATED,userId.toString())); // 중복체크
+        if(tokenRepository.exist(userId).isPresent()){ // 중복 체크
             throw new CustomException(ErrorCode.USER_DUPLICATED,userId.toString());
+        }else{
+            return tokenRepository.save(userId).toDTO();
+
         }
+    }
+
+    @Override
+    @Transactional
+    // 토큰 체크
+    public TokenResponseDTO checkAuth(Integer userId){
+        tokenRepository.exist(userId).orElseThrow(()
+                -> new CustomException(ErrorCode.USER_NOT_FOUND,userId.toString())); // 중복체크
+        return tokenRepository.select(userId).toDTO();
+//        if(existToken) // 토큰 존재 확인
+//        {
+//              return tokenRepository.select(userId).toDTO();
+//        }else{ // user 토큰 확인 불가
+//            throw new CustomException(ErrorCode.USER_NOT_FOUND,userId.toString());
+//        }
 
     }
 
     @Override
     @Transactional
-    public TokenResponseDTO checkAuth(Integer userId){
-        boolean existToken =  tokenRepository.exist(userId);
-        if(existToken)
-        {
-            return tokenRepository.select(userId).toDTO();
-        }else{ // user 토큰 확인 불가
-            throw new CustomException(ErrorCode.USER_NOT_FOUND,userId.toString());
-        }
-
+    // 토큰 만료
+    public void expireToken(Integer userId){
+        tokenRepository.delete(userId);
     }
 }

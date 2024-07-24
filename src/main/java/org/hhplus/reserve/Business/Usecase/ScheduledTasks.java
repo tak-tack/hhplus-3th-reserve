@@ -14,9 +14,11 @@ public class ScheduledTasks {
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
     private final QueueService queueService;
 
-      @Scheduled(fixedRate = 1000) // 10s
+      @Scheduled(fixedRate = 1000) // 1s
     public void controlQueue(){
         log.info("scheduledTask");
         queueService.updateQueue(); // 큐 상태 변경 10초당 50명
     }
 }
+
+//findfirst는 - 조회된애들중 처음꺼찾는거. 찾으면 null

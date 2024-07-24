@@ -25,7 +25,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional
     public List<ReservationResponseDTO> temporaryReserve(ReservationRequestDTO reservationRequestDTO){
-        String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
             reservationRepository.register(reservationRequestDTO.getConcertOptionId(),
                     ReservationStatus.RSERVATION_WATING.name(),
                     reservationRequestDTO.getSeatId(),
@@ -38,7 +38,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional
     public void reserve(String reservationStatus, List<Integer> reservationIds){ // 반환타입 고민해보기
-        String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
         reservationRepository.update(reservationStatus,modifyDt,reservationIds);
     }
 

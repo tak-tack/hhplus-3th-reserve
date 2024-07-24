@@ -44,7 +44,7 @@ public class ConcertServiceImpl implements ConcertService {
     @Override
     @Transactional
     public void ConcertSeatUpdateToReserved(Integer concertSeatId){
-        String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
         concertRepository.updateSeat(ConcertSeatStatus.RESERVED,modifyDt,concertSeatId);
     }
 

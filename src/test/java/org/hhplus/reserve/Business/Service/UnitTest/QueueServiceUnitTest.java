@@ -48,7 +48,7 @@ class QueueServiceUnitTest {
     @DisplayName("대기열 등록 service - 성공")
     void applyQueue() {
         Integer userId = 1;
-        String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
         List<QueueDomain> queueDomains = Collections.singletonList(new QueueDomain());
 
         doNothing().when(queueRepository).saveByUserId(userId, createDt, QueueStatus.WAITING.name());

@@ -1,7 +1,8 @@
-package org.hhplus.reserve.Business.Usecase;
+package org.hhplus.reserve.Business.Usecase.Facade;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Service.*;
+import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
@@ -28,25 +29,24 @@ public class UserFacade {
         return this.tokenService.applyAuth(tokenRequestDTO.getUserId());
     }
     public List<ConcertResponseDTO> ReservationAvailable(TokenRequestDTO tokenRequestDTO){
-        // 토큰 발급 확인
-       TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(tokenRequestDTO.getUserId());
         // 대기열 진입
-       queueService.applyQueue(tokenResponseDTO.getUserId());
-        // 대기열 통과
-        scheduledTasks.controlQueue();
-        // 예약 가능 콘서트의 날짜, 좌석 반환
-        return concertService.ConcertList();
-
-    }
-    public List<ReservationResponseDTO> ReservationConcert(ReservationRequestDTO reservationRequestDTO){
-        // 토큰 발급 확인
-        TokenResponseDTO tokenResponseDTO = tokenService.checkAuth(reservationRequestDTO.getUserId());
-        // 대기열 진입
-        queueService.applyQueue(tokenResponseDTO.getUserId());
+       queueService.applyQueue(tokenRequestDTO.getUserId());
         // 대기열 통과 1초당 50명씩 스케줄링으로 구현되어있긴함
         scheduledTasks.controlQueue();
         // 대기열 검증
-        queueService.checkQueue(tokenResponseDTO.getUserId());
+        queueService.checkQueue(tokenRequestDTO.getUserId());
+        // 예약 가능 콘서트의 날짜, 좌석 반환
+        return concertService.ConcertList();
+
+
+    }
+    public List<ReservationResponseDTO> ReservationConcert(ReservationRequestDTO reservationRequestDTO){
+        // 대기열 진입
+        queueService.applyQueue(reservationRequestDTO.getUserId());
+        // 대기열 통과 1초당 50명씩 스케줄링으로 구현되어있긴함
+        //scheduledTasks.controlQueue();
+        // 대기열 검증
+        //queueService.checkQueue(reservationRequestDTO.getUserId());
         // 좌석 임시 예약 완료
         List<ReservationResponseDTO> reservationResponseDTO =
                 reservationService.temporaryReserve(reservationRequestDTO);
@@ -61,6 +61,7 @@ public class UserFacade {
         // 좌석 선점
         concertService.ConcertSeatUpdateToReserved(reservationRequestDTO.getSeatId());
         //토큰 만료
+        tokenService.expireToken(reservationRequestDTO.getUserId()); // 토큰책임은 도메인이갖고있으니 만료는 비동기로 돈다던가 토큰검증요청등 토큰만료가
         return reservationResponseDTO;
     }
 
