@@ -2,12 +2,9 @@ package org.hhplus.reserve.Business.Service;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Repository.TokenRepository;
-import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

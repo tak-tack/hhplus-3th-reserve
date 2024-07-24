@@ -1,11 +1,8 @@
 package org.hhplus.reserve.Business.Service.IntegrationTest;
 
-import jakarta.transaction.Transactional;
 import org.hhplus.reserve.Business.Repository.TokenRepository;
 import org.hhplus.reserve.Business.Service.TokenServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class TokenServiceIntegrationTest { // 토큰 서비스 통합 테스트 - AuthInterceptor 테스트로 변경 예정
     @Autowired
     private TokenServiceImpl tokenService;
-    @Autowired
-    private TokenRepository tokenRepository;
+//    @Autowired
+//    private TokenRepository tokenRepository;
 
 //    @Test
 //    @DisplayName("토큰 발급 테스트 - 성공")
@@ -36,9 +33,7 @@ class TokenServiceIntegrationTest { // 토큰 서비스 통합 테스트 - AuthI
     void ApplyAuthExistingToken() {
         Integer userId = 1;
         tokenService.applyAuth(userId);
-        assertThrows(RuntimeException.class, () -> {
-            tokenService.applyAuth(userId);
-        });
+        assertThrows(RuntimeException.class, () -> tokenService.applyAuth(userId));
     }
 
     @Test
@@ -53,8 +48,6 @@ class TokenServiceIntegrationTest { // 토큰 서비스 통합 테스트 - AuthI
     void testCheckAuthNonExistingToken() {
         Integer userId = 1;
 
-        assertThrows(RuntimeException.class, () -> {
-            tokenService.checkAuth(userId);
-        });
+        assertThrows(RuntimeException.class, () -> tokenService.checkAuth(userId));
     }
 }

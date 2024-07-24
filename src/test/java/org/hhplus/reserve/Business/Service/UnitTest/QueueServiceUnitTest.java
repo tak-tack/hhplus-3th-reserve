@@ -5,9 +5,6 @@ import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.hhplus.reserve.Business.Repository.QueueRepository;
 import org.hhplus.reserve.Business.Service.QueueServiceImpl;
 import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
-import org.hhplus.reserve.Infrastructure.DB.Queue.QueueJpaRepository;
-import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRepositoryImpl;
-import org.hhplus.reserve.Infrastructure.Entity.QueueEntity;
 import org.hhplus.reserve.Presentation.DTO.Queue.QueueResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,12 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

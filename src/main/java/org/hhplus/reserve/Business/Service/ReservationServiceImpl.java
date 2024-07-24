@@ -1,10 +1,10 @@
 package org.hhplus.reserve.Business.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hhplus.reserve.Business.Domain.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.hhplus.reserve.Business.Repository.ReservationRepository;
-import org.hhplus.reserve.Business.Service.ReservationService;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
 import org.slf4j.Logger;
@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
-    private final Logger log = LoggerFactory.getLogger(getClass());
     // 콘서트 임시 예약
     @Override
     @Transactional

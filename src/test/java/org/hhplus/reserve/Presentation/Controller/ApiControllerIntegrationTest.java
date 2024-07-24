@@ -6,7 +6,6 @@ import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.hhplus.reserve.Business.Repository.PaymentRepository;
 import org.hhplus.reserve.Business.Repository.QueueRepository;
 import org.hhplus.reserve.Business.Repository.TokenRepository;
-import org.hhplus.reserve.Business.Service.QueueService;
 import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
@@ -71,8 +70,8 @@ class ApiControllerIntegrationTest {
     private PaymentRepository paymentRepository;
     @Autowired
     private TokenService tokenService;
-    @Autowired
-    private QueueService queueService;
+//    @Autowired
+//    private QueueService queueService;
     @Autowired
     private ScheduledTasks scheduledTasks;
 
@@ -275,7 +274,6 @@ class ApiControllerIntegrationTest {
         Integer userId = 1;
         tokenRepository.save(2); // 유저 토큰 생성
         paymentRepository.register(1,200000);
-        ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(get("/concert/{userId}/balance/select",3)
                         .header("userId",userId.toString())
                         .contentType(APPLICATION_JSON))

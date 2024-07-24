@@ -1,8 +1,6 @@
 package org.hhplus.reserve.Business.Repository;
 
 import org.hhplus.reserve.Business.Domain.TokenDomain;
-
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface TokenRepository {

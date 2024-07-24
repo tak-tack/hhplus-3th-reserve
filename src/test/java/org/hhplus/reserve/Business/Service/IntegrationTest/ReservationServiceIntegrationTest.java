@@ -1,6 +1,6 @@
 package org.hhplus.reserve.Business.Service.IntegrationTest;
 
-import jakarta.transaction.Transactional;
+
 import org.hhplus.reserve.Business.Domain.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.hhplus.reserve.Business.Repository.ReservationRepository;
@@ -17,7 +17,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.util.AssertionErrors.assertFalse;
 
 @SpringBootTest
 @Rollback
@@ -37,7 +36,7 @@ class ReservationServiceIntegrationTest {
         reservationRequestDTO.setSeatId(1);
         reservationRequestDTO.setUserId(1);
 
-        String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        //String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
         reservationService.temporaryReserve(reservationRequestDTO);
 

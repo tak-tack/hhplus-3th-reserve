@@ -22,6 +22,4 @@ public interface TokenJpaRepository extends JpaRepository<TokenEntity, UUID> {
     @Query("DELETE FROM TokenEntity t WHERE t.userId =:userId")
     void deleteByUserId(@Param("userId")Integer userId);
 
-    void findFirstBy();
-
 }

@@ -1,12 +1,10 @@
 package org.hhplus.reserve.Business.Service.IntegrationTest;
 
-import jakarta.transaction.Transactional;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.hhplus.reserve.Business.Repository.PaymentRepository;
 import org.hhplus.reserve.Business.Service.PaymentServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +52,7 @@ class PaymentServiceIntegrationTest {
         // 테스트 데이터를 DB에 저장
         paymentRepository.register(userId, userBalance);
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            paymentService.ReservationPayment(userId, seatPrice);
-        });
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> paymentService.ReservationPayment(userId, seatPrice));
 
         assertNotNull(exception);
         assertEquals(userBalance, paymentRepository.findUserAmountByUserId(userId));

@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 
 @Component
@@ -37,13 +36,13 @@ public class AuthInterceptor  implements HandlerInterceptor {
 
     }
 
-    @Override
-    public void postHandle(HttpServletRequest request,
-                           HttpServletResponse response,
-                           Object handler,
-                           ModelAndView modelAndView) throws Exception {
-        // 토큰만료 구현예정.
-    }
+//    @Override
+//    public void postHandle(HttpServletRequest request,
+//                           HttpServletResponse response,
+//                           Object handler,
+//                           ModelAndView modelAndView) throws Exception {
+//        // 토큰만료 구현예정.
+//    }
 
 
 }

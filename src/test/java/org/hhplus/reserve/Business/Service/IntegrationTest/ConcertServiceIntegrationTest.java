@@ -1,17 +1,14 @@
 package org.hhplus.reserve.Business.Service.IntegrationTest;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
-import org.hhplus.reserve.Business.Domain.ConcertDomain;
+
 import org.hhplus.reserve.Business.Domain.ConcertOptionDomain;
 import org.hhplus.reserve.Business.Domain.ConcertSeatDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.hhplus.reserve.Business.Repository.ConcertRepository;
 import org.hhplus.reserve.Business.Service.ConcertServiceImpl;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
-import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,10 +29,10 @@ class ConcertServiceIntegrationTest {
     @Autowired
     private ConcertServiceImpl concertService;
 
-    @Autowired
-    private ConcertRepository concertRepository;
-    @Autowired
-    private ConcertJpaRepository concertJpaRepository;
+//    @Autowired
+//    private ConcertRepository concertRepository;
+//    @Autowired
+//    private ConcertJpaRepository concertJpaRepository;
 
 
     @Test
@@ -43,11 +40,11 @@ class ConcertServiceIntegrationTest {
         // 테스트 데이터를 DB에 저장
         // 예: ConcertDomain 객체를 저장
 
-        List<Integer> concertIds = List.of(1, 2, 3);
+        //List<Integer> concertIds = List.of(1, 2, 3);
         Set<ConcertSeatDomain> concertSeatDomain = new HashSet<>();
         concertSeatDomain.add(new ConcertSeatDomain(1,1,1000, ConcertSeatStatus.WAITING));
-        Set<ConcertOptionDomain> concertOptions = new HashSet<>();
-        concertOptions.add(new ConcertOptionDomain(1,"2024-02-03",concertSeatDomain));
+//        Set<ConcertOptionDomain> concertOptions = new HashSet<>();
+//        concertOptions.add(new ConcertOptionDomain(1,"2024-02-03",concertSeatDomain));
 // concertRepository 에 save 구현예정
 //        concertIds.forEach(id -> {
 //            // DB에 테스트 데이터 삽입 (예: ConcertDomain 객체)
@@ -86,7 +83,7 @@ class ConcertServiceIntegrationTest {
     @Test
     void testConcertSeatUpdateToReserved() {
         Integer concertSeatId = 1;
-        String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        //String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
         // 테스트 데이터를 DB에 저장
         // 예: concertRepository.saveSeat(concertSeatId, /* 다른 필드 초기화 */);
