@@ -9,6 +9,7 @@ import java.util.List;
 public interface ConcertService {
 
     List<ConcertResponseDTO> ConcertList();
+    void concertSeatUpdateToGetting(Integer concertSeatId);
     void ConcertSeatUpdateToReserved(Integer concertSeatId);
     Integer ConcertSeatPrice(Integer concertSeatId);
 

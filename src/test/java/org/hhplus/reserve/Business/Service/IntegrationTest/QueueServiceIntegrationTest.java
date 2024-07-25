@@ -4,6 +4,7 @@ import org.hhplus.reserve.Business.Domain.QueueDomain;
 import org.hhplus.reserve.Business.Repository.QueueRepository;
 import org.hhplus.reserve.Business.Service.QueueServiceImpl;
 import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,7 @@ class QueueServiceIntegrationTest {
     private ScheduledTasks scheduledTasks;
 
     @Test
+    @DisplayName("대기열 진입")
     void testApplyQueue() {
         Integer userId = 1;
         //String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));

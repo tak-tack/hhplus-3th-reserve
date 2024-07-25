@@ -2,6 +2,7 @@ package org.hhplus.reserve.Business.Service.IntegrationTest;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import org.hhplus.reserve.Business.Domain.ConcertDomain;
 import org.hhplus.reserve.Business.Domain.ConcertOptionDomain;
 import org.hhplus.reserve.Business.Domain.ConcertSeatDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
@@ -29,10 +30,10 @@ class ConcertServiceIntegrationTest {
     @Autowired
     private ConcertServiceImpl concertService;
 
-//    @Autowired
-//    private ConcertRepository concertRepository;
-//    @Autowired
-//    private ConcertJpaRepository concertJpaRepository;
+    @Autowired
+    private ConcertRepository concertRepository;
+    @Autowired
+    private ConcertJpaRepository concertJpaRepository;
 
 
     @Test
@@ -40,12 +41,12 @@ class ConcertServiceIntegrationTest {
         // 테스트 데이터를 DB에 저장
         // 예: ConcertDomain 객체를 저장
 
-        //List<Integer> concertIds = List.of(1, 2, 3);
-        Set<ConcertSeatDomain> concertSeatDomain = new HashSet<>();
-        concertSeatDomain.add(new ConcertSeatDomain(1,1,1000, ConcertSeatStatus.WAITING));
+//        List<Integer> concertIds = List.of(1, 2, 3);
+//        Set<ConcertSeatDomain> concertSeatDomain = new HashSet<>();
+//        concertSeatDomain.add(new ConcertSeatDomain(1,1,1000, ConcertSeatStatus.WAITING));
 //        Set<ConcertOptionDomain> concertOptions = new HashSet<>();
 //        concertOptions.add(new ConcertOptionDomain(1,"2024-02-03",concertSeatDomain));
-// concertRepository 에 save 구현예정
+//// concertRepository 에 save 구현예정
 //        concertIds.forEach(id -> {
 //            // DB에 테스트 데이터 삽입 (예: ConcertDomain 객체)
 //            concertJpaRepository.save(new ConcertDomain(id, "2024-02-03",concertOptions));

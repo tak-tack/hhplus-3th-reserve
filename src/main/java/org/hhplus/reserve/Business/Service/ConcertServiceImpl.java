@@ -33,6 +33,14 @@ public class ConcertServiceImpl implements ConcertService {
                             concertDomain.toDTO().stream()).collect(Collectors.toList());
     }
 
+    // 임시 예약 시 콘서트 좌석 상태 변경 (WATING -> GETTING )
+    @Override
+    @Transactional
+    public void concertSeatUpdateToGetting(Integer concertSeatId){
+        String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
+        concertRepository.updateSeat(ConcertSeatStatus.GETTING,modifyDt,concertSeatId);
+    }
+
     // 결재 API 를 위한 콘서트 좌석 가격 조회
     @Override
     @Transactional
@@ -40,7 +48,7 @@ public class ConcertServiceImpl implements ConcertService {
         return concertRepository.findSeatPriceByConcertSeatId(concertSeatId);
     }
 
-    //  결재 성공 후 콘서트 좌석 상태 변경
+    //  결재 성공 후 콘서트 좌석 상태 변경 ( GETTING -> RESERVED )
     @Override
     @Transactional
     public void ConcertSeatUpdateToReserved(Integer concertSeatId){

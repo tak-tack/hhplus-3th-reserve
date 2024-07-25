@@ -184,7 +184,6 @@ class ConcertControllerIntegrationTest {
     void ReservationAvailableSUCESS() throws Exception{
         Integer userId = 305;
         tokenRepository.save(userId); // 유저 토큰 생성
-        //paymentRepository.register(1,200000);
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
                         .header("userId",userId.toString())
                         .content(objectMapper.writeValueAsString(userId))

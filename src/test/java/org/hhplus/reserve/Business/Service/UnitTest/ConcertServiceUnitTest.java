@@ -7,9 +7,6 @@ import org.hhplus.reserve.Business.Domain.ConcertSeatDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.hhplus.reserve.Business.Repository.ConcertRepository;
 import org.hhplus.reserve.Business.Service.ConcertServiceImpl;
-import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
-import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertRepositoryImpl;
-import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -70,14 +65,16 @@ class ConcertServiceUnitTest {
         verify(concertRepository).findAllConcertWithSeats(concertIds);
     }
     @Test
+    @DisplayName("공연 목록 조회 실패 - 미존재")
     void ConcertListEmpty() {
+
         when(concertRepository.findByConcertid()).thenReturn(Collections.emptyList());
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
             concertService.ConcertList();
         });
 
-        assertEquals("콘서트 조회 결과가 없습니다", exception.getMessage());
+        assertEquals("등록된 콘서트가 없습니다.", exception.getMessage());
         verify(concertRepository).findByConcertid();
         verify(concertRepository, never()).findAllConcertWithSeats(anyList());
     }

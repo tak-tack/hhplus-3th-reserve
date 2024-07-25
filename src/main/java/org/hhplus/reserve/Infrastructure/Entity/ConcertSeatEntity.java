@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @Entity
 @Builder
-@Table(name="Concert_Seat")
+@Table(name = "Concert_Seat")
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConcertSeatEntity {
@@ -38,13 +38,13 @@ public class ConcertSeatEntity {
     private Integer version;
 
     @PrePersist // 해당 엔티티를 저장하기 이전에 실행
-    public void onPrePersist(){
+    public void onPrePersist() {
         this.create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
     }
 
-    public ConcertSeatDomain toDomain(){
+    public ConcertSeatDomain toDomain() {
         ConcertSeatDomain concertSeatDomain = new ConcertSeatDomain();
-        BeanUtils.copyProperties(this,concertSeatDomain);
+        BeanUtils.copyProperties(this, concertSeatDomain);
         return concertSeatDomain;
     }
 

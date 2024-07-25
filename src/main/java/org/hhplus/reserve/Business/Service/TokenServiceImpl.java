@@ -20,8 +20,6 @@ public class TokenServiceImpl implements TokenService {
     @Transactional
     // 토큰 발급
     public TokenResponseDTO applyAuth(Integer userId){
-//        tokenRepository.exist(userId).orElseThrow(()
-//                -> new CustomException(ErrorCode.USER_DUPLICATED,userId.toString())); // 중복체크
         if(tokenRepository.exist(userId).isPresent()){ // 중복 체크
             throw new CustomException(ErrorCode.USER_DUPLICATED,userId.toString());
         }else{
@@ -37,12 +35,6 @@ public class TokenServiceImpl implements TokenService {
         tokenRepository.exist(userId).orElseThrow(()
                 -> new CustomException(ErrorCode.USER_NOT_FOUND,userId.toString())); // 중복체크
         return tokenRepository.select(userId).toDTO();
-//        if(existToken) // 토큰 존재 확인
-//        {
-//              return tokenRepository.select(userId).toDTO();
-//        }else{ // user 토큰 확인 불가
-//            throw new CustomException(ErrorCode.USER_NOT_FOUND,userId.toString());
-//        }
 
     }
 

@@ -22,7 +22,7 @@ public class AuthInterceptor  implements HandlerInterceptor {
         String userIdStr = request.getHeader("userId"); // userId 획득
         if (userIdStr != null) {
             try {
-                Integer userId = Integer.parseInt(userIdStr); // 순수 어플리케이션 연산. 부하아님.
+                Integer userId = Integer.parseInt(userIdStr);
                 if (tokenService.checkAuth(userId).getUserId() != null) {
                     log.info("유효한 고객 입니다. 고객 번호 : " + userId);
                     return true;

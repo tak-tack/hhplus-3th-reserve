@@ -12,9 +12,11 @@ import java.util.Optional;
 
 public interface QueueJpaRepository extends JpaRepository<QueueEntity, Integer> {
 
+    // 대기중인 큐 데이터 조회
     @Query("SELECT q FROM QueueEntity q WHERE q.userId = :userId AND q.queueStatus = :queueStatus")
     Optional<List<QueueEntity>> findByWaitingUserId(@Param("userId") Integer userId, @Param("queueStatus")QueueStatus queueStatus);
 
+    // 큐 정보 조회
     @Query("SELECT q FROM QueueEntity q WHERE q.userId = :userId")
     List<QueueEntity> findByUserId(@Param("userId") Integer userId);
 
@@ -35,6 +37,7 @@ public interface QueueJpaRepository extends JpaRepository<QueueEntity, Integer> 
     @Query(value="UPDATE dba.queue qe1 SET qe1.modify_Dt = :newModifyDt, qe1.queue_Status = :newStatus WHERE qe1.queue_Id IN :queueIds" , nativeQuery = true)
     void updateQueueStatusByIds(@Param("newModifyDt") String newModifyDt, @Param("newStatus") QueueStatus newStatus, @Param("queueIds") List<Integer> queueIds);
 
+    // 대기열 진입
     @Modifying
     @Query(value="INSERT into dba.queue (user_Id ,queue_Status, create_Dt, modify_Dt) values " +
             "(:userId, :queueStatus, :createDt ,null)",nativeQuery = true)

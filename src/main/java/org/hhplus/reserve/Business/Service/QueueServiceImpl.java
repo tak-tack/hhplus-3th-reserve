@@ -39,6 +39,12 @@ public class QueueServiceImpl implements QueueService {
     @Override
     @Transactional
     public List<QueueResponseDTO> checkQueue(Integer userId) {
+        try {
+            Thread.sleep(1000); //1초 대기
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         if (queueRepository.findByUserId(userId, QueueStatus.PROCESSING)
                 .stream().map(QueueDomain::toDTO).toList().isEmpty()) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND, userId.toString());
