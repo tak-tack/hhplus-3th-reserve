@@ -36,24 +36,24 @@ public class ConcertServiceImpl implements ConcertService {
     // 임시 예약 시 콘서트 좌석 상태 변경 (WATING -> GETTING )
     @Override
     @Transactional
-    public void concertSeatUpdateToGetting(Integer concertSeatId){
+    public void concertSeatUpdateToGetting(Integer concertSeatId,Integer concertOptionId){
         String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
-        concertRepository.updateSeat(ConcertSeatStatus.GETTING,modifyDt,concertSeatId);
+        concertRepository.updateSeat(ConcertSeatStatus.GETTING,modifyDt,concertSeatId,concertOptionId);
     }
 
     // 결재 API 를 위한 콘서트 좌석 가격 조회
     @Override
     @Transactional
-    public Integer ConcertSeatPrice(Integer concertSeatId){
-        return concertRepository.findSeatPriceByConcertSeatId(concertSeatId);
+    public Integer ConcertSeatPrice(Integer concertSeatId,Integer concertOptionId){
+        return concertRepository.findSeatPriceByConcertSeatId(concertSeatId,concertOptionId);
     }
 
     //  결재 성공 후 콘서트 좌석 상태 변경 ( GETTING -> RESERVED )
     @Override
     @Transactional
-    public void ConcertSeatUpdateToReserved(Integer concertSeatId){
+    public void ConcertSeatUpdateToReserved(Integer concertSeatId, Integer concertOptionId){
         String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
-        concertRepository.updateSeat(ConcertSeatStatus.RESERVED,modifyDt,concertSeatId);
+        concertRepository.updateSeat(ConcertSeatStatus.RESERVED,modifyDt,concertSeatId,concertOptionId);
     }
 
 }

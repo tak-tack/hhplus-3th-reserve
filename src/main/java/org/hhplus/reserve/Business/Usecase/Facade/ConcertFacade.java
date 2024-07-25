@@ -40,9 +40,9 @@ public class ConcertFacade {
         List<ReservationResponseDTO> reservationResponseDTO =
                 reservationService.temporaryReserve(reservationRequestDTO);
         // 좌석 선점
-        concertService.concertSeatUpdateToGetting(reservationRequestDTO.getSeatId());
+        concertService.concertSeatUpdateToGetting(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
         // 결재 API 진입 을 위한 seatId의 seatPrice 추출
-        Integer seatPrice = concertService.ConcertSeatPrice(reservationRequestDTO.getSeatId());
+        Integer seatPrice = concertService.ConcertSeatPrice(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
         // 결재 API 진입 ReservationStatus 반환
         String reservationStatus =
                 paymentService.ReservationPayment(reservationRequestDTO.getUserId(),seatPrice);
@@ -50,9 +50,9 @@ public class ConcertFacade {
         reservationService.reserve(reservationStatus,
                 reservationResponseDTO.stream().map(ReservationResponseDTO::getReservationId).toList());
         // 좌석 선점
-        concertService.ConcertSeatUpdateToReserved(reservationRequestDTO.getSeatId());
+        concertService.ConcertSeatUpdateToReserved(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
         //토큰 만료
-        tokenService.expireToken(reservationRequestDTO.getUserId()); // 토큰책임은 도메인이갖고있으니 만료는 비동기로 돈다던가 토큰검증요청등 토큰만료가
+        tokenService.expireToken(reservationRequestDTO.getUserId());
         return reservationResponseDTO;
     }
 }

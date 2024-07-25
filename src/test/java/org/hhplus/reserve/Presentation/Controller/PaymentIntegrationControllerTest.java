@@ -33,7 +33,7 @@ public class PaymentIntegrationControllerTest {
         Integer userId = 1;
         tokenRepository.save(userId); // 유저 토큰 생성
         paymentRepository.register(1,200000);
-        mockMvc.perform(get("/concert/{userId}/balance/select",1)
+        mockMvc.perform(get("/payment/{userId}/balance/select",1)
                         .header("userId",userId.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -46,7 +46,7 @@ public class PaymentIntegrationControllerTest {
         Integer userId = 1;
         tokenRepository.save(2); // 유저 토큰 생성
         paymentRepository.register(1,200000);
-        mockMvc.perform(get("/concert/{userId}/balance/select",3)
+        mockMvc.perform(get("/payment/{userId}/balance/select",3)
                         .header("userId",userId.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -61,7 +61,7 @@ public class PaymentIntegrationControllerTest {
         PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(1,10000);
         paymentRepository.register(1,10000);
         ObjectMapper objectMapper = new ObjectMapper();
-        mockMvc.perform(post("/concert/{userId}/balance/charge",paymentRequestDTO.getUserId())
+        mockMvc.perform(post("/payment/{userId}/balance/charge",paymentRequestDTO.getUserId())
                         .header("userId",userId.toString())
                         .content(objectMapper.writeValueAsString(paymentRequestDTO)) // for @RequestBody
                         .contentType(APPLICATION_JSON))

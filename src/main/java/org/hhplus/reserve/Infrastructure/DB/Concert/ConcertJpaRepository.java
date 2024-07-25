@@ -27,11 +27,11 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
 
     // 콘서트 예약 시 seat 상태 update
     @Modifying
-    @Query("UPDATE ConcertSeatEntity SET  concertSeatStatus = :concertSeatStatus, modifyDt =:modifyDt WHERE concertSeatId =:concertSeatId")
-    void updateConcertSeat(@Param("concertSeatStatus")ConcertSeatStatus concertSeatStatus, @Param("modifyDt") String modifyDt, @Param("concertSeatId")Integer concertSeatId);
+    @Query("UPDATE ConcertSeatEntity SET  concertSeatStatus = :concertSeatStatus, modifyDt =:modifyDt WHERE concertSeatId =:concertSeatId AND concertOption.concertOptionId =:concertOptionId")
+    void updateConcertSeat(@Param("concertSeatStatus")ConcertSeatStatus concertSeatStatus, @Param("modifyDt") String modifyDt, @Param("concertSeatId")Integer concertSeatId,@Param("concertOptionId") Integer concertOptionId);
 
     // 결재API 를 위한 예약 좌석 seatId로 seatPrcie 조회
-    @Query("SELECT cs.concertSeatPrice FROM ConcertSeatEntity cs WHERE cs.concertSeatId = :concertSeatId")
-    Optional<Integer> findPriceBySeatId(@Param("concertSeatId") Integer concertSeatId);
+    @Query("SELECT cs.concertSeatPrice FROM ConcertSeatEntity cs WHERE cs.concertSeatId = :concertSeatId AND cs.concertOption.concertOptionId =:concertOptionId")
+    Optional<Integer> findPriceBySeatId(@Param("concertSeatId") Integer concertSeatId,@Param("concertOptionId") Integer concertOptionId);
 
 }

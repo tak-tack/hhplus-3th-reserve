@@ -70,12 +70,13 @@ class ConcertServiceIntegrationTest {
     @Test
     void testConcertSeatPrice() {
         Integer concertSeatId = 1;
+        Integer concertOptionId = 1;
         Integer seatPrice = 100;
 
         // 테스트 데이터를 DB에 저장
         // 예: concertRepository.saveSeatPrice(concertSeatId, seatPrice);
 
-        Integer result = concertService.ConcertSeatPrice(concertSeatId);
+        Integer result = concertService.ConcertSeatPrice(concertSeatId,concertOptionId);
 
         assertNotNull(result);
         assertEquals(seatPrice, result);
@@ -84,12 +85,13 @@ class ConcertServiceIntegrationTest {
     @Test
     void testConcertSeatUpdateToReserved() {
         Integer concertSeatId = 1;
+        Integer concertOptionId = 1;
         //String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
         // 테스트 데이터를 DB에 저장
         // 예: concertRepository.saveSeat(concertSeatId, /* 다른 필드 초기화 */);
 
-        concertService.ConcertSeatUpdateToReserved(concertSeatId);
+        concertService.ConcertSeatUpdateToReserved(concertSeatId,concertOptionId);
 
         // 상태가 업데이트 되었는지 확인
         // 예: ConcertDomain concertDomain = concertRepository.findById(concertSeatId).orElse(null);
