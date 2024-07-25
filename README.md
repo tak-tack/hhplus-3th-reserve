@@ -252,8 +252,3 @@ sequenceDiagram
 
 </details>
 
-<details>
-<summary>동시성 문제와 극복</summary>
-링크
-https://velog.io/@rlaabcd/%ED%95%AD%ED%95%B4%ED%94%8C%EB%9F%AC%EC%8A%A4-%EB%8F%99%EC%8B%9C%EC%84%B1-%EB%AC%B8%EC%A0%9C%EC%99%80-%EA%B7%B9%EB%B3%B5-%EC%BD%98%EC%84%9C%ED%8A%B8-%EC%98%88%EC%95%BD-%EC%8B%9C%EC%8A%A4%ED%85%9C
-</details>
