@@ -33,7 +33,7 @@ public class ReservationServiceImpl implements ReservationService {
                     createDt,
                     reservationRequestDTO.getUserId()
                     );
-            return reservationRepository.find(reservationRequestDTO.getUserId()).stream().map(ReservationDomain::toDTO).toList();
+            return reservationRepository.find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING).stream().map(ReservationDomain::toDTO).toList();
     }
     //콘서트 예약 완료. 상태변경
     @Override

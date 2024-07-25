@@ -34,7 +34,7 @@ class ReservationServiceIntegrationTest {
         reservationRequestDTO.setUserId(1);
         reservationService.temporaryReserve(reservationRequestDTO);
 
-        List<ReservationDomain> reservations = reservationRepository.find(reservationRequestDTO.getUserId());
+        List<ReservationDomain> reservations = reservationRepository.find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING);
         assertNotNull(reservations);
 
         ReservationDomain reservation = reservations.get(0);
@@ -51,7 +51,7 @@ class ReservationServiceIntegrationTest {
         reservationService.reserve(ReservationStatus.RESERVATION_FINISHED.name(), reservationIds);
 
         // 예약 상태가 업데이트 되었는지 확인
-        List<ReservationDomain> reservations = reservationRepository.find(userId);
+        List<ReservationDomain> reservations = reservationRepository.find(userId,ReservationStatus.RSERVATION_WATING);
         assertNotNull(reservations);
         for (ReservationDomain reservation : reservations) {
             assertEquals(ReservationStatus.RESERVATION_FINISHED, reservation.getReservationStatus());

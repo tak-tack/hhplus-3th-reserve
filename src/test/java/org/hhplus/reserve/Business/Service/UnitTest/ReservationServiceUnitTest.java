@@ -54,7 +54,7 @@ class ReservationServiceUnitTest {
                 createDt,
                 reservationRequestDTO.getUserId()
         );
-        when(reservationRepository.find(reservationRequestDTO.getUserId())).thenReturn(reservationDomains);
+        when(reservationRepository.find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING)).thenReturn(reservationDomains);
 
         List<ReservationResponseDTO> result = reservationService.temporaryReserve(reservationRequestDTO);
 
@@ -66,7 +66,7 @@ class ReservationServiceUnitTest {
                 createDt,
                 reservationRequestDTO.getUserId()
         );
-        verify(reservationRepository).find(reservationRequestDTO.getUserId());
+        verify(reservationRepository).find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING);
     }
 
     @Test

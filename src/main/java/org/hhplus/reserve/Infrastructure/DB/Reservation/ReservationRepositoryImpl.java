@@ -2,6 +2,7 @@ package org.hhplus.reserve.Infrastructure.DB.Reservation;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Domain.ReservationDomain;
+import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.hhplus.reserve.Business.Repository.ReservationRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ReservationEntity;
 import org.slf4j.Logger;
@@ -25,8 +26,9 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     {
         reservationJpaRepository.update(reservationStatus,modifyDt,reservationIds);
     }
+    // 예약 상태 조회
     // 예약 조회
-    public List<ReservationDomain> find(Integer userId){
-        return reservationJpaRepository.findByUserId(userId).stream().map(ReservationEntity::toDomain).toList();
+    public List<ReservationDomain> find(Integer userId, ReservationStatus reservationStatus){
+        return reservationJpaRepository.findByUserId(userId,reservationStatus).stream().map(ReservationEntity::toDomain).toList();
     }
 }

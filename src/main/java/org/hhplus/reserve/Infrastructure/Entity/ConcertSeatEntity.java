@@ -34,8 +34,8 @@ public class ConcertSeatEntity {
     private String create_dt;
     @Nullable
     private String modifyDt;
-    @Version
-    private Integer version;
+//    @Version
+//    private Integer version;
 
     @PrePersist // 해당 엔티티를 저장하기 이전에 실행
     public void onPrePersist() {
