@@ -26,13 +26,13 @@ public class ConcertRepositoryImpl implements ConcertRepository {
     }
 
     @Override
-    public Integer findSeatPriceByConcertSeatId(Integer concertSeatId, Integer concertOptionId) {
-        return concertJpaRepository.findPriceBySeatId(concertSeatId,concertOptionId).orElseThrow(NullPointerException::new);
+    public Integer findSeatPriceByConcertSeatId(Integer concertSeatId, Integer concertOptionId,ConcertSeatStatus currentConcertSeatStatus) {
+        return concertJpaRepository.findPriceBySeatId(concertSeatId,concertOptionId,currentConcertSeatStatus).orElseThrow(NullPointerException::new);
     }
 
     @Override
-    public void updateSeat(ConcertSeatStatus concertSeatStatus, String modifyDt, Integer concertSeatId, Integer concertOptionId) {
-        concertJpaRepository.updateConcertSeat(concertSeatStatus, modifyDt, concertSeatId,concertOptionId);
+    public void updateSeat(ConcertSeatStatus concertSeatStatus, String modifyDt, Integer concertSeatId, Integer concertOptionId,ConcertSeatStatus currentConcertSeatStatus) {
+        concertJpaRepository.updateConcertSeat(concertSeatStatus, modifyDt, concertSeatId,concertOptionId, currentConcertSeatStatus);
     }
 
 }

@@ -85,13 +85,13 @@ class ConcertServiceUnitTest {
         Integer concertOptionId = 1;
         Integer seatPrice = 100;
 
-        when(concertRepository.findSeatPriceByConcertSeatId(concertSeatId,concertOptionId)).thenReturn(seatPrice);
+        when(concertRepository.findSeatPriceByConcertSeatId(concertSeatId,concertOptionId,ConcertSeatStatus.WAITING)).thenReturn(seatPrice);
 
         Integer result = concertService.ConcertSeatPrice(concertSeatId,concertOptionId);
 
         assertNotNull(result);
         assertEquals(seatPrice, result);
-        verify(concertRepository).findSeatPriceByConcertSeatId(concertSeatId,concertOptionId);
+        verify(concertRepository).findSeatPriceByConcertSeatId(concertSeatId,concertOptionId,ConcertSeatStatus.WAITING);
      //   verify(log).info("concertservie - concertSeatId : " + concertSeatId);
     }
 
@@ -101,10 +101,10 @@ class ConcertServiceUnitTest {
         Integer concertOptionId = 1;
         String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
-        doNothing().when(concertRepository).updateSeat(ConcertSeatStatus.RESERVED, modifyDt, concertSeatId,concertOptionId);
+        doNothing().when(concertRepository).updateSeat(ConcertSeatStatus.RESERVED, modifyDt, concertSeatId,concertOptionId,ConcertSeatStatus.GETTING);
 
         concertService.ConcertSeatUpdateToReserved(concertSeatId,concertOptionId);
 
-        verify(concertRepository).updateSeat(ConcertSeatStatus.RESERVED, modifyDt, concertSeatId,concertOptionId);
+        verify(concertRepository).updateSeat(ConcertSeatStatus.RESERVED, modifyDt, concertSeatId,concertOptionId,ConcertSeatStatus.GETTING);
     }
 }

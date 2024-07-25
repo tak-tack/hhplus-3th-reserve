@@ -142,20 +142,20 @@ class ConcertControllerIntegrationTest {
         concertJpaRepository.save(concert1);
 
         Thread thread1 = new Thread(() -> {
-            for (int i = 1; i < 200; i++) {
+            for (int i = 1; i < 500; i++) {
                 // 토큰 저장
                 tokenService.applyAuth(i);
             }
         });
 
         Thread thread2 = new Thread(() -> {
-            for (int i = 1; i <200; i++) {
+            for (int i = 1; i <500; i++) {
                 // 대기열 유저 저장
                 final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
                 queueRepository.saveByUserId(i,create_dt, QueueStatus.WAITING.name());
             }
         });
-        scheduledFuture = taskScheduler.scheduleAtFixedRate(scheduledTasks::controlQueue,1000); // 스케줄러 실행
+        scheduledFuture = taskScheduler.scheduleAtFixedRate(scheduledTasks::controlQueue,500); // 스케줄러 실행
         /*
                 // ScheduledExecutorService 생성, 1개의 스레드로 실행
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
