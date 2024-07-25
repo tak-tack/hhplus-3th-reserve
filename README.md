@@ -251,4 +251,3 @@ sequenceDiagram
 ![캡1212](https://github.com/user-attachments/assets/1ea5e253-b563-405e-ab1c-50b2df889dda)
 
 </details>
-
