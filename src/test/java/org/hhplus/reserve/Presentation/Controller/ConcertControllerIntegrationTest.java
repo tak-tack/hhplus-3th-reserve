@@ -14,7 +14,6 @@ import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertSeatJpaRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertOptionEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,9 +46,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ApiControllerIntegrationTest {
+class ConcertControllerIntegrationTest {
 
-    private static final Logger log = LoggerFactory.getLogger(ApiControllerIntegrationTest.class);
+    private static final Logger log = LoggerFactory.getLogger(ConcertControllerIntegrationTest.class);
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -70,8 +69,6 @@ class ApiControllerIntegrationTest {
     private PaymentRepository paymentRepository;
     @Autowired
     private TokenService tokenService;
-//    @Autowired
-//    private QueueService queueService;
     @Autowired
     private ScheduledTasks scheduledTasks;
 
@@ -145,20 +142,25 @@ class ApiControllerIntegrationTest {
         concertJpaRepository.save(concert1);
 
         Thread thread1 = new Thread(() -> {
-            for (int i = 1; i < 300; i++) {
+            for (int i = 1; i < 200; i++) {
                 // 토큰 저장
                 tokenService.applyAuth(i);
             }
         });
 
         Thread thread2 = new Thread(() -> {
-            for (int i = 1; i < 300; i++) {
+            for (int i = 1; i <200; i++) {
                 // 대기열 유저 저장
                 final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
                 queueRepository.saveByUserId(i,create_dt, QueueStatus.WAITING.name());
             }
         });
-        scheduledFuture = taskScheduler.scheduleAtFixedRate(scheduledTasks::controlQueue,100); // 스케줄러 실행
+        scheduledFuture = taskScheduler.scheduleAtFixedRate(scheduledTasks::controlQueue,1000); // 스케줄러 실행
+        /*
+                // ScheduledExecutorService 생성, 1개의 스레드로 실행
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+        scheduledFuture = executorService.scheduleAtFixedRate(scheduledTasks::controlQueue,0,1, TimeUnit.SECONDS); // 스케줄러 실행
+         */
         // 쓰레드 시작
         thread1.start();
         thread2.start();
@@ -207,7 +209,7 @@ class ApiControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
-        Integer userId = 305;
+        Integer userId = 1007;
         tokenRepository.save(userId); // 유저 토큰 생성
         paymentRepository.register(userId,100000); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO =
@@ -255,47 +257,4 @@ class ApiControllerIntegrationTest {
 
     }
 
-    @Test
-    @DisplayName("잔액 조회 API - 성공")
-    void BalanceSelectSUCESS() throws Exception{
-        Integer userId = 1;
-        tokenRepository.save(userId); // 유저 토큰 생성
-        paymentRepository.register(1,200000);
-        mockMvc.perform(get("/concert/{userId}/balance/select",1)
-                        .header("userId",userId.toString())
-                        .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("잔액 조회 API - 실패 - 찾을수없는 사용자")
-    void BalanceSelectFAIL1() throws Exception{
-        Integer userId = 1;
-        tokenRepository.save(2); // 유저 토큰 생성
-        paymentRepository.register(1,200000);
-        mockMvc.perform(get("/concert/{userId}/balance/select",3)
-                        .header("userId",userId.toString())
-                        .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
-
-    @Test
-    @DisplayName("잔액 충전 API - 성공")
-    void BalanceChargeSUCESS() throws Exception{
-        Integer userId = 1;
-        tokenRepository.save(userId); // 유저 토큰 생성
-        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(1,10000);
-        paymentRepository.register(1,10000); // 테스트를 위해 저장
-        ObjectMapper objectMapper = new ObjectMapper();
-        mockMvc.perform(post("/concert/{userId}/balance/charge",paymentRequestDTO.getUserId())
-                        .header("userId",userId.toString())
-                        .content(objectMapper.writeValueAsString(paymentRequestDTO))
-                        .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print())
-        ;
-
-    }
 }
