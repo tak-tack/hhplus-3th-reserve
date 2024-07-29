@@ -10,7 +10,7 @@ public interface ConcertService {
 
     List<ConcertResponseDTO> ConcertList();
     void concertSeatUpdateToGetting(Integer concertSeatId, Integer concertOptionId);
-    void ConcertSeatUpdateToReserved(Integer concertSeatId, Integer concertOptionId);
-    Integer ConcertSeatPrice(Integer concertSeatId, Integer concertOptionId);
+    void concertSeatUpdateToReserved(Integer concertSeatId, Integer concertOptionId);
+    Integer concertSeatPrice(Integer concertSeatId, Integer concertOptionId);
 
 }

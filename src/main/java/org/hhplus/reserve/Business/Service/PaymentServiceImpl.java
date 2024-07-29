@@ -20,7 +20,7 @@ public class PaymentServiceImpl implements PaymentService {
     // 예약 좌석 결제
     @Override
     @Transactional
-    public String ReservationPayment(Integer userId, Integer seatPrice){
+    public String reservationPayment(Integer userId, Integer seatPrice){
         Integer userBalance = paymentRepository.findUserAmountByUserId(userId); // user의 잔액 조회
         if(userBalance >= seatPrice){
             paymentRepository.update(userBalance-seatPrice,userId);
@@ -32,13 +32,13 @@ public class PaymentServiceImpl implements PaymentService {
     // 유저 잔액 조회
     @Override
     @Transactional
-    public List<PaymentResponseDTO> UserPaymentFind(Integer userId){
+    public List<PaymentResponseDTO> userPaymentFind(Integer userId){
         return paymentRepository.findUserByUserId(userId).stream().map(PaymentDomain::toDTO).toList();
     }
     // 유저 잔액 충전
     @Override
     @Transactional
-    public List<PaymentResponseDTO> UserPaymentCharge(PaymentRequestDTO paymentRequestDTO){
+    public List<PaymentResponseDTO> userPaymentCharge(PaymentRequestDTO paymentRequestDTO){
         Integer userBalance =
                 paymentRepository.findUserAmountByUserId(paymentRequestDTO.getUserId());
         paymentRepository.update(userBalance + paymentRequestDTO.getChargeAmount(),paymentRequestDTO.getUserId());

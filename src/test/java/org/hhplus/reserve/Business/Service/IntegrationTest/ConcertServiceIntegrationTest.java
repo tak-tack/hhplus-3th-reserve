@@ -9,6 +9,9 @@ import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.hhplus.reserve.Business.Repository.ConcertRepository;
 import org.hhplus.reserve.Business.Service.ConcertServiceImpl;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
+import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
+import org.hhplus.reserve.Infrastructure.Entity.ConcertOptionEntity;
+import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +44,16 @@ class ConcertServiceIntegrationTest {
         // 테스트 데이터를 DB에 저장
         // 예: ConcertDomain 객체를 저장
 
-//        List<Integer> concertIds = List.of(1, 2, 3);
-//        Set<ConcertSeatDomain> concertSeatDomain = new HashSet<>();
-//        concertSeatDomain.add(new ConcertSeatDomain(1,1,1000, ConcertSeatStatus.WAITING));
-//        Set<ConcertOptionDomain> concertOptions = new HashSet<>();
-//        concertOptions.add(new ConcertOptionDomain(1,"2024-02-03",concertSeatDomain));
-//// concertRepository 에 save 구현예정
-//        concertIds.forEach(id -> {
-//            // DB에 테스트 데이터 삽입 (예: ConcertDomain 객체)
-//            concertJpaRepository.save(new ConcertDomain(id, "2024-02-03",concertOptions));
-//        });
+        List<Integer> concertIds = List.of(1, 2, 3);
+        Set<ConcertSeatEntity> concertSeatEntities = new HashSet<>();
+        //concertSeatEntities.add(1,1,1000, ConcertSeatStatus.WAITING);
+        Set<ConcertOptionDomain> concertOptions = new HashSet<>();
+        //concertOptions.add(new ConcertOptionEntity(1,"2024-02-03",concertSeatEntities));
+// concertRepository 에 save 구현예정
+        concertIds.forEach(id -> {
+            // DB에 테스트 데이터 삽입 (예: ConcertDomain 객체)
+           // concertJpaRepository.save(new ConcertEntity(id, "2024-02-03",concertOptions));
+        });
 
         List<ConcertResponseDTO> result = concertService.ConcertList();
 
@@ -76,7 +79,7 @@ class ConcertServiceIntegrationTest {
         // 테스트 데이터를 DB에 저장
         // 예: concertRepository.saveSeatPrice(concertSeatId, seatPrice);
 
-        Integer result = concertService.ConcertSeatPrice(concertSeatId,concertOptionId);
+        Integer result = concertService.concertSeatPrice(concertSeatId,concertOptionId);
 
         assertNotNull(result);
         assertEquals(seatPrice, result);
@@ -91,7 +94,7 @@ class ConcertServiceIntegrationTest {
         // 테스트 데이터를 DB에 저장
         // 예: concertRepository.saveSeat(concertSeatId, /* 다른 필드 초기화 */);
 
-        concertService.ConcertSeatUpdateToReserved(concertSeatId,concertOptionId);
+        concertService.concertSeatUpdateToReserved(concertSeatId,concertOptionId);
 
         // 상태가 업데이트 되었는지 확인
         // 예: ConcertDomain concertDomain = concertRepository.findById(concertSeatId).orElse(null);

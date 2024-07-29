@@ -20,11 +20,11 @@ public class PaymentController {
      */
     @GetMapping("/{userId}/balance/select")
     public List<PaymentResponseDTO> BalanceSelect(@PathVariable(name="userId") Integer userId){
-        return paymentFacade.UserPaymentSelect(userId);
+        return paymentFacade.userPaymentSelect(userId);
     }
 
     @PostMapping("/{userId}/balance/charge")
     public List<PaymentResponseDTO> BalanceCharge(@RequestBody PaymentRequestDTO paymentRequestDTO){
-        return paymentFacade.UserPaymentCharge(paymentRequestDTO);
+        return paymentFacade.userPaymentCharge(paymentRequestDTO);
     }
 }

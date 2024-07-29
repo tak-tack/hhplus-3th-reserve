@@ -35,7 +35,7 @@ class PaymentServiceIntegrationTest {
         // 테스트 데이터를 DB에 저장
         paymentRepository.register(userId, userBalance);
 
-        String result = paymentService.ReservationPayment(userId, seatPrice);
+        String result = paymentService.reservationPayment(userId, seatPrice);
 
         assertNotNull(result);
         assertEquals(ReservationStatus.RESERVATION_FINISHED.name(), result);
@@ -52,7 +52,7 @@ class PaymentServiceIntegrationTest {
         // 테스트 데이터를 DB에 저장
         paymentRepository.register(userId, userBalance);
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> paymentService.ReservationPayment(userId, seatPrice));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> paymentService.reservationPayment(userId, seatPrice));
 
         assertNotNull(exception);
         assertEquals(userBalance, paymentRepository.findUserAmountByUserId(userId));
@@ -65,7 +65,7 @@ class PaymentServiceIntegrationTest {
 
         // 테스트 데이터를 DB에 저장
         paymentRepository.register(userId, 10000);
-        List<PaymentResponseDTO> result = paymentService.UserPaymentFind(userId);
+        List<PaymentResponseDTO> result = paymentService.userPaymentFind(userId);
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -85,7 +85,7 @@ class PaymentServiceIntegrationTest {
         paymentRequestDTO.setUserId(userId);
         paymentRequestDTO.setChargeAmount(chargeAmount);
 
-        List<PaymentResponseDTO> result = paymentService.UserPaymentCharge(paymentRequestDTO);
+        List<PaymentResponseDTO> result = paymentService.userPaymentCharge(paymentRequestDTO);
 
         assertNotNull(result);
         assertFalse(result.isEmpty());

@@ -21,7 +21,7 @@ public class ConcertFacade {
     private final PaymentService paymentService;
 
     private final ScheduledTasks scheduledTasks;
-    public List<ConcertResponseDTO> ReservationAvailable(TokenRequestDTO tokenRequestDTO){
+    public List<ConcertResponseDTO> reservationAvailable(TokenRequestDTO tokenRequestDTO){
         // 대기열 진입
         queueService.applyQueue(tokenRequestDTO.getUserId());
         // 대기열 검증
@@ -31,7 +31,7 @@ public class ConcertFacade {
 
 
     }
-    public List<ReservationResponseDTO> ReservationConcert(ReservationRequestDTO reservationRequestDTO){
+    public List<ReservationResponseDTO> reservationConcert(ReservationRequestDTO reservationRequestDTO){
         // 대기열 진입
         queueService.applyQueue(reservationRequestDTO.getUserId());
         // 대기열 검증
@@ -42,15 +42,15 @@ public class ConcertFacade {
         // 좌석 선점
         concertService.concertSeatUpdateToGetting(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
         // 결재 API 진입 을 위한 seatId의 seatPrice 추출
-        Integer seatPrice = concertService.ConcertSeatPrice(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
+        Integer seatPrice = concertService.concertSeatPrice(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
         // 결재 API 진입 ReservationStatus 반환
         String reservationStatus =
-                paymentService.ReservationPayment(reservationRequestDTO.getUserId(),seatPrice);
+                paymentService.reservationPayment(reservationRequestDTO.getUserId(),seatPrice);
         // 콘서트 좌석 예약 완료
         reservationService.reserve(reservationStatus,
                 reservationResponseDTO.stream().map(ReservationResponseDTO::getReservationId).toList());
         // 좌석 선점
-        concertService.ConcertSeatUpdateToReserved(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
+        concertService.concertSeatUpdateToReserved(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
         //토큰 만료
         tokenService.expireToken(reservationRequestDTO.getUserId());
         return reservationResponseDTO;

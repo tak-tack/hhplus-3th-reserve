@@ -16,7 +16,7 @@ public class UserController {
      */
     @PostMapping("/authentication")
     public TokenResponseDTO authentication(@RequestBody TokenRequestDTO tokenRequestDTO){
-        return userFacade.AuthenticationApplication(tokenRequestDTO);
+        return userFacade.authenticationApplication(tokenRequestDTO);
     }
-// 코
+
 }

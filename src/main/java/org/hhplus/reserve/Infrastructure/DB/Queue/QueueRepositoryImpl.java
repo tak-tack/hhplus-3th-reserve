@@ -46,6 +46,7 @@ public class QueueRepositoryImpl implements QueueRepository {
     {
         log.info("updateQueueStatusByIds : " +queueStatus);
         queueJpaRepository.updateQueueStatusByIds(modifyDt, queueStatus, queueIds);
+
         //
     }
 

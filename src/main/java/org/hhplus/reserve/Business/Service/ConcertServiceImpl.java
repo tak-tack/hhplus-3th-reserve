@@ -44,14 +44,14 @@ public class ConcertServiceImpl implements ConcertService {
     // 결재 API 를 위한 콘서트 좌석 가격 조회
     @Override
     @Transactional
-    public Integer ConcertSeatPrice(Integer concertSeatId,Integer concertOptionId){
+    public Integer concertSeatPrice(Integer concertSeatId,Integer concertOptionId){
         return concertRepository.findSeatPriceByConcertSeatId(concertSeatId,concertOptionId,ConcertSeatStatus.GETTING);
     }
 
     //  결재 성공 후 콘서트 좌석 상태 변경 ( GETTING -> RESERVED )
     @Override
     @Transactional
-    public void ConcertSeatUpdateToReserved(Integer concertSeatId, Integer concertOptionId){
+    public void concertSeatUpdateToReserved(Integer concertSeatId, Integer concertOptionId){
         String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
         concertRepository.updateSeat(ConcertSeatStatus.RESERVED,modifyDt,concertSeatId,concertOptionId,ConcertSeatStatus.GETTING);
     }

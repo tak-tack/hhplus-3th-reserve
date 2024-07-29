@@ -13,10 +13,8 @@ import java.util.List;
 public class UserFacade {
     private final TokenService tokenService;
 
-    public TokenResponseDTO AuthenticationApplication(TokenRequestDTO tokenRequestDTO){
+    public TokenResponseDTO authenticationApplication(TokenRequestDTO tokenRequestDTO){
         return this.tokenService.applyAuth(tokenRequestDTO.getUserId());
     }
-
-
 
 }

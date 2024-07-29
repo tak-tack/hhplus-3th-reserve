@@ -20,7 +20,7 @@ public class ConcertController {
     */
     @PostMapping("/availabilityConcertList")
     public List<ConcertResponseDTO> ReservationAvailable(@RequestBody TokenRequestDTO tokenRequestDTO){
-        return concertFacade.ReservationAvailable(tokenRequestDTO);
+        return concertFacade.reservationAvailable(tokenRequestDTO);
     }
 
     /*
@@ -30,7 +30,7 @@ public class ConcertController {
     public List<ReservationResponseDTO> ReservationApplication(
             @RequestBody ReservationRequestDTO reservationRequestDTO
     ){
-        return concertFacade.ReservationConcert(reservationRequestDTO);
+        return concertFacade.reservationConcert(reservationRequestDTO);
     }
 
 }

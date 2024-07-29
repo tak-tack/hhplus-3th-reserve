@@ -43,7 +43,7 @@ class PaymentServiceTest {
 
         when(paymentRepository.findUserAmountByUserId(userId)).thenReturn(userBalance);
 
-        String result = paymentService.ReservationPayment(userId, seatPrice);
+        String result = paymentService.reservationPayment(userId, seatPrice);
 
         verify(paymentRepository).update(userBalance - seatPrice, userId);
         assertEquals(ReservationStatus.RESERVATION_FINISHED.name(), result);
@@ -58,7 +58,7 @@ class PaymentServiceTest {
 
         when(paymentRepository.findUserAmountByUserId(userId)).thenReturn(userBalance);
 
-        String result = paymentService.ReservationPayment(userId, seatPrice);
+        String result = paymentService.reservationPayment(userId, seatPrice);
 
         verify(paymentRepository).update(userBalance - seatPrice, userId);
         assertEquals(ReservationStatus.RESERVATION_FINISHED.name(), result);
@@ -72,7 +72,7 @@ class PaymentServiceTest {
 
         when(paymentRepository.findUserByUserId(userId)).thenReturn(paymentDomains);
 
-        List<PaymentResponseDTO> result = paymentService.UserPaymentFind(userId);
+        List<PaymentResponseDTO> result = paymentService.userPaymentFind(userId);
 
         assertNotNull(result);
         verify(paymentRepository).findUserByUserId(userId);
@@ -87,7 +87,7 @@ class PaymentServiceTest {
         when(paymentRepository.findUserAmountByUserId(paymentRequestDTO.getUserId())).thenReturn(userBalance);
         when(paymentRepository.findUserByUserId(paymentRequestDTO.getUserId())).thenReturn(Collections.singletonList(new PaymentDomain()));
 
-        List<PaymentResponseDTO> result = paymentService.UserPaymentCharge(paymentRequestDTO);
+        List<PaymentResponseDTO> result = paymentService.userPaymentCharge(paymentRequestDTO);
 
         verify(paymentRepository).update(userBalance + paymentRequestDTO.getChargeAmount(), paymentRequestDTO.getUserId());
         verify(paymentRepository).findUserByUserId(paymentRequestDTO.getUserId());

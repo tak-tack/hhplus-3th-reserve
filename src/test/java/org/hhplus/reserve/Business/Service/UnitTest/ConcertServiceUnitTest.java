@@ -87,7 +87,7 @@ class ConcertServiceUnitTest {
 
         when(concertRepository.findSeatPriceByConcertSeatId(concertSeatId,concertOptionId,ConcertSeatStatus.WAITING)).thenReturn(seatPrice);
 
-        Integer result = concertService.ConcertSeatPrice(concertSeatId,concertOptionId);
+        Integer result = concertService.concertSeatPrice(concertSeatId,concertOptionId);
 
         assertNotNull(result);
         assertEquals(seatPrice, result);
@@ -103,7 +103,7 @@ class ConcertServiceUnitTest {
 
         doNothing().when(concertRepository).updateSeat(ConcertSeatStatus.RESERVED, modifyDt, concertSeatId,concertOptionId,ConcertSeatStatus.GETTING);
 
-        concertService.ConcertSeatUpdateToReserved(concertSeatId,concertOptionId);
+        concertService.concertSeatUpdateToReserved(concertSeatId,concertOptionId);
 
         verify(concertRepository).updateSeat(ConcertSeatStatus.RESERVED, modifyDt, concertSeatId,concertOptionId,ConcertSeatStatus.GETTING);
     }
