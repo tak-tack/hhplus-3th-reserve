@@ -34,18 +34,8 @@ public interface QueueJpaRepository extends JpaRepository<QueueEntity, Integer> 
 
     // 큐 데이터 상태 변경
     @Modifying
-    @Query(value="UPDATE dba.queue qe1 SET qe1.modify_Dt = :newModifyDt, qe1.queue_Status = :newStatus WHERE qe1.queue_Id IN :queueIds" , nativeQuery = true)
+    //@Query(value="UPDATE dba.queue qe1 SET qe1.modify_Dt = :newModifyDt, qe1.queue_Status = :newStatus WHERE qe1.queue_Id IN :queueIds" , nativeQuery = true)
+    @Query(value="UPDATE QueueEntity q SET q.modifyDt = :newModifyDt, q.queueStatus = :newStatus WHERE q.queueId IN :queueIds")
     void updateQueueStatusByIds(@Param("newModifyDt") String newModifyDt, @Param("newStatus") QueueStatus newStatus, @Param("queueIds") List<Integer> queueIds);
-
-    // 대기열 진입
-    @Modifying
-    @Query(value="INSERT into dba.queue (user_Id ,queue_Status, create_Dt, modify_Dt) values " +
-            "(:userId, :queueStatus, :createDt ,null)",nativeQuery = true)
-    void register(@Param("userId") Integer userId,
-                        @Param("createDt") String createDt,
-                        @Param("queueStatus")String queueStatus
-    );
-
-
 
 }

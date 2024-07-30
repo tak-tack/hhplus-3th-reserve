@@ -18,7 +18,7 @@ import org.springframework.beans.BeanUtils;
 @Table(name="Queue")
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueueEntity {
+public class QueueEntity implements CommonEntity<QueueDomain>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer queueId;
@@ -29,6 +29,13 @@ public class QueueEntity {
     @Nullable
     private String modifyDt;
 
+    // domain > entity converting
+    public QueueEntity(QueueDomain queueDomain){
+        BeanUtils.copyProperties(queueDomain,this);
+    }
+
+    // entity > domain converting
+    @Override
     public QueueDomain toDomain()
     {
         QueueDomain queueDomain = new QueueDomain();

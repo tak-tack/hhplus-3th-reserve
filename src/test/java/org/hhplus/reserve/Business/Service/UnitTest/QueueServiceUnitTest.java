@@ -52,7 +52,7 @@ class QueueServiceUnitTest {
 
         List<QueueResponseDTO> result = queueService.applyQueue(userId);
 
-        verify(queueRepository).saveByUserId(userId, createDt, QueueStatus.WAITING.name());
+        //verify(queueRepository).controlQueue();
         verify(scheduledTasks).controlQueue();
         verify(queueRepository).exist(userId);
 

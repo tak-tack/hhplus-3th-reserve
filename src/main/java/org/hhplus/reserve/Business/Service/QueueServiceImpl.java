@@ -24,6 +24,7 @@ public class QueueServiceImpl implements QueueService {
     // @slf4j
     private final QueueRepository queueRepository;
 
+    // 대기열 (큐) 진입
     @Override
     @Transactional
     public List<QueueResponseDTO> applyQueue(Integer userId) {
@@ -31,11 +32,13 @@ public class QueueServiceImpl implements QueueService {
             throw new CustomException(ErrorCode.USER_DUPLICATED, userId.toString());
         } else {
             String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
-            queueRepository.saveByUserId(userId, createDt, QueueStatus.WAITING.name());
+            QueueDomain queueDomain = QueueDomain.builder().userId(userId).createDt(createDt).queueStatus(QueueStatus.WAITING).build();
+            queueRepository.register(queueDomain);
             return queueRepository.exist(userId).stream().map(QueueDomain::toDTO).toList();
         }
     }
 
+    // 대기열(큐) 확인.. 내 앞에 몇명 구현 예정
     @Override
     @Transactional
     public List<QueueResponseDTO> checkQueue(Integer userId) {
@@ -53,6 +56,8 @@ public class QueueServiceImpl implements QueueService {
                 .stream().map(QueueDomain::toDTO).toList();
     }
 
+
+    // 대기열(큐) 상태 변경
     @Override
     @Transactional
     public void updateQueue() {
@@ -60,6 +65,7 @@ public class QueueServiceImpl implements QueueService {
         Integer countQueue = queueRepository.countWaitingQueue(QueueStatus.WAITING);
         log.info("updateQueue countQueue : " + countQueue);
         List<Integer> queueIds = queueRepository.findQueueIdsByStatus(QueueStatus.WAITING);
+        log.info("updateQueue queueIds : " + queueIds);
         queueRepository.updateQueueStatusByIds(modifyDt, QueueStatus.PROCESSING, queueIds);
 
     }

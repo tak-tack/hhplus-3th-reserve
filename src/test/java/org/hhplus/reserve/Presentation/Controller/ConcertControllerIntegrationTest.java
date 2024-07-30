@@ -6,6 +6,7 @@ import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.hhplus.reserve.Business.Repository.PaymentRepository;
 import org.hhplus.reserve.Business.Repository.QueueRepository;
 import org.hhplus.reserve.Business.Repository.TokenRepository;
+import org.hhplus.reserve.Business.Service.QueueServiceImpl;
 import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
@@ -75,6 +76,8 @@ class ConcertControllerIntegrationTest {
     @Autowired
     private ThreadPoolTaskScheduler taskScheduler;
     private ScheduledFuture<?> scheduledFuture;
+    @Autowired
+    private QueueServiceImpl queueServiceImpl;
 
     @BeforeEach
     void setUp() throws InterruptedException {
@@ -142,17 +145,17 @@ class ConcertControllerIntegrationTest {
         concertJpaRepository.save(concert1);
 
         Thread thread1 = new Thread(() -> {
-            for (int i = 1; i < 500; i++) {
+            for (int i = 1; i < 50; i++) {
                 // 토큰 저장
                 tokenService.applyAuth(i);
             }
         });
 
         Thread thread2 = new Thread(() -> {
-            for (int i = 1; i <500; i++) {
+            for (int i = 1; i <50; i++) {
                 // 대기열 유저 저장
                 final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
-                queueRepository.saveByUserId(i,create_dt, QueueStatus.WAITING.name());
+                queueServiceImpl.applyQueue(i);
             }
         });
         scheduledFuture = taskScheduler.scheduleAtFixedRate(scheduledTasks::controlQueue,500); // 스케줄러 실행

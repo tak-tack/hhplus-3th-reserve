@@ -1,15 +1,13 @@
 package org.hhplus.reserve.Business.Domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.hhplus.reserve.Presentation.DTO.Queue.QueueResponseDTO;
 import org.springframework.beans.BeanUtils;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class QueueDomain {
@@ -19,6 +17,7 @@ public class QueueDomain {
     private String createDt;
     private String modifyDt;
 
+    // domain > DTO
     public QueueResponseDTO toDTO()
     {
         QueueResponseDTO queueResponseDTO = new QueueResponseDTO();

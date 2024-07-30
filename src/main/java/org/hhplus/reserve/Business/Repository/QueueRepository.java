@@ -9,6 +9,6 @@ public interface QueueRepository {
     List<QueueDomain>  findByUserId(Integer userId, QueueStatus queueStatus);
     Integer countWaitingQueue(QueueStatus queueStatus);
     List<Integer> findQueueIdsByStatus(QueueStatus queueStatus);
-    void saveByUserId(Integer userId,String createDt,String queueStatus);
+    void register(QueueDomain queueDomain);
     void updateQueueStatusByIds(String modifyDt, QueueStatus queueStatus,List<Integer> queueIds);
 }

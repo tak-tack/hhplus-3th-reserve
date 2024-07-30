@@ -44,17 +44,15 @@ public class QueueRepositoryImpl implements QueueRepository {
     @Override
     public void updateQueueStatusByIds(String modifyDt, QueueStatus queueStatus,List<Integer> queueIds)
     {
-        log.info("updateQueueStatusByIds : " +queueStatus);
         queueJpaRepository.updateQueueStatusByIds(modifyDt, queueStatus, queueIds);
 
-        //
     }
 
     @Override
     @Transactional
-    public void saveByUserId(Integer userId,String createDt,String queueStatus){
-        queueJpaRepository.register(userId,createDt,queueStatus);
+    // 저장
+    public void register(QueueDomain queueDomain){
+        queueJpaRepository.save(new QueueEntity(queueDomain));
     }
-
 
 }
