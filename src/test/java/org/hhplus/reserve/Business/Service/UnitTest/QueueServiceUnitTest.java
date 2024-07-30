@@ -46,7 +46,7 @@ class QueueServiceUnitTest {
         String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
         List<QueueDomain> queueDomains = Collections.singletonList(new QueueDomain());
 
-        doNothing().when(queueRepository).saveByUserId(userId, createDt, QueueStatus.WAITING.name());
+        //doNothing().when(queueRepository).re(userId, createDt, QueueStatus.WAITING.name());
         doNothing().when(scheduledTasks).controlQueue();
         when(queueRepository.exist(userId)).thenReturn(queueDomains);
 

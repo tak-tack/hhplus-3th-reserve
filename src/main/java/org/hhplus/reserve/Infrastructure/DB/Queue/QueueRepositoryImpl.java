@@ -7,9 +7,12 @@ import org.hhplus.reserve.Infrastructure.Entity.QueueEntity;
 import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -17,6 +20,7 @@ import java.util.List;
 public class QueueRepositoryImpl implements QueueRepository {
     private static final Logger log = LoggerFactory.getLogger(QueueRepositoryImpl.class);
     private final QueueJpaRepository queueJpaRepository;
+
 
     @Override
     public List<QueueDomain> findByUserId(Integer userId, QueueStatus queueStatus){
@@ -54,5 +58,9 @@ public class QueueRepositoryImpl implements QueueRepository {
     public void register(QueueDomain queueDomain){
         queueJpaRepository.save(new QueueEntity(queueDomain));
     }
+
+
+
+
 
 }
