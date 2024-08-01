@@ -22,10 +22,10 @@ public class ConcertFacade {
 
     private final ScheduledTasks scheduledTasks;
     public List<ConcertResponseDTO> reservationAvailable(TokenRequestDTO tokenRequestDTO){
-        // 대기열 진입
-        queueService.applyQueue(tokenRequestDTO.getUserId());
-        // 대기열 검증
-        queueService.checkQueue(tokenRequestDTO.getUserId());
+//        // 대기열 진입
+//        queueService.applyQueue(tokenRequestDTO.getUserId());
+//        // 대기열 검증
+//        queueService.checkQueue(tokenRequestDTO.getUserId());
         // 예약 가능 콘서트의 날짜, 좌석 반환
         return concertService.ConcertList();
 
@@ -51,8 +51,6 @@ public class ConcertFacade {
                 reservationResponseDTO.stream().map(ReservationResponseDTO::getReservationId).toList());
         // 좌석 선점
         concertService.concertSeatUpdateToReserved(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
-        //토큰 만료
-        tokenService.expireToken(reservationRequestDTO.getUserId());
         return reservationResponseDTO;
     }
 }

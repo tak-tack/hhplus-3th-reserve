@@ -51,16 +51,12 @@ public class QueueRepositoryImpl implements QueueRepository {
         queueJpaRepository.updateQueueStatusByIds(modifyDt, queueStatus, queueIds);
 
     }
-
     @Override
     @Transactional
     // 저장
     public void register(QueueDomain queueDomain){
         queueJpaRepository.save(new QueueEntity(queueDomain));
+        log.info("|Test -> Controller -> Facade -> Service -> Repository(DB)| SAVE SUCCESS");
     }
-
-
-
-
 
 }

@@ -38,10 +38,4 @@ public class TokenServiceImpl implements TokenService {
 
     }
 
-    @Override
-    @Transactional
-    // 토큰 만료
-    public void expireToken(Integer userId){
-        tokenRepository.delete(userId);
-    }
 }

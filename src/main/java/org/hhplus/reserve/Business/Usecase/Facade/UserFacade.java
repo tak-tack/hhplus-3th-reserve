@@ -6,8 +6,6 @@ import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserFacade {

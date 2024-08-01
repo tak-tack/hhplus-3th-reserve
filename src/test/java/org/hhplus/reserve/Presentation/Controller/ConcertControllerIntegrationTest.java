@@ -6,6 +6,7 @@ import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.hhplus.reserve.Business.Repository.PaymentRepository;
 import org.hhplus.reserve.Business.Repository.QueueRepository;
 import org.hhplus.reserve.Business.Repository.TokenRepository;
+import org.hhplus.reserve.Business.Service.QueueRedisService;
 import org.hhplus.reserve.Business.Service.QueueServiceImpl;
 import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
@@ -72,6 +73,8 @@ class ConcertControllerIntegrationTest {
     private TokenService tokenService;
     @Autowired
     private ScheduledTasks scheduledTasks;
+    @Autowired
+    private QueueRedisService queueRedisService;
 
     @Autowired
     private ThreadPoolTaskScheduler taskScheduler;
@@ -144,33 +147,31 @@ class ConcertControllerIntegrationTest {
 
         concertJpaRepository.save(concert1);
 
-        Thread thread1 = new Thread(() -> {
-            for (int i = 1; i < 50; i++) {
+                    for (int i = 5702; i < 10000; i++) {
                 // 토큰 저장
                 tokenService.applyAuth(i);
             }
-        });
 
-        Thread thread2 = new Thread(() -> {
-            for (int i = 1; i <50; i++) {
-                // 대기열 유저 저장
-                final String create_dt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
-                queueServiceImpl.applyQueue(i);
-            }
-        });
-        scheduledFuture = taskScheduler.scheduleAtFixedRate(scheduledTasks::controlQueue,500); // 스케줄러 실행
-        /*
-                // ScheduledExecutorService 생성, 1개의 스레드로 실행
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-        scheduledFuture = executorService.scheduleAtFixedRate(scheduledTasks::controlQueue,0,1, TimeUnit.SECONDS); // 스케줄러 실행
-         */
-        // 쓰레드 시작
-        thread1.start();
-        thread2.start();
-
-        // 두 쓰레드가 끝날 때까지 기다림
-        thread1.join();
-        thread2.join();
+//        Thread thread1 = new Thread(() -> {
+//            for (int i = 1; i < 50; i++) {
+//                // 토큰 저장
+//                tokenService.applyAuth(i);
+//            }
+//        });
+//
+//        Thread thread2 = new Thread(() -> {
+//            for (int i = 1; i <50; i++) {
+//                // 대기열 유저 저장
+//                queueRedisService.saveQueue(i);
+//            }
+//        });
+//        // 쓰레드 시작
+//        thread1.start();
+//        thread2.start();
+//
+//        // 두 쓰레드가 끝날 때까지 기다림
+//        thread1.join();
+//        thread2.join();
     }
 
     @AfterEach
@@ -183,16 +184,38 @@ class ConcertControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("셋팅")
+    void settest(){
+
+    }
+
+    @Test
     @DisplayName("예약 가능 조회 API - 성공")
     void ReservationAvailableSUCESS() throws Exception{
-        Integer userId = 305;
+        Integer userId = 1005;
         tokenRepository.save(userId); // 유저 토큰 생성
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
                         .header("userId",userId.toString())
                         .content(objectMapper.writeValueAsString(userId))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(print())
+        ;
+    }
+
+    @Test
+    @DisplayName("예약 가능 조회 API 50명- 성공")
+    void ReservationAvailableUsersSUCESS() throws Exception{
+        for(int userId = 1001; userId <1050; userId++)
+        {
+        tokenRepository.save(userId); // 유저 토큰 생성
+        mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
+                        .header("userId",userId)
+                        .content(objectMapper.writeValueAsString(userId))
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(print());
+        }
     }
 
     @Test
@@ -211,7 +234,7 @@ class ConcertControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
-        Integer userId = 1007;
+        Integer userId = 10007;
         tokenRepository.save(userId); // 유저 토큰 생성
         paymentRepository.register(userId,100000); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO =

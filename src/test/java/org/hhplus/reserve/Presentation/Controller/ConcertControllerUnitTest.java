@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.UUID;
 
@@ -42,12 +43,14 @@ public class ConcertControllerUnitTest {
     @DisplayName("예약 가능 조회 API")
     void ReservationAvailableSUCESS() throws Exception{
           UUID uuid = UUID.randomUUID();
+        Integer userId = 1005;
         Mockito.when(tokenService.checkAuth(Mockito.anyInt())).thenReturn(
                 TokenResponseDTO.builder().userId(1).user_UUID(uuid).create_dt("2024-07-25").build());
         Mockito.when(authInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
         ObjectMapper objectMapper = new ObjectMapper();
-        mockMvc.perform(post("/concert/availabilityConcertList")
-                        .content(objectMapper.writeValueAsString(1))
+        mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
+                        .header("userId",userId.toString())
+                        .content(objectMapper.writeValueAsString(userId))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

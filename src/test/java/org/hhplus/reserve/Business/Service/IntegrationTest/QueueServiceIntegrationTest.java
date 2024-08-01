@@ -34,20 +34,25 @@ class QueueServiceIntegrationTest {
     @DisplayName("대기열 진입")
     void testApplyQueue() {
         Integer userId = 1;
-        //String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
-
-        // scheduledTasks의 controlQueue 메소드를 호출할 수 있도록 설정
-        doNothing().when(scheduledTasks).controlQueue();
-
-        queueService.applyQueue(userId);
-
+        //doNothing().when(scheduledTasks).controlQueue();
+        for(int i=0; i<99; i++){
+            queueService.applyQueue(i);
+        }
         List<QueueDomain> queueDomains = queueRepository.exist(userId);
         assertNotNull(queueDomains);
         assertFalse(queueDomains.isEmpty());
-
-        //QueueDomain queueDomain = queueDomains.get(0);
-//        assertEquals(userId, queueDomain.getUserId());
-//        assertEquals(QueueStatus.WAITING.name(), queueDomain.getStatus());
-//        assertEquals(createDt, queueDomain.getCreateDt());
     }
+
+    @Test
+    @DisplayName("대기열 확인")
+    void checkQueue(){
+        for(int i=0; i<99; i++){
+            queueService.applyQueue(i);
+        }
+        for(int i=0; i<99; i++){
+            queueService.checkQueue(i);
+        }
+
+    }
+
 }

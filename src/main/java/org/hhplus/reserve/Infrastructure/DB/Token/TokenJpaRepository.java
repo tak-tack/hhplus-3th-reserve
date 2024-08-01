@@ -14,9 +14,9 @@ public interface TokenJpaRepository extends JpaRepository<TokenEntity, UUID> {
     @Query("select t from TokenEntity t where t.userId = :userId")
     TokenEntity findByUserId(@Param("userId") Integer userId);
 
-    // 쿼리
+    //
     @Query("SELECT t.userId FROM TokenEntity t WHERE t.userId = :userId ORDER BY t.userId ASC")
-    Optional<Integer> existsByUserId(@Param("userId") Integer userId); // ?? 이거 뭐지?
+    Optional<Integer> existsByUserId(@Param("userId") Integer userId);
 
     @Modifying
     @Query("DELETE FROM TokenEntity t WHERE t.userId =:userId")

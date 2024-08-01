@@ -9,6 +9,4 @@ public interface TokenService {
 
     TokenResponseDTO checkAuth(Integer userId);
 
-    void expireToken(Integer userId);
-
 }

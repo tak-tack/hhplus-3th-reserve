@@ -33,7 +33,7 @@ class RedisUtilTest {
     }
 
     @Test
-    @DisplayName("Redis에 데이터를 저장하면 정상적으로 조회된다.")
+    @DisplayName("Redis 테스트 - 저장")
     void saveAndFindTest() throws Exception {
         // when
         String findValue = redisUtil.getValues(KEY);
@@ -43,7 +43,7 @@ class RedisUtilTest {
     }
 
     @Test
-    @DisplayName("Redis에 저장된 데이터를 수정할 수 있다.")
+    @DisplayName("Redis 테스트 - 수정")
     void updateTest() throws Exception {
         // given
         String updateValue = "updateValue";
@@ -58,7 +58,7 @@ class RedisUtilTest {
     }
 
     @Test
-    @DisplayName("Redis에 저장된 데이터를 삭제할 수 있다.")
+    @DisplayName("Redis 테스트 - 삭제")
     void deleteTest() throws Exception {
         // when
         redisUtil.deleteValues(KEY);
@@ -69,7 +69,7 @@ class RedisUtilTest {
     }
 
     @Test
-    @DisplayName("Redis에 저장된 데이터는 만료시간이 지나면 삭제된다.")
+    @DisplayName("Redis 테스트 - 만료시간후 삭제")
     void expiredTest() throws Exception {
         // when
         String findValue = redisUtil.getValues(KEY);
