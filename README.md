@@ -251,3 +251,9 @@ sequenceDiagram
 ![캡1212](https://github.com/user-attachments/assets/1ea5e253-b563-405e-ab1c-50b2df889dda)
 
 </details>
+
+<details>
+<summary>Query 분석 및 캐싱 전략 설계</summary>
+https://velog.io/@rlaabcd/%ED%95%AD%ED%95%B499-Redis
+
+</details>
