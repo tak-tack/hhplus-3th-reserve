@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Business.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Repository.TokenRepository;
+import org.hhplus.reserve.Infrastructure.DB.Token.TokenRepository;
 import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;

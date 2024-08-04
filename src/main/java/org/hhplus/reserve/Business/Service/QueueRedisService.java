@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Business.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Repository.QueueRedisRepository;
+import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRedisRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

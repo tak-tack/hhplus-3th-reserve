@@ -1,6 +1,4 @@
-package org.hhplus.reserve.Business.Repository;
-
-import org.hhplus.reserve.Business.Domain.QueueDomain;
+package org.hhplus.reserve.Infrastructure.DB.Queue;
 
 import java.util.Set;
 

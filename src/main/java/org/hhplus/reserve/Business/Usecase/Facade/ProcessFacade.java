@@ -23,7 +23,7 @@ public class ProcessFacade {
     private static final long WAIT_INTERVAL = 500; // 대기 시간 (밀리초)
     private static final int MAX_ACTIVE_USERS = 10000; // 최대 활성 사용자 수
 
-    public boolean processFirstQueue(String userId) throws InterruptedException {
+    public boolean waitingQueue(String userId) throws InterruptedException {
         queueRedisService.saveQueue(Integer.parseInt(userId)); // 1차 대기열 진입
 
         while (true) {
@@ -36,7 +36,7 @@ public class ProcessFacade {
         }
     }
 
-    public boolean processSecondQueue(String userId) throws InterruptedException {
+    public boolean activeQueue(String userId) throws InterruptedException {
         while (true) {
             if (tokenRedisService.activeTokenCount() < MAX_ACTIVE_USERS) {
                 tokenRedisService.activeToken(userId);

@@ -4,12 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hhplus.reserve.Business.Domain.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
-import org.hhplus.reserve.Business.Repository.ReservationRepository;
+import org.hhplus.reserve.Infrastructure.DB.Reservation.ReservationRepository;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

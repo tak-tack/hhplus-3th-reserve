@@ -1,8 +1,7 @@
 package org.hhplus.reserve.Business.Service.UnitTest;
 
 import org.hhplus.reserve.Business.Domain.QueueDomain;
-import org.hhplus.reserve.Business.Enum.QueueStatus;
-import org.hhplus.reserve.Business.Repository.QueueRepository;
+import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRepository;
 import org.hhplus.reserve.Business.Service.QueueServiceImpl;
 import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.hhplus.reserve.Presentation.DTO.Queue.QueueResponseDTO;

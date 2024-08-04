@@ -2,7 +2,7 @@ package org.hhplus.reserve.Business.Service.UnitTest;
 
 import org.hhplus.reserve.Business.Domain.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
-import org.hhplus.reserve.Business.Repository.ReservationRepository;
+import org.hhplus.reserve.Infrastructure.DB.Reservation.ReservationRepository;
 import org.hhplus.reserve.Business.Service.ReservationServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;

@@ -3,7 +3,6 @@ package org.hhplus.reserve.Infrastructure.DB.Reservation;
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Domain.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
-import org.hhplus.reserve.Business.Repository.ReservationRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ReservationEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReservationRepositoryImpl implements ReservationRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(ReservationRepositoryImpl.class);
     private final ReservationJpaRepository reservationJpaRepository;
     // 예약 등록
     public void register(Integer concertOptionId, String reservationStatus, Integer seatId, String createDt, Integer userId){

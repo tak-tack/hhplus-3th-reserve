@@ -1,24 +1,18 @@
 package org.hhplus.reserve.Business.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Repository.ActiveTokenRedisRepository;
-import org.hhplus.reserve.Business.Repository.TokenRedisRepository;
-import org.hhplus.reserve.Business.Repository.TokenRepository;
+import org.hhplus.reserve.Infrastructure.DB.Process.ActiveTokenRedisRepository;
+import org.hhplus.reserve.Infrastructure.DB.Token.TokenRepository;
 import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
-import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.util.concurrent.TimeUnit;
-
 @Service
 @RequiredArgsConstructor
 public class TokenRedisService {
-    @Autowired
-    private final TokenRedisRepository tokenRedisRepository;
+
     @Autowired
     private final TokenRepository tokenRepository;
     @Autowired

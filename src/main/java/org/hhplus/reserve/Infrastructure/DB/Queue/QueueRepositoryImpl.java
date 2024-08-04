@@ -2,17 +2,13 @@ package org.hhplus.reserve.Infrastructure.DB.Queue;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Domain.QueueDomain;
-import org.hhplus.reserve.Business.Repository.QueueRepository;
 import org.hhplus.reserve.Infrastructure.Entity.QueueEntity;
 import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository

@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Repository;
+package org.hhplus.reserve.Infrastructure.DB.Process;
 
 public interface ActiveTokenRedisRepository {
     void register(String userId);

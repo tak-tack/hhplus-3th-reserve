@@ -2,7 +2,7 @@ package org.hhplus.reserve.Business.Service;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
-import org.hhplus.reserve.Business.Repository.ConcertRepository;
+import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertRepository;
 import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;

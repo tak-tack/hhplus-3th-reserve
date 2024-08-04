@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Repository;
+package org.hhplus.reserve.Infrastructure.DB.Concert;
 
 import org.hhplus.reserve.Business.Domain.ConcertDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;

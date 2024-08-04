@@ -3,7 +3,7 @@ package org.hhplus.reserve.Business.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hhplus.reserve.Business.Domain.QueueDomain;
-import org.hhplus.reserve.Business.Repository.QueueRepository;
+import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRepository;
 import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
@@ -38,7 +38,7 @@ public class QueueServiceImpl implements QueueService {
         }
     }
 
-    // 대기열(큐) 확인.. 내 앞에 몇명 구현 예정
+    // 대기열(큐) 확인
     @Override
     @Transactional
     public List<QueueResponseDTO> checkQueue(Integer userId) {

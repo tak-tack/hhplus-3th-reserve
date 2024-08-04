@@ -2,10 +2,9 @@ package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
-import org.hhplus.reserve.Business.Enum.QueueStatus;
-import org.hhplus.reserve.Business.Repository.PaymentRepository;
-import org.hhplus.reserve.Business.Repository.QueueRepository;
-import org.hhplus.reserve.Business.Repository.TokenRepository;
+import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
+import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRepository;
+import org.hhplus.reserve.Infrastructure.DB.Token.TokenRepository;
 import org.hhplus.reserve.Business.Service.QueueRedisService;
 import org.hhplus.reserve.Business.Service.QueueServiceImpl;
 import org.hhplus.reserve.Business.Service.TokenService;
@@ -34,8 +33,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.concurrent.ScheduledFuture;
 
@@ -146,11 +143,11 @@ class ConcertControllerIntegrationTest {
         option2.getConcertSeats().add(seat3);
 
         concertJpaRepository.save(concert1);
-
-                    for (int i = 5702; i < 10000; i++) {
+//
+                    for (int i = 1; i < 100; i++) {
                 // 토큰 저장
                 tokenService.applyAuth(i);
-            }
+                      }
 
 //        Thread thread1 = new Thread(() -> {
 //            for (int i = 1; i < 50; i++) {
@@ -234,8 +231,8 @@ class ConcertControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
-        Integer userId = 10007;
-        tokenRepository.save(userId); // 유저 토큰 생성
+        Integer userId = 59;
+        //tokenRepository.save(userId); // 유저 토큰 생성
         paymentRepository.register(userId,100000); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO =
                 new ReservationRequestDTO(userId,"2024-07-16",1,1);

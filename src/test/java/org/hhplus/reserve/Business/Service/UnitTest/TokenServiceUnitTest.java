@@ -1,7 +1,7 @@
 //package org.hhplus.reserve.Business.Service.UnitTest;
 //
 //import org.hhplus.reserve.Business.Domain.TokenDomain;
-//import org.hhplus.reserve.Business.Repository.TokenRepository;
+//import org.hhplus.reserve.Infrastructure.DB.Token.TokenRepository;
 //import org.hhplus.reserve.Business.Service.TokenServiceImpl;
 //import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 //import org.junit.jupiter.api.BeforeEach;

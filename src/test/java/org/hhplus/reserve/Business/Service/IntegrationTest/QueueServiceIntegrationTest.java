@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Business.Service.IntegrationTest;
 
 import org.hhplus.reserve.Business.Domain.QueueDomain;
-import org.hhplus.reserve.Business.Repository.QueueRepository;
+import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRepository;
 import org.hhplus.reserve.Business.Service.QueueServiceImpl;
 import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.junit.jupiter.api.DisplayName;
@@ -10,12 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doNothing;
 
 @SpringBootTest
 @Rollback

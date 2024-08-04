@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Repository;
+package org.hhplus.reserve.Infrastructure.DB.Reservation;
 
 import org.hhplus.reserve.Business.Domain.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
