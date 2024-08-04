@@ -19,7 +19,7 @@ import java.util.UUID;
 @Table(name="token")
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenEntity {
+public class TokenEntity implements CommonEntity<TokenDomain> {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID user_UUID;
@@ -32,12 +32,18 @@ public class TokenEntity {
         this.createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
     }
 
+    //   domain > entity converting
+        public TokenEntity(TokenDomain tokenDomain){
+            BeanUtils.copyProperties(tokenDomain,this);
+       }
+
+    // entity > domain converting
+    @Override
     public TokenDomain toDomain()
     {
         TokenDomain tokenDomain = new TokenDomain();
         BeanUtils.copyProperties(this,tokenDomain);
         return tokenDomain;
-
     }
 }
 

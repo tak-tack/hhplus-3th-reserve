@@ -2,12 +2,11 @@ package org.hhplus.reserve.Business.Usecase.Facade;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Service.*;
-import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
-import org.hhplus.reserve.Presentation.DTO.Token.TokenRequestDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,45 +17,30 @@ public class ConcertFacade {
     private final ConcertService concertService;
     private final ReservationService reservationService;
     private final PaymentService paymentService;
-    private final ScheduledTasks scheduledTasks;
 
-    public List<ConcertResponseDTO> reservationAvailable(TokenRequestDTO tokenRequestDTO){
+    public List<ConcertResponseDTO> reservationAvailable(){
         // 예약 가능 콘서트의 날짜, 좌석 반환
         return concertService.ConcertList();
-
-
     }
-    public List<ReservationResponseDTO> reservationConcert(ReservationRequestDTO reservationRequestDTO){
+
+    @Transactional
+    public ReservationResponseDTO reservationConcert(ReservationRequestDTO reservationRequestDTO){
         // 임시 예약 등록 완료
-        List<ReservationResponseDTO> reservationResponseDTO =
+        ReservationResponseDTO reservationResponseDTO =
                 reservationService.temporaryReserve(reservationRequestDTO);
         // 좌석 선점
-        concertService.concertSeatUpdateToGetting(reservationRequestDTO.getSeatId(),reservationRequestDTO.getConcertOptionId());
-        // 결재 API 진입 을 위한 seatId의 seatPrice 추출
-        Integer seatPrice =
-                concertService.concertSeatPrice(reservationRequestDTO.getSeatId(),
-                reservationRequestDTO.getConcertOptionId()
-                );
+        concertService.concertSeatUpdateToGetting(reservationResponseDTO.converting());
         // 결재 API 진입 ReservationStatus 반환
-        String reservationStatus =
                 paymentService.reservationPayment(
-                        reservationRequestDTO.getUserId(),
-                        seatPrice
+                reservationRequestDTO.getUserId(),
+                concertService.concertSeatPrice(reservationResponseDTO.converting()) // seatPrice
                 );
         // 콘서트 좌석 예약 완료
-        reservationService.reserve(reservationStatus,
-                reservationResponseDTO.stream().map(
-                        ReservationResponseDTO::getReservationId).toList()
-                );
+        reservationService.reserve(reservationResponseDTO.getReservationId());
         // 좌석 선점
-        concertService.concertSeatUpdateToReserved(
-                reservationRequestDTO.getSeatId(),
-                reservationRequestDTO.getConcertOptionId()
-                );
+        concertService.concertSeatUpdateToReserved(reservationResponseDTO.converting());
         // 활성화 토큰 만료
-        tokenRedisService.deactivateToken(
-                reservationRequestDTO.getSeatId().toString()
-                );
+        tokenRedisService.deactivateToken(reservationRequestDTO.getSeatId().toString());
         return reservationResponseDTO;
     }
 }

@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface ConcertRepository {
 
-    List<Integer> findByConcertid();
-    List<ConcertDomain> findAllConcertWithSeats(List<Integer> concertIds);
+    Integer findByConcertId();
+    List<ConcertDomain> findAllConcertWithSeats(Integer concertId);
     Integer findSeatPriceByConcertSeatId(Integer concertSeatId, Integer concertOptionId,ConcertSeatStatus currentConcertSeatStatus);
     void updateSeat(ConcertSeatStatus concertSeatStatus, String modifyDt, Integer concertSeatId, Integer concertOptionId,ConcertSeatStatus currentConcertSeatStatus);
 }

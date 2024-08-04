@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface ReservationJpaRepository extends JpaRepository<ReservationEntity, Integer> {
@@ -28,13 +26,11 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationEntit
                   @Param("createDt") String createDt,
                   @Param("modifyDt") String modifyDt);
 
-
-
     @Modifying
-    @Query(value = "UPDATE dba.reservation r SET r.reservation_status = :reservationStatus, r.modify_dt = :modifyDt WHERE r.reservation_id in (:reservationIds)", nativeQuery = true)
-    void update(@Param("reservationStatus") String reservationStatus,@Param("modifyDt") String modifyDt,@Param("reservationIds") List<Integer> reservationIds);
+    @Query(value = "UPDATE dba.reservation r SET r.reservation_status = :reservationStatus, r.modify_dt = :modifyDt WHERE r.reservation_id  = :reservationId", nativeQuery = true)
+    void update(@Param("reservationStatus") String reservationStatus,@Param("modifyDt") String modifyDt,@Param("reservationId") Integer reservationId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT r FROM ReservationEntity r WHERE r.userId = :userId AND r.reservationStatus = :reservationStatus")
-    List<ReservationEntity> findByUserId(@Param("userId") Integer userId,@Param("reservationStatus")ReservationStatus reservationStatus);
+    Optional<ReservationEntity> findByUserId(@Param("userId") Integer userId,@Param("reservationStatus")ReservationStatus reservationStatus);
 }

@@ -34,11 +34,7 @@ class PaymentServiceIntegrationTest {
 
         // 테스트 데이터를 DB에 저장
         paymentRepository.register(userId, userBalance);
-
-        String result = paymentService.reservationPayment(userId, seatPrice);
-
-        assertNotNull(result);
-        assertEquals(ReservationStatus.RESERVATION_FINISHED.name(), result);
+        paymentService.reservationPayment(userId, seatPrice);
         assertEquals(userBalance - seatPrice, paymentRepository.findUserAmountByUserId(userId));
     }
 

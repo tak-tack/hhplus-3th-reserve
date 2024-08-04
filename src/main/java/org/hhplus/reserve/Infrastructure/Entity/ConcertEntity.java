@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.*;
 import org.hhplus.reserve.Business.Domain.ConcertDomain;
-import org.hhplus.reserve.Business.Domain.TokenDomain;
 import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

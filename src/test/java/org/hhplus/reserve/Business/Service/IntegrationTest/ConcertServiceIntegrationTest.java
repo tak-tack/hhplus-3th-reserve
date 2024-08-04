@@ -7,7 +7,9 @@ import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertRepository;
 import org.hhplus.reserve.Business.Service.ConcertServiceImpl;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
+import org.hhplus.reserve.Presentation.DTO.Concert.ConcertRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,7 +44,7 @@ class ConcertServiceIntegrationTest {
         //concertSeatEntities.add(1,1,1000, ConcertSeatStatus.WAITING);
         Set<ConcertOptionDomain> concertOptions = new HashSet<>();
         //concertOptions.add(new ConcertOptionEntity(1,"2024-02-03",concertSeatEntities));
-// concertRepository 에 save 구현예정
+        // concertRepository 에 save 구현예정
         concertIds.forEach(id -> {
             // DB에 테스트 데이터 삽입 (예: ConcertDomain 객체)
            // concertJpaRepository.save(new ConcertEntity(id, "2024-02-03",concertOptions));
@@ -55,6 +57,7 @@ class ConcertServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("")
     void testConcertListEmpty() {
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
             concertService.ConcertList();
@@ -64,34 +67,37 @@ class ConcertServiceIntegrationTest {
     }
 
     @Test
-    void testConcertSeatPrice() {
+    @DisplayName("콘서트 좌석 가격 조회 - 성공")
+    void ConcertSeatPriceSUCESS() {
         Integer concertSeatId = 1;
         Integer concertOptionId = 1;
         Integer seatPrice = 100;
-
         // 테스트 데이터를 DB에 저장
         // 예: concertRepository.saveSeatPrice(concertSeatId, seatPrice);
-
-        Integer result = concertService.concertSeatPrice(concertSeatId,concertOptionId);
+        ConcertRequestDTO concertRequestDTO = new ConcertRequestDTO();
+        concertRequestDTO.setSeatId(concertSeatId);
+        concertRequestDTO.setConcertOptionId(concertOptionId);
+        Integer result = concertService.concertSeatPrice(concertRequestDTO);
 
         assertNotNull(result);
         assertEquals(seatPrice, result);
     }
 
     @Test
-    void testConcertSeatUpdateToReserved() {
+    @DisplayName("예약된 콘서트 좌석 선점 -")
+    void ConcertSeatUpdateToReservedSUCESS() {
         Integer concertSeatId = 1;
         Integer concertOptionId = 1;
-        //String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
-
+        ConcertRequestDTO concertRequestDTO = new ConcertRequestDTO();
+        concertRequestDTO.setSeatId(concertSeatId);
+        concertRequestDTO.setConcertOptionId(concertOptionId);
         // 테스트 데이터를 DB에 저장
         // 예: concertRepository.saveSeat(concertSeatId, /* 다른 필드 초기화 */);
 
-        concertService.concertSeatUpdateToReserved(concertSeatId,concertOptionId);
+        concertService.concertSeatUpdateToReserved(concertRequestDTO);
 
         // 상태가 업데이트 되었는지 확인
-        // 예: ConcertDomain concertDomain = concertRepository.findById(concertSeatId).orElse(null);
-        // assertNotNull(concertDomain);
+           // assertNotNull(concertDomain);
         // assertEquals(ConcertSeatStatus.RESERVED, concertDomain.getStatus());
     }
 }

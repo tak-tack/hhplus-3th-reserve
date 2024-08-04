@@ -19,7 +19,6 @@ public class QueueRedisRepositoryImpl implements QueueRedisRepository {
     public void register(String userId,Long score){
         log.info("Queue redis save UserId: "+ userId);
         redisTemplate.opsForZSet().add("Queue",userId,score);
-        //log.info("#Queue# |Test -> Controller -> Facade -> Service -> Repository(Redis)| SAVE SUCCESS");
     }
 
     @Override

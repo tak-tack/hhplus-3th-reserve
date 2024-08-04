@@ -2,6 +2,7 @@ package org.hhplus.reserve.Infrastructure.DB.Concert;
 
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,14 +16,15 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
 
     // 예약가능 콘서트 조회
     @Query("SELECT c.concertId  FROM ConcertEntity c")
-    Optional<List<Integer>> findByConcertid();
+    Optional<Integer> findConcertId();
 
     // 예약가능 콘서트 좌석/날짜 조회
+    //@Cacheable(value = "concertCache", key = "#concertId")
     @Query("SELECT c FROM ConcertEntity c "+
             "JOIN FETCH c.concertOptions co " +
             "JOIN FETCH co.concertSeats cs "+
-            "WHERE c.concertId IN :concertIds")
-    List<ConcertEntity> findConcertsWithSeats(@Param("concertIds") List<Integer> concertIds);
+            "WHERE c.concertId = :concertId")
+    List<ConcertEntity> findConcertsWithSeats(@Param("concertId") Integer concertId);
 
     // 콘서트 예약 시 seat 상태 update
     @Modifying

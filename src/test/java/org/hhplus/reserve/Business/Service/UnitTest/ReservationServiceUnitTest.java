@@ -4,6 +4,7 @@ import org.hhplus.reserve.Business.Domain.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.hhplus.reserve.Infrastructure.DB.Reservation.ReservationRepository;
 import org.hhplus.reserve.Business.Service.ReservationServiceImpl;
+import org.hhplus.reserve.Infrastructure.Entity.ReservationEntity;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +46,8 @@ class ReservationServiceUnitTest {
 
         String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
-        List<ReservationDomain> reservationDomains = Collections.singletonList(new ReservationDomain());
+        ReservationDomain reservationDomain = ReservationEntity.builder().
+                concertOptionId(1).seatId(1).userId(1).build().toDomain();
 
         doNothing().when(reservationRepository).register(
                 reservationRequestDTO.getConcertOptionId(),
@@ -54,9 +56,9 @@ class ReservationServiceUnitTest {
                 createDt,
                 reservationRequestDTO.getUserId()
         );
-        when(reservationRepository.find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING)).thenReturn(reservationDomains);
+        when(reservationRepository.find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING)).thenReturn(reservationDomain);
 
-        List<ReservationResponseDTO> result = reservationService.temporaryReserve(reservationRequestDTO);
+        ReservationResponseDTO result = reservationService.temporaryReserve(reservationRequestDTO);
 
         assertNotNull(result);
         verify(reservationRepository).register(
@@ -73,13 +75,13 @@ class ReservationServiceUnitTest {
     @DisplayName("콘서트 예약 완료 후 상태 변경")
     void testReserve() {
         String reservationStatus = "RESERVED";
-        List<Integer> reservationIds = List.of(1, 2, 3);
+        Integer reservationId = 1;
         String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
-        doNothing().when(reservationRepository).update(reservationStatus, modifyDt, reservationIds);
+        doNothing().when(reservationRepository).update(reservationStatus, modifyDt, reservationId);
 
-        reservationService.reserve(reservationStatus, reservationIds);
+        reservationService.reserve(reservationId);
 
-        verify(reservationRepository).update(reservationStatus, modifyDt, reservationIds);
+        verify(reservationRepository).update(reservationStatus, modifyDt, reservationId);
     }
 }

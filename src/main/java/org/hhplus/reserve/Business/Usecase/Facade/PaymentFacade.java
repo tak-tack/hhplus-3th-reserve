@@ -12,17 +12,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentFacade {
     private final PaymentService paymentService;
+    // 유저 잔액 조회
     public List<PaymentResponseDTO> userPaymentSelect(Integer userId)
     {
-
-        // 유저 잔액 조회
-        return paymentService.userPaymentFind(userId); // 잔액조회
-    }
-
+        return paymentService.userPaymentFind(userId);
+    } // 잔액조회
+    // 유저 잔액 충전 후 조회
     public List<PaymentResponseDTO> userPaymentCharge(PaymentRequestDTO paymentRequestDTO)
     {
-        // 유저 잔액 충전 후 조회
-        return paymentService.userPaymentCharge(paymentRequestDTO); // 잔액 충전
-    }
+        return paymentService.userPaymentCharge(paymentRequestDTO);
+    } // 잔액 충전
+
 
 }

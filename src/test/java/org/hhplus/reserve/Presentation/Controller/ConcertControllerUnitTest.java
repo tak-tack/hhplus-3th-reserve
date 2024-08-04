@@ -50,7 +50,6 @@ public class ConcertControllerUnitTest {
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
                         .header("userId",userId.toString())
-                        .content(objectMapper.writeValueAsString(userId))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

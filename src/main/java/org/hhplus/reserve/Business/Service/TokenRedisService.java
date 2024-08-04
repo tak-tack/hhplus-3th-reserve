@@ -56,7 +56,6 @@ public class TokenRedisService {
     }
 
     //토큰 비활성화
-    @Transactional
     public void deactivateToken(String useId) {
         activeTokenRedisRepository.remove(useId);
     }
