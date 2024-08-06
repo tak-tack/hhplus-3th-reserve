@@ -2,7 +2,6 @@ package org.hhplus.reserve.Infrastructure.DB.Concert;
 
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,10 +18,9 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
     Optional<Integer> findConcertId();
 
     // 예약가능 콘서트 좌석/날짜 조회
-    //@Cacheable(value = "concertCache", key = "#concertId")
-    @Query("SELECT c FROM ConcertEntity c "+
+    @Query("SELECT c FROM ConcertEntity c " +
             "JOIN FETCH c.concertOptions co " +
-            "JOIN FETCH co.concertSeats cs "+
+            "JOIN FETCH co.concertSeats cs " +
             "WHERE c.concertId = :concertId")
     List<ConcertEntity> findConcertsWithSeats(@Param("concertId") Integer concertId);
 
@@ -36,7 +34,7 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
                            @Param("concertOptionId") Integer concertOptionId,
                            @Param("currentConcertSeatStatus") ConcertSeatStatus currentConcertSeatStatus);
 
-    // 결재API 를 위한 예약 좌석 seatId로 seatPrcie 조회
+    // 결재 API 를 위한 예약 좌석 seatId로 seatPrcie 조회
     @Query("SELECT cs.concertSeatPrice FROM ConcertSeatEntity cs" +
             " WHERE cs.concertSeatId = :concertSeatId AND cs.concertOption.concertOptionId =:concertOptionId AND cs.concertSeatStatus = :currentConcertSeatStatus")
     Optional<Integer> findPriceBySeatId(@Param("concertSeatId") Integer concertSeatId,

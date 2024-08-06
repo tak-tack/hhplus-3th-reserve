@@ -26,8 +26,9 @@ public class ConcertRepositoryImpl implements ConcertRepository {
 
     @Override
     public List<ConcertDomain> findAllConcertWithSeats(Integer concertId) {
-        log.info("ConcertRepository concertIds : "+concertId);
-        return concertJpaRepository.findConcertsWithSeats(concertId).stream().map(ConcertEntity::toDomain).collect(Collectors.toList());
+        log.info("ConcertRepository concertId : "+concertId);
+        return concertJpaRepository.findConcertsWithSeats(concertId).stream()
+                .map(ConcertEntity::toDomain).collect(Collectors.toList());
     }
 
     @Override

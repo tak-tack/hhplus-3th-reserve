@@ -1,6 +1,7 @@
 package org.hhplus.reserve.Infrastructure.DB.Process;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.StringRedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,12 +19,14 @@ public class ActiveTokenRedisRepositoryImpl implements ActiveTokenRedisRepositor
     public void register(String userId){
         // 저장과 유효기간 두 기능의 원자성을 위해 파이프라인 설정
         redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
-            // Set에 userId 추가
-            connection.sAdd(redisTemplate.getStringSerializer().serialize(ACTIVE_TOKENS_KEY),
-                    redisTemplate.getStringSerializer().serialize(userId));
+            // connection 을 StringRedisConnection 으로 변환하여 사용
+            StringRedisConnection stringRedisConn = (StringRedisConnection) connection;
+
+            // Set 에 userId 추가
+            stringRedisConn.sAdd(ACTIVE_TOKENS_KEY, userId);
 
             // 키에 유효기간 설정 (예: 10분)
-            connection.expire(redisTemplate.getStringSerializer().serialize(ACTIVE_TOKENS_KEY),60);
+            stringRedisConn.expire(ACTIVE_TOKENS_KEY, 600);
 
             return null; // 파이프라인에서는 반환값이 필요 없으므로 null 반환
         });

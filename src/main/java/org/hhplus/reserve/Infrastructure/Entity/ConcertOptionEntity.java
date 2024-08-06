@@ -1,5 +1,7 @@
 package org.hhplus.reserve.Infrastructure.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.*;
@@ -26,8 +28,10 @@ public class ConcertOptionEntity {
     private Integer concertOptionId;
     @ManyToOne
     @JoinColumn(name = "concert_id", nullable = false)
+    @JsonBackReference // 순환 참조 방지를 위해 직렬화에서 제외
     private ConcertEntity concert; // concert 테이블과 join 관계
     @OneToMany(mappedBy = "concertOption", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Set<ConcertSeatEntity> concertSeats; // concertseat 테이블과 join 관계
     @Column(name="concert_date")
     private String ConcertDate;
