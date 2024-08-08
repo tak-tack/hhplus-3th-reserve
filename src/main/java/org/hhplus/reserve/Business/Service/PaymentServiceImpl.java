@@ -2,8 +2,7 @@ package org.hhplus.reserve.Business.Service;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Domain.PaymentDomain;
-import org.hhplus.reserve.Business.Enum.ReservationStatus;
-import org.hhplus.reserve.Business.Repository.PaymentRepository;
+import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
 import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
@@ -19,12 +18,10 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     // 예약 좌석 결제
     @Override
-    @Transactional
-    public String reservationPayment(Integer userId, Integer seatPrice){
+    public void reservationPayment(Integer userId, Integer seatPrice){
         Integer userBalance = paymentRepository.findUserAmountByUserId(userId); // user의 잔액 조회
         if(userBalance >= seatPrice){
             paymentRepository.update(userBalance-seatPrice,userId);
-            return ReservationStatus.RESERVATION_FINISHED.name();
         }else{ // 잔액 부족
             throw new CustomException(ErrorCode.INSUFFICIENT_BALANCE);
         }

@@ -258,3 +258,8 @@ https://velog.io/@rlaabcd/%ED%95%AD%ED%95%B499-Redis
 
 
 </details>
+
+<details>
+<summary>선택한 시나리오에서의 Query 분석 및 DB Index 설계</summary>
+https://velog.io/@rlaabcd/%ED%95%AD%ED%95%B499-%EC%9D%B8%EB%8D%B1%EC%8B%B1-%EC%84%B1%EB%8A%A5-%ED%85%8C%EC%8A%A4%ED%8A%B8
+</details>

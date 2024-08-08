@@ -5,8 +5,9 @@ import org.hhplus.reserve.Business.Domain.ConcertDomain;
 import org.hhplus.reserve.Business.Domain.ConcertOptionDomain;
 import org.hhplus.reserve.Business.Domain.ConcertSeatDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
-import org.hhplus.reserve.Business.Repository.ConcertRepository;
+import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertRepository;
 import org.hhplus.reserve.Business.Service.ConcertServiceImpl;
+import org.hhplus.reserve.Presentation.DTO.Concert.ConcertRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -44,7 +45,12 @@ class ConcertServiceUnitTest {
     @Test
     @DisplayName("공연 목록 조회 성공")
     public void concertList(){
-        List<Integer> concertIds = List.of(1, 2, 3);
+        // 콘서트 데이터 저장 start
+        List<Integer> concertId = new ArrayList<>();
+        concertId.add(1);
+        concertId.add(2);
+        concertId.add(3);
+
         Set<ConcertSeatDomain> concertSeatDomain = new HashSet<>();
         concertSeatDomain.add(new ConcertSeatDomain(1,1,1000,ConcertSeatStatus.WAITING));
         Set<ConcertOptionDomain> concertOptions = new HashSet<>();
@@ -55,39 +61,51 @@ class ConcertServiceUnitTest {
 
         List<ConcertDomain> concertDomains = Collections.singletonList(concertDomain);
 
-        when(concertRepository.findByConcertid()).thenReturn(concertIds);
-        when(concertRepository.findAllConcertWithSeats(concertIds)).thenReturn(concertDomains);
+        when(concertRepository.findByConcertId()).thenReturn(concertId);
+        when(concertRepository.findAllConcertWithSeats(concertId)).thenReturn(concertDomains);
 
         List<ConcertResponseDTO> result = concertService.ConcertList();
 
         assertNotNull(result);
-        verify(concertRepository).findByConcertid();
-        verify(concertRepository).findAllConcertWithSeats(concertIds);
+        verify(concertRepository).findByConcertId();
+        verify(concertRepository).findAllConcertWithSeats(concertId);
     }
     @Test
     @DisplayName("공연 목록 조회 실패 - 미존재")
     void ConcertListEmpty() {
-
-        when(concertRepository.findByConcertid()).thenReturn(Collections.emptyList());
+        // 콘서트 데이터 저장 start
+        List<Integer> concertId = new ArrayList<>();
+        concertId.add(1);
+        concertId.add(2);
+        concertId.add(3);
+        when(concertRepository.findByConcertId()).thenReturn(concertId);
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
             concertService.ConcertList();
         });
 
         assertEquals("등록된 콘서트가 없습니다.", exception.getMessage());
-        verify(concertRepository).findByConcertid();
-        verify(concertRepository, never()).findAllConcertWithSeats(anyList());
+        verify(concertRepository).findByConcertId();
+        verify(concertRepository, never()).findAllConcertWithSeats(concertId);
     }
 
     @Test
+    @DisplayName("콘서트 좌석 가격 조회 - 성공")
     void ConcertSeatPrice() {
         Integer concertSeatId = 1;
         Integer concertOptionId = 1;
         Integer seatPrice = 100;
+        ConcertRequestDTO concertRequestDTO = new ConcertRequestDTO();
+        concertRequestDTO.setSeatId(concertSeatId);
+        concertRequestDTO.setConcertOptionId(concertOptionId);
 
-        when(concertRepository.findSeatPriceByConcertSeatId(concertSeatId,concertOptionId,ConcertSeatStatus.WAITING)).thenReturn(seatPrice);
+        when(concertRepository.findSeatPriceByConcertSeatId(
+                concertSeatId,
+                concertOptionId,
+                ConcertSeatStatus.WAITING
+        )).thenReturn(seatPrice);
 
-        Integer result = concertService.concertSeatPrice(concertSeatId,concertOptionId);
+        Integer result = concertService.concertSeatPrice(concertRequestDTO);
 
         assertNotNull(result);
         assertEquals(seatPrice, result);
@@ -96,15 +114,30 @@ class ConcertServiceUnitTest {
     }
 
     @Test
+    @DisplayName("예약된 콘서트 좌석 선점 -")
     void ConcertSeatUpdateToReserved() {
         Integer concertSeatId = 1;
         Integer concertOptionId = 1;
-        String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        ConcertRequestDTO concertRequestDTO = new ConcertRequestDTO();
+        concertRequestDTO.setSeatId(concertSeatId);
+        concertRequestDTO.setConcertOptionId(concertOptionId);
+        String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
 
-        doNothing().when(concertRepository).updateSeat(ConcertSeatStatus.RESERVED, modifyDt, concertSeatId,concertOptionId,ConcertSeatStatus.GETTING);
 
-        concertService.concertSeatUpdateToReserved(concertSeatId,concertOptionId);
+        doNothing().when(concertRepository).updateSeat(
+                ConcertSeatStatus.RESERVED,
+                modifyDt,
+                concertSeatId,
+                concertOptionId,
+                ConcertSeatStatus.GETTING);
 
-        verify(concertRepository).updateSeat(ConcertSeatStatus.RESERVED, modifyDt, concertSeatId,concertOptionId,ConcertSeatStatus.GETTING);
+        concertService.concertSeatUpdateToReserved(concertRequestDTO);
+
+        verify(concertRepository).updateSeat(
+                ConcertSeatStatus.RESERVED,
+                modifyDt,
+                concertSeatId,
+                concertOptionId,
+                ConcertSeatStatus.GETTING);
     }
 }

@@ -1,7 +1,6 @@
 package org.hhplus.reserve.Infrastructure.DB.Queue;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Repository.QueueRedisRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,7 +19,6 @@ public class QueueRedisRepositoryImpl implements QueueRedisRepository {
     public void register(String userId,Long score){
         log.info("Queue redis save UserId: "+ userId);
         redisTemplate.opsForZSet().add("Queue",userId,score);
-        //log.info("#Queue# |Test -> Controller -> Facade -> Service -> Repository(Redis)| SAVE SUCCESS");
     }
 
     @Override

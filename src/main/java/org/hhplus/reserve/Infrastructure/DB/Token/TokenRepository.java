@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Repository;
+package org.hhplus.reserve.Infrastructure.DB.Token;
 
 import org.hhplus.reserve.Business.Domain.TokenDomain;
 import java.util.Optional;

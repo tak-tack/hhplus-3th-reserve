@@ -14,7 +14,7 @@ class TokenRedisServiceTest {
     @Autowired
     private TokenRedisService tokenRedisService;
 
-    String userId = "100";
+    String userId = "10422";
 
     @Test
     @DisplayName("토큰 저장")

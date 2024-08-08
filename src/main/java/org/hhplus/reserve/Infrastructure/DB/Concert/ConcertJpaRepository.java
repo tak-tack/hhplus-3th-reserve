@@ -15,14 +15,14 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
 
     // 예약가능 콘서트 조회
     @Query("SELECT c.concertId  FROM ConcertEntity c")
-    Optional<List<Integer>> findByConcertid();
+    Optional<List<Integer>> findConcertId();
 
     // 예약가능 콘서트 좌석/날짜 조회
-    @Query("SELECT c FROM ConcertEntity c "+
+    @Query("SELECT c FROM ConcertEntity c " +
             "JOIN FETCH c.concertOptions co " +
-            "JOIN FETCH co.concertSeats cs "+
-            "WHERE c.concertId IN :concertIds")
-    List<ConcertEntity> findConcertsWithSeats(@Param("concertIds") List<Integer> concertIds);
+            "JOIN FETCH co.concertSeats cs " +
+            "WHERE c.concertId in (:concertId)")
+    List<ConcertEntity> findConcertsWithSeats(@Param("concertId") List<Integer> concertId);
 
     // 콘서트 예약 시 seat 상태 update
     @Modifying
@@ -34,7 +34,7 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
                            @Param("concertOptionId") Integer concertOptionId,
                            @Param("currentConcertSeatStatus") ConcertSeatStatus currentConcertSeatStatus);
 
-    // 결재API 를 위한 예약 좌석 seatId로 seatPrcie 조회
+    // 결재 API 를 위한 예약 좌석 seatId로 seatPrcie 조회
     @Query("SELECT cs.concertSeatPrice FROM ConcertSeatEntity cs" +
             " WHERE cs.concertSeatId = :concertSeatId AND cs.concertOption.concertOptionId =:concertOptionId AND cs.concertSeatStatus = :currentConcertSeatStatus")
     Optional<Integer> findPriceBySeatId(@Param("concertSeatId") Integer concertSeatId,

@@ -1,7 +1,6 @@
-package org.hhplus.reserve.Business.Repository;
+package org.hhplus.reserve.Infrastructure.DB.Payment;
 
 import org.hhplus.reserve.Business.Domain.PaymentDomain;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 
 import java.util.List;
 

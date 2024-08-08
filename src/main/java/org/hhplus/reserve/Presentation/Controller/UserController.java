@@ -28,6 +28,4 @@ public class UserController {
     public TokenResponseDTO authentication(@RequestBody TokenRequestDTO tokenRequestDTO){
         return userFacade.authenticationApplication(tokenRequestDTO);
     }
-
-
 }

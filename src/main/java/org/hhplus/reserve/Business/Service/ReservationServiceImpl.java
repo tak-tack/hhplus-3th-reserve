@@ -2,20 +2,15 @@ package org.hhplus.reserve.Business.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hhplus.reserve.Business.Domain.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
-import org.hhplus.reserve.Business.Repository.ReservationRepository;
+import org.hhplus.reserve.Infrastructure.DB.Reservation.ReservationRepository;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -25,7 +20,7 @@ public class ReservationServiceImpl implements ReservationService {
     // 콘서트 임시 예약
     @Override
     @Transactional
-    public List<ReservationResponseDTO> temporaryReserve(ReservationRequestDTO reservationRequestDTO){
+    public ReservationResponseDTO temporaryReserve(ReservationRequestDTO reservationRequestDTO){
         String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
             reservationRepository.register(reservationRequestDTO.getConcertOptionId(),
                     ReservationStatus.RSERVATION_WATING.name(),
@@ -33,14 +28,17 @@ public class ReservationServiceImpl implements ReservationService {
                     createDt,
                     reservationRequestDTO.getUserId()
                     );
-            return reservationRepository.find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING).stream().map(ReservationDomain::toDTO).toList();
+            return reservationRepository.find(
+                    reservationRequestDTO.getUserId(),
+                    ReservationStatus.RSERVATION_WATING).toDTO();
     }
     //콘서트 예약 완료. 상태변경
     @Override
     @Transactional
-    public void reserve(String reservationStatus, List<Integer> reservationIds){ // 반환타입 고민해보기
+    public void reserve(Integer reservationId){
+        log.info("reserveService - reservationIds"+reservationId.toString());
         String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
-        reservationRepository.update(reservationStatus,modifyDt,reservationIds);
+        reservationRepository.update(ReservationStatus.RESERVATION_FINISHED.toString(),modifyDt,reservationId);
     }
 
 }

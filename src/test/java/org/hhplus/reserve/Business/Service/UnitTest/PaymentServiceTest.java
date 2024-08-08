@@ -2,7 +2,7 @@ package org.hhplus.reserve.Business.Service.UnitTest;
 
 import org.hhplus.reserve.Business.Domain.PaymentDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
-import org.hhplus.reserve.Business.Repository.PaymentRepository;
+import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
 import org.hhplus.reserve.Business.Service.PaymentServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
@@ -43,10 +43,9 @@ class PaymentServiceTest {
 
         when(paymentRepository.findUserAmountByUserId(userId)).thenReturn(userBalance);
 
-        String result = paymentService.reservationPayment(userId, seatPrice);
+        paymentService.reservationPayment(userId, seatPrice);
 
         verify(paymentRepository).update(userBalance - seatPrice, userId);
-        assertEquals(ReservationStatus.RESERVATION_FINISHED.name(), result);
     }
 
     @Test
@@ -58,11 +57,10 @@ class PaymentServiceTest {
 
         when(paymentRepository.findUserAmountByUserId(userId)).thenReturn(userBalance);
 
-        String result = paymentService.reservationPayment(userId, seatPrice);
+        paymentService.reservationPayment(userId, seatPrice);
 
         verify(paymentRepository).update(userBalance - seatPrice, userId);
-        assertEquals(ReservationStatus.RESERVATION_FINISHED.name(), result);
-    }
+     }
 
     @Test
     @DisplayName("유저 잔액 조회 - 성공")

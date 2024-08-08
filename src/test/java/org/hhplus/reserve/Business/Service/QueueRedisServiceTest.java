@@ -1,6 +1,6 @@
 package org.hhplus.reserve.Business.Service;
 
-import org.hhplus.reserve.Business.Repository.QueueRedisRepository;
+import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRedisRepository;
 import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +15,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class QueueRedisServiceTest {
    private static final Logger log = LoggerFactory.getLogger(QueueRedisServiceTest.class);

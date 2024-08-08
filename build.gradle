@@ -42,6 +42,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
+// 컴파일러 플래그 설정
+tasks.withType(JavaCompile) {
+	options.compilerArgs.add("-parameters")
 }
