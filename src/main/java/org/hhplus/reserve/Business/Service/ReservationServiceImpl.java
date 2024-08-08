@@ -19,6 +19,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     // 콘서트 임시 예약
     @Override
+    @Transactional
     public ReservationResponseDTO temporaryReserve(ReservationRequestDTO reservationRequestDTO){
         String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));
             reservationRepository.register(reservationRequestDTO.getConcertOptionId(),
@@ -33,6 +34,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
     //콘서트 예약 완료. 상태변경
     @Override
+    @Transactional
     public void reserve(Integer reservationId){
         log.info("reserveService - reservationIds"+reservationId.toString());
         String modifyDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss:SSS"));

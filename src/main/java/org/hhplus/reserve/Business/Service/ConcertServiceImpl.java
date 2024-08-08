@@ -7,6 +7,8 @@ import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,18 +20,21 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ConcertServiceImpl implements ConcertService {
+    private static final Logger log = LoggerFactory.getLogger(ConcertServiceImpl.class);
     private final ConcertRepository concertRepository;
 
     // 콘서트 조회
     @Override
     @Transactional
     public List<ConcertResponseDTO> ConcertList(){
-        Integer concertId = concertRepository.findByConcertId();
-        if(concertId == null)
+        log.info("Concert Service start");
+        List<Integer> concertIds = concertRepository.findByConcertId();
+        log.info("Concert Service concertIds"+concertIds.toString());
+        if(concertIds.isEmpty())
         {
             throw new CustomException(ErrorCode.CONCERT_NOT_FOUND);
             }
-            return concertRepository.findAllConcertWithSeats(concertId)
+            return concertRepository.findAllConcertWithSeats(concertIds)
                     .stream().flatMap(concertDomain ->
                             concertDomain.toDTO().stream()).collect(Collectors.toList());
     }
@@ -50,6 +55,8 @@ public class ConcertServiceImpl implements ConcertService {
     // 결재 API 를 위한 콘서트 좌석 가격 조회
     @Override
     public Integer concertSeatPrice(ConcertRequestDTO concertRequestDTO){
+        log.info("consertservice concertOptionId : "+concertRequestDTO.getConcertOptionId());
+        log.info("consertservice seatid : "+concertRequestDTO.getSeatId());
         return concertRepository.findSeatPriceByConcertSeatId(
                 concertRequestDTO.getSeatId(),
                 concertRequestDTO.getConcertOptionId(),

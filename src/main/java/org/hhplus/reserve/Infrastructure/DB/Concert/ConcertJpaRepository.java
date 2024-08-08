@@ -15,14 +15,14 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
 
     // 예약가능 콘서트 조회
     @Query("SELECT c.concertId  FROM ConcertEntity c")
-    Optional<Integer> findConcertId();
+    Optional<List<Integer>> findConcertId();
 
     // 예약가능 콘서트 좌석/날짜 조회
     @Query("SELECT c FROM ConcertEntity c " +
             "JOIN FETCH c.concertOptions co " +
             "JOIN FETCH co.concertSeats cs " +
-            "WHERE c.concertId = :concertId")
-    List<ConcertEntity> findConcertsWithSeats(@Param("concertId") Integer concertId);
+            "WHERE c.concertId in (:concertId)")
+    List<ConcertEntity> findConcertsWithSeats(@Param("concertId") List<Integer> concertId);
 
     // 콘서트 예약 시 seat 상태 update
     @Modifying

@@ -5,6 +5,8 @@ import org.hhplus.reserve.Business.Usecase.Facade.ConcertFacade;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,12 +15,14 @@ import java.util.List;
 @RequestMapping("/concert")
 @RequiredArgsConstructor
 public class ConcertController {
+    private static final Logger log = LoggerFactory.getLogger(ConcertController.class);
     private final ConcertFacade concertFacade;
     /*
     예약 가능 날짜 / 좌석 API**
     */
     @PostMapping("/availabilityConcertList")
     public List<ConcertResponseDTO> ReservationAvailable(){
+        log.info("ReservationAvailable Contoroller");
         return concertFacade.reservationAvailable();
     }
 
@@ -29,6 +33,8 @@ public class ConcertController {
     public ReservationResponseDTO ReservationApplication(
             @RequestBody ReservationRequestDTO reservationRequestDTO
     ){
+        log.info("DTO ConcertOptionId : "+reservationRequestDTO.getConcertOptionId());
+        log.info("DTO SeatId : "+reservationRequestDTO.getSeatId());
         return concertFacade.reservationConcert(reservationRequestDTO);
     }
 

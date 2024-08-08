@@ -30,7 +30,7 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationEntit
     @Query(value = "UPDATE dba.reservation r SET r.reservation_status = :reservationStatus, r.modify_dt = :modifyDt WHERE r.reservation_id  = :reservationId", nativeQuery = true)
     void update(@Param("reservationStatus") String reservationStatus,@Param("modifyDt") String modifyDt,@Param("reservationId") Integer reservationId);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    //@Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT r FROM ReservationEntity r WHERE r.userId = :userId AND r.reservationStatus = :reservationStatus")
     Optional<ReservationEntity> findByUserId(@Param("userId") Integer userId,@Param("reservationStatus")ReservationStatus reservationStatus);
 }

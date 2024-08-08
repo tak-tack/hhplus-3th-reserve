@@ -30,17 +30,15 @@ public class TokenRedisService {
 
     // 토큰 발급 검증
     public boolean checkToken(String userId) {
-        return tokenRepository.exist(Integer.parseInt(userId)).isPresent();
+              return tokenRepository.exist(Integer.parseInt(userId)).isPresent();
+
     }
 
     // 토큰 활성화
     @Transactional
     public void activeToken(String userId) {
-        if (tokenRepository.exist(Integer.parseInt(userId)).isPresent()) { // 데이터 유무 확인
             activeTokenRedisRepository.register(userId);
-        } else {
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
-        }
+
     }
 
     //토큰 활성화 수
