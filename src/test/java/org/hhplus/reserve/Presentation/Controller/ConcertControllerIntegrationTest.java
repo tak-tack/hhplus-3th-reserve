@@ -11,6 +11,7 @@ import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertSeatJpaRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertOptionEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
+import org.hhplus.reserve.Infrastructure.Entity.PaymentEntity;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.HashSet;
 import java.util.concurrent.ScheduledFuture;
+import java.util.stream.LongStream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -48,6 +50,8 @@ class ConcertControllerIntegrationTest {
     private WebApplicationContext context;
     @Autowired
     private TokenRepository tokenRepository;
+    @Autowired
+    private TokenService tokenService;
     @Autowired
     private ConcertJpaRepository concertJpaRepository;
     @Autowired
@@ -125,11 +129,16 @@ class ConcertControllerIntegrationTest {
 //        concertJpaRepository.save(concert1);
 
 //
-//          for (int i = 1; i < 9999; i++) {
+//          for (int i = 10000; i < 99999999; i++) {
 //                tokenService.applyAuth(i);
 //              }
+//        for (int i = 5812; i < 99999999; i++) {
+//            paymentRepository.register(i,100000);
+//        }
 
     }
+
+
 
     @AfterEach
     public void tearDown() {
@@ -145,6 +154,37 @@ class ConcertControllerIntegrationTest {
     void setTest(){
 
     }
+//    @Test
+//    public void 결재_대용량삽입용_CSV생성() {
+//        //LocalDateTime startAt = LocalDateTime.of(2024, 12, 24, 14, 0);
+//        //LocalDateTime endAt = startAt.plusHours(3);
+//
+//        List<PaymentEntity> payments = LongStream.rangeClosed(1L, 4000000L)
+//                .mapToObj(number -> new PaymentEntity(100000,i,i))
+//                .toList();
+//
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter("payment.csv"))) {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//
+//            // CSV 헤더 작성
+//            writer.write("concertId,price,purchaseLimit,seatQuantity,startAt,endAt");
+//            writer.newLine();
+//
+//            for (ConcertOption option : payments) {
+//                writer.write(
+//                        option.getConcertId() + "," +
+//                                option.getPrice() + "," +
+//                                option.getPurchaseLimit() + "," +
+//                                option.getSeatQuantity() + "," +
+//                                option.getStartAt().format(formatter) + "," +
+//                                option.getEndAt().format(formatter));
+//                writer.newLine();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 
     @Test
     @DisplayName("예약 가능 조회 API - 성공")
@@ -175,10 +215,10 @@ class ConcertControllerIntegrationTest {
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
         Integer userId = 59;
-        tokenRepository.save(userId); // 유저 토큰 생성
-        paymentRepository.register(userId,100000); // 유저 결재포인트 생성
+        //tokenRepository.save(userId); // 유저 토큰 생성
+        //paymentRepository.register(userId,100000); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO =
-                new ReservationRequestDTO(userId,"2024-07-16",1,1);
+                new ReservationRequestDTO(userId,"2024-07-16",1,59);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))

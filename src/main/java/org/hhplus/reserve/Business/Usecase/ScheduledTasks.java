@@ -14,9 +14,9 @@ public class ScheduledTasks {
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
     private final QueueRedisService queueRedisService;
 
-     @Scheduled(fixedRate = 500)
+     @Scheduled(fixedRate = 100)
     public void passQueue(){
-          log.info("passQueue");
+         // log.info("passQueue");
         queueRedisService.passQueue();
     }
 }

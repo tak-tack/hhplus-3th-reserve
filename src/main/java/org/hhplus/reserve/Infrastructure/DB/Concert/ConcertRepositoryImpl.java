@@ -20,14 +20,14 @@ public class ConcertRepositoryImpl implements ConcertRepository {
     private final ConcertJpaRepository concertJpaRepository;
 
     @Override
-    public Integer findByConcertId() {
+    public List<Integer> findByConcertId() {
         return concertJpaRepository.findConcertId().orElseThrow(() -> new CustomException(ErrorCode.CONCERT_NOT_FOUND));
     }
 
     @Override
-    public List<ConcertDomain> findAllConcertWithSeats(Integer concertId) {
-        log.info("ConcertRepository concertId : "+concertId);
-        return concertJpaRepository.findConcertsWithSeats(concertId).stream()
+    public List<ConcertDomain> findAllConcertWithSeats(List<Integer> concertIds) {
+        log.info("ConcertRepository concertId : "+concertIds.toString());
+        return concertJpaRepository.findConcertsWithSeats(concertIds).stream()
                 .map(ConcertEntity::toDomain).collect(Collectors.toList());
     }
 

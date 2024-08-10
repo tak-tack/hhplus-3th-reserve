@@ -46,7 +46,11 @@ class ConcertServiceUnitTest {
     @DisplayName("공연 목록 조회 성공")
     public void concertList(){
         // 콘서트 데이터 저장 start
-        Integer concertId = 1;
+        List<Integer> concertId = new ArrayList<>();
+        concertId.add(1);
+        concertId.add(2);
+        concertId.add(3);
+
         Set<ConcertSeatDomain> concertSeatDomain = new HashSet<>();
         concertSeatDomain.add(new ConcertSeatDomain(1,1,1000,ConcertSeatStatus.WAITING));
         Set<ConcertOptionDomain> concertOptions = new HashSet<>();
@@ -69,7 +73,11 @@ class ConcertServiceUnitTest {
     @Test
     @DisplayName("공연 목록 조회 실패 - 미존재")
     void ConcertListEmpty() {
-        Integer concertId = 1;
+        // 콘서트 데이터 저장 start
+        List<Integer> concertId = new ArrayList<>();
+        concertId.add(1);
+        concertId.add(2);
+        concertId.add(3);
         when(concertRepository.findByConcertId()).thenReturn(concertId);
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
