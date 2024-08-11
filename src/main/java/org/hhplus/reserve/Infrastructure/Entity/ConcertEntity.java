@@ -1,12 +1,10 @@
 package org.hhplus.reserve.Infrastructure.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.*;
 import org.hhplus.reserve.Business.Domain.ConcertDomain;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Set;
