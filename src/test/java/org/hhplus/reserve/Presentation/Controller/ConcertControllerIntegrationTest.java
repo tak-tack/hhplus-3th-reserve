@@ -2,20 +2,16 @@ package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
-import org.hhplus.reserve.Business.Enum.QueueStatus;
-import org.hhplus.reserve.Business.Repository.PaymentRepository;
-import org.hhplus.reserve.Business.Repository.QueueRepository;
-import org.hhplus.reserve.Business.Repository.TokenRepository;
-import org.hhplus.reserve.Business.Service.QueueRedisService;
-import org.hhplus.reserve.Business.Service.QueueServiceImpl;
+import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
+import org.hhplus.reserve.Infrastructure.DB.Token.TokenRepository;
 import org.hhplus.reserve.Business.Service.TokenService;
-import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertOptionJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertSeatJpaRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertOptionEntity;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
+import org.hhplus.reserve.Infrastructure.Entity.PaymentEntity;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -34,13 +29,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.concurrent.ScheduledFuture;
+import java.util.stream.LongStream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,7 +51,7 @@ class ConcertControllerIntegrationTest {
     @Autowired
     private TokenRepository tokenRepository;
     @Autowired
-    private QueueRepository queueRepository;
+    private TokenService tokenService;
     @Autowired
     private ConcertJpaRepository concertJpaRepository;
     @Autowired
@@ -66,113 +59,86 @@ class ConcertControllerIntegrationTest {
     @Autowired
     private ConcertSeatJpaRepository concertSeatJpaRepository;
     @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
     private PaymentRepository paymentRepository;
-    @Autowired
-    private TokenService tokenService;
-    @Autowired
-    private ScheduledTasks scheduledTasks;
-    @Autowired
-    private QueueRedisService queueRedisService;
 
-    @Autowired
-    private ThreadPoolTaskScheduler taskScheduler;
     private ScheduledFuture<?> scheduledFuture;
-    @Autowired
-    private QueueServiceImpl queueServiceImpl;
 
     @BeforeEach
-    void setUp() throws InterruptedException {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .addFilters(new CharacterEncodingFilter("UTF-8", true))
-                .build();
+    void setUp() {
+//        mockMvc = MockMvcBuilders.webAppContextSetup(context)
+//                .addFilters(new CharacterEncodingFilter("UTF-8", true))
+//                .build();
+//
+//        ConcertEntity concert1 = ConcertEntity.builder()
+//                .concertName("대환장 카녜왜스트 내한 공연")
+//                .concertOptions(new HashSet<>())
+//                .build();
+//
+//        ConcertOptionEntity option1 = ConcertOptionEntity.builder()
+//                .concert(concert1)
+//                .ConcertDate("2024-07-16")
+//                .concertSeats(new HashSet<>())
+//                .build();
+//
+//        ConcertOptionEntity option2 = ConcertOptionEntity.builder()
+//                .concert(concert1)
+//                .ConcertDate("2024-07-17")
+//                .concertSeats(new HashSet<>())
+//                .build();
+//
+//        concertJpaRepository.save(concert1); // 먼저 concert1을 저장하여 ID를 생성
+//        // option1을 저장하여 ID를 생성
+//        concertOptionJpaRepository.save(option1);
+//
+//
+//        ConcertSeatEntity seat1 = ConcertSeatEntity.builder()
+//                .concertOption(option1)
+//                .concertSeatNum(1)
+//                .concertSeatPrice(10000)
+//                .concertSeatStatus(ConcertSeatStatus.WAITING)
+//                .build();
+//
+//        ConcertSeatEntity seat2 = ConcertSeatEntity.builder()
+//                .concertOption(option1)
+//                .concertSeatNum(2)
+//                .concertSeatPrice(20000)
+//                .concertSeatStatus(ConcertSeatStatus.WAITING)
+//                .build();
+//        concertSeatJpaRepository.save(seat1); // seat1을 먼저 저장하여 ID를 생성
+//        concertSeatJpaRepository.save(seat2); // 그 다음 seat2를 저장하여 ID를 생성
+//
+//        // option2를 저장하여 ID를 생성
+//        concertOptionJpaRepository.save(option2);
+//
+//        ConcertSeatEntity seat3 = ConcertSeatEntity.builder()
+//                .concertOption(option2)
+//                .concertSeatNum(3)
+//                .concertSeatPrice(40000000)
+//                .concertSeatStatus(ConcertSeatStatus.WAITING)
+//                .build();
+//        concertSeatJpaRepository.save(seat3); // 마지막으로 seat3를 저장하여 ID를 생성
+//
+//        // 추가된 모든 옵션과 좌석을 concert1에 추가
+//        concert1.getConcertOptions().add(option1);
+//        concert1.getConcertOptions().add(option2);
+//
+//        option1.getConcertSeats().add(seat1);
+//        option1.getConcertSeats().add(seat2);
+//        option2.getConcertSeats().add(seat3);
+//
+//        concertJpaRepository.save(concert1);
 
-        ConcertEntity concert1 = ConcertEntity.builder()
-                .concertName("대환장 카녜왜스트 내한 공연")
-                .concertOptions(new HashSet<>())
-                .build();
-
-        ConcertOptionEntity option1 = ConcertOptionEntity.builder()
-                .concert(concert1)
-                .ConcertDate("2024-07-16")
-                .concertSeats(new HashSet<>())
-                .build();
-
-        ConcertOptionEntity option2 = ConcertOptionEntity.builder()
-                .concert(concert1)
-                .ConcertDate("2024-07-17")
-                .concertSeats(new HashSet<>())
-                .build();
-
-        concertJpaRepository.save(concert1); // 먼저 concert1을 저장하여 ID를 생성
-        // option1을 저장하여 ID를 생성
-        concertOptionJpaRepository.save(option1);
-
-
-        ConcertSeatEntity seat1 = ConcertSeatEntity.builder()
-                .concertOption(option1)
-                .concertSeatNum(1)
-                .concertSeatPrice(10000)
-                .concertSeatStatus(ConcertSeatStatus.WAITING)
-                .build();
-
-        ConcertSeatEntity seat2 = ConcertSeatEntity.builder()
-                .concertOption(option1)
-                .concertSeatNum(2)
-                .concertSeatPrice(20000)
-                .concertSeatStatus(ConcertSeatStatus.WAITING)
-                .build();
-        concertSeatJpaRepository.save(seat1); // seat1을 먼저 저장하여 ID를 생성
-        concertSeatJpaRepository.save(seat2); // 그 다음 seat2를 저장하여 ID를 생성
-
-        // option2를 저장하여 ID를 생성
-        concertOptionJpaRepository.save(option2);
-
-        ConcertSeatEntity seat3 = ConcertSeatEntity.builder()
-                .concertOption(option2)
-                .concertSeatNum(3)
-                .concertSeatPrice(40000000)
-                .concertSeatStatus(ConcertSeatStatus.WAITING)
-                .build();
-        concertSeatJpaRepository.save(seat3); // 마지막으로 seat3를 저장하여 ID를 생성
-
-        // 추가된 모든 옵션과 좌석을 concert1에 추가
-        concert1.getConcertOptions().add(option1);
-        concert1.getConcertOptions().add(option2);
-
-        option1.getConcertSeats().add(seat1);
-        option1.getConcertSeats().add(seat2);
-        option2.getConcertSeats().add(seat3);
-
-        concertJpaRepository.save(concert1);
-
-                    for (int i = 5702; i < 10000; i++) {
-                // 토큰 저장
-                tokenService.applyAuth(i);
-            }
-
-//        Thread thread1 = new Thread(() -> {
-//            for (int i = 1; i < 50; i++) {
-//                // 토큰 저장
+//
+//          for (int i = 10000; i < 99999999; i++) {
 //                tokenService.applyAuth(i);
-//            }
-//        });
-//
-//        Thread thread2 = new Thread(() -> {
-//            for (int i = 1; i <50; i++) {
-//                // 대기열 유저 저장
-//                queueRedisService.saveQueue(i);
-//            }
-//        });
-//        // 쓰레드 시작
-//        thread1.start();
-//        thread2.start();
-//
-//        // 두 쓰레드가 끝날 때까지 기다림
-//        thread1.join();
-//        thread2.join();
+//              }
+//        for (int i = 5812; i < 99999999; i++) {
+//            paymentRepository.register(i,100000);
+//        }
+
     }
+
+
 
     @AfterEach
     public void tearDown() {
@@ -185,37 +151,52 @@ class ConcertControllerIntegrationTest {
 
     @Test
     @DisplayName("셋팅")
-    void settest(){
+    void setTest(){
 
     }
+//    @Test
+//    public void 결재_대용량삽입용_CSV생성() {
+//        //LocalDateTime startAt = LocalDateTime.of(2024, 12, 24, 14, 0);
+//        //LocalDateTime endAt = startAt.plusHours(3);
+//
+//        List<PaymentEntity> payments = LongStream.rangeClosed(1L, 4000000L)
+//                .mapToObj(number -> new PaymentEntity(100000,i,i))
+//                .toList();
+//
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter("payment.csv"))) {
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//
+//            // CSV 헤더 작성
+//            writer.write("concertId,price,purchaseLimit,seatQuantity,startAt,endAt");
+//            writer.newLine();
+//
+//            for (ConcertOption option : payments) {
+//                writer.write(
+//                        option.getConcertId() + "," +
+//                                option.getPrice() + "," +
+//                                option.getPurchaseLimit() + "," +
+//                                option.getSeatQuantity() + "," +
+//                                option.getStartAt().format(formatter) + "," +
+//                                option.getEndAt().format(formatter));
+//                writer.newLine();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 
     @Test
     @DisplayName("예약 가능 조회 API - 성공")
     void ReservationAvailableSUCESS() throws Exception{
-        Integer userId = 1005;
-        tokenRepository.save(userId); // 유저 토큰 생성
+        Integer userId = 1006;
+        //tokenRepository.save(userId); // 유저 토큰 생성
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
                         .header("userId",userId.toString())
-                        .content(objectMapper.writeValueAsString(userId))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
         ;
-    }
-
-    @Test
-    @DisplayName("예약 가능 조회 API 50명- 성공")
-    void ReservationAvailableUsersSUCESS() throws Exception{
-        for(int userId = 1001; userId <1050; userId++)
-        {
-        tokenRepository.save(userId); // 유저 토큰 생성
-        mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
-                        .header("userId",userId)
-                        .content(objectMapper.writeValueAsString(userId))
-                        .contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print());
-        }
     }
 
     @Test
@@ -225,7 +206,6 @@ class ConcertControllerIntegrationTest {
         tokenRepository.save(2);
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
                         .header("userId",userId.toString())
-                        .content(objectMapper.writeValueAsString(1))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -234,11 +214,11 @@ class ConcertControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
-        Integer userId = 10007;
-        tokenRepository.save(userId); // 유저 토큰 생성
-        paymentRepository.register(userId,100000); // 유저 결재포인트 생성
+        Integer userId = 59;
+        //tokenRepository.save(userId); // 유저 토큰 생성
+        //paymentRepository.register(userId,100000); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO =
-                new ReservationRequestDTO(userId,"2024-07-16",1,1);
+                new ReservationRequestDTO(userId,"2024-07-16",1,59);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))
@@ -251,10 +231,10 @@ class ConcertControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 실패 - CASE : 중복된 유저")
     void ReservationFAIL1() throws Exception{
-        Integer userId = 1;
-        tokenRepository.save(userId); // 유저 토큰 생성
-        paymentRepository.register(1,100); // 유저 결재포인트 생성
-        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(1,"2024-07-16",1,1);
+        Integer userId = 59;
+        //okenRepository.save(userId); // 유저 토큰 생성
+        paymentRepository.register(userId,100); // 유저 결재포인트 생성
+        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(userId,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))

@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Business.Service.IntegrationTest;
 
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
-import org.hhplus.reserve.Business.Repository.PaymentRepository;
+import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
 import org.hhplus.reserve.Business.Service.PaymentServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
@@ -34,11 +34,7 @@ class PaymentServiceIntegrationTest {
 
         // 테스트 데이터를 DB에 저장
         paymentRepository.register(userId, userBalance);
-
-        String result = paymentService.reservationPayment(userId, seatPrice);
-
-        assertNotNull(result);
-        assertEquals(ReservationStatus.RESERVATION_FINISHED.name(), result);
+        paymentService.reservationPayment(userId, seatPrice);
         assertEquals(userBalance - seatPrice, paymentRepository.findUserAmountByUserId(userId));
     }
 

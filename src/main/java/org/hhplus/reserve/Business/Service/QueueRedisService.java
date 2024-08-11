@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Business.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Repository.QueueRedisRepository;
+import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRedisRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class QueueRedisService {
     private static final Logger log = LoggerFactory.getLogger(QueueRedisService.class);
     private final QueueRedisRepository queueRedisRepository;
 
-    long queueSize = 50;
+    long queueSize = 10;
     long min = 0;
     long max = min + queueSize - 1;
 
@@ -27,14 +27,14 @@ public class QueueRedisService {
         queueRedisRepository.register(userId.toString(),score);
     }
 
-    // 대기열 통과
+    // 대기열
     public void passQueue(){
-        Set<String> userIds = queueRedisRepository.getRange(min,max);
-        for(String userId : userIds) {
-        log.info("pass userId : "+userId);
-        }
+//        Set<String> userIds = queueRedisRepository.getRange(min,max);
+//        for(String userId : userIds) {
+//        log.info("pass userId : "+userId);
+//        }
         Long removeCount = queueRedisRepository.removeRange(min,max);
-        log.info("==================== removeCount ====================  : "+ removeCount);
+        //log.info("==================== removeCount ====================  : "+ removeCount);
     }
 
     // 상위 50 대기열 정보 호출

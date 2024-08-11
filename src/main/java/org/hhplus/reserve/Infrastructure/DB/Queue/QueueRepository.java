@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Repository;
+package org.hhplus.reserve.Infrastructure.DB.Queue;
 import org.hhplus.reserve.Business.Domain.QueueDomain;
 import org.hhplus.reserve.Business.Enum.QueueStatus;
 

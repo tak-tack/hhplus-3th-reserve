@@ -1,6 +1,4 @@
 package org.hhplus.reserve.Presentation.DTO.Token;
-
-
 import lombok.*;
 
 import java.util.UUID;

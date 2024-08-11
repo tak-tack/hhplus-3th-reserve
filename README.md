@@ -256,4 +256,15 @@ sequenceDiagram
 <summary>Query 분석 및 캐싱 전략 설계</summary>
 https://velog.io/@rlaabcd/%ED%95%AD%ED%95%B499-Redis
 
+
+</details>
+
+<details>
+<summary>선택한 시나리오에서의 Query 분석 및 DB Index 설계</summary>
+https://velog.io/@rlaabcd/%ED%95%AD%ED%95%B499-%EC%9D%B8%EB%8D%B1%EC%8B%B1-%EC%84%B1%EB%8A%A5-%ED%85%8C%EC%8A%A4%ED%8A%B8
+</details>
+
+<details>
+<summary>트랜잭션 범위 분석 및 이벤트 아키텍처, MSA </summary>
+https://velog.io/@rlaabcd/%ED%95%AD%ED%95%B499-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EB%B2%94%EC%9C%84-%EB%B6%84%EC%84%9D-%EB%B0%8F-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-MSA-STEP-15
 </details>

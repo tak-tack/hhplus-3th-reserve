@@ -2,6 +2,8 @@ package org.hhplus.reserve.Presentation.DTO.Reservation;
 
 import lombok.*;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
+import org.hhplus.reserve.Presentation.DTO.Concert.ConcertRequestDTO;
+import org.springframework.beans.BeanUtils;
 
 @Getter
 @Setter
@@ -15,4 +17,12 @@ public class ReservationResponseDTO {
     private Integer concertOptionId;
     private Integer seatId;
     private ReservationStatus reservationStatus;
+
+         //reservationResponseDTO > ConcertRequestDTO
+            public ConcertRequestDTO converting()
+            {
+                ConcertRequestDTO concertRequestDTO = new ConcertRequestDTO();
+                BeanUtils.copyProperties(this,concertRequestDTO);
+                return concertRequestDTO;
+            }
 }

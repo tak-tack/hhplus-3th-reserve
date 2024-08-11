@@ -1,7 +1,6 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hhplus.reserve.Business.Repository.TokenRepository;
 import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Business.Usecase.Facade.UserFacade;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
@@ -10,12 +9,9 @@ import org.hhplus.reserve.interceptor.AuthInterceptor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
