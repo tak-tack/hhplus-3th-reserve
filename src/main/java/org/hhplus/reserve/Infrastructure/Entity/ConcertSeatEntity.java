@@ -29,9 +29,9 @@ public class ConcertSeatEntity {
     @Enumerated(EnumType.STRING)
     private ConcertSeatStatus concertSeatStatus;
     @ManyToOne
-    @JoinColumn(name = "concert_option_id", nullable = false)
-    @JsonBackReference // 순환 참조 방지를 위해 직렬화에서 제외
+    @JoinColumn(name = "concert_option_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private ConcertOptionEntity concertOption;
+  //  private Integer concertOptionId;
     @CreatedDate
     private String create_dt;
     @Nullable

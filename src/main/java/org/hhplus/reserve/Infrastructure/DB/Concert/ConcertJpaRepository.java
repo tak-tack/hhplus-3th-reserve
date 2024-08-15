@@ -18,16 +18,20 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
     Optional<List<Integer>> findConcertId();
 
     // 예약가능 콘서트 좌석/날짜 조회
+//    @Query("SELECT c,co,cs FROM ConcertEntity c " +
+//            "JOIN FETCH ConcertOptionEntity co ON co.concertId = c.concertId " +
+//            "JOIN FETCH ConcertSeatEntity cs ON cs.concertOptionId = co.concertOptionId " +
+//            "WHERE c.concertId in (:concertId)")
     @Query("SELECT c FROM ConcertEntity c " +
             "JOIN FETCH c.concertOptions co " +
             "JOIN FETCH co.concertSeats cs " +
-            "WHERE c.concertId in (:concertId)")
+            "WHERE c.concertId IN :concertId")
     List<ConcertEntity> findConcertsWithSeats(@Param("concertId") List<Integer> concertId);
 
     // 콘서트 예약 시 seat 상태 update
     @Modifying
-    @Query("UPDATE ConcertSeatEntity SET  concertSeatStatus = :concertSeatStatus, modifyDt =:modifyDt" +
-            " WHERE concertSeatId =:concertSeatId AND concertOption.concertOptionId =:concertOptionId AND concertSeatStatus = :currentConcertSeatStatus")
+    @Query("UPDATE ConcertSeatEntity cs SET cs.concertSeatStatus = :concertSeatStatus, cs.modifyDt = :modifyDt" +
+            " WHERE cs.concertSeatId = :concertSeatId AND cs.concertOption.concertOptionId = :concertOptionId AND cs.concertSeatStatus = :currentConcertSeatStatus")
     void updateConcertSeat(@Param("concertSeatStatus")ConcertSeatStatus concertSeatStatus,
                            @Param("modifyDt") String modifyDt,
                            @Param("concertSeatId")Integer concertSeatId,
@@ -36,7 +40,7 @@ public interface ConcertJpaRepository extends JpaRepository<ConcertEntity, Integ
 
     // 결재 API 를 위한 예약 좌석 seatId로 seatPrcie 조회
     @Query("SELECT cs.concertSeatPrice FROM ConcertSeatEntity cs" +
-            " WHERE cs.concertSeatId = :concertSeatId AND cs.concertOption.concertOptionId =:concertOptionId AND cs.concertSeatStatus = :currentConcertSeatStatus")
+            " WHERE cs.concertSeatId = :concertSeatId AND cs.concertOption.concertOptionId = :concertOptionId AND cs.concertSeatStatus = :currentConcertSeatStatus")
     Optional<Integer> findPriceBySeatId(@Param("concertSeatId") Integer concertSeatId,
                                         @Param("concertOptionId") Integer concertOptionId,
                                         @Param("currentConcertSeatStatus") ConcertSeatStatus currentConcertSeatStatus);

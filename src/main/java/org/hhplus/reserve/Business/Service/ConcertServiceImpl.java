@@ -29,7 +29,7 @@ public class ConcertServiceImpl implements ConcertService {
     public List<ConcertResponseDTO> ConcertList(){
         log.info("Concert Service start");
         List<Integer> concertIds = concertRepository.findByConcertId();
-        log.info("Concert Service concertIds"+concertIds.toString());
+        log.info("Concert Service concertId : "+concertIds.toString());
         if(concertIds.isEmpty())
         {
             throw new CustomException(ErrorCode.CONCERT_NOT_FOUND);

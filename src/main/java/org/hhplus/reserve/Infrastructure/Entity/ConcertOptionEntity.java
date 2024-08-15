@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
+import jakarta.validation.Constraint;
 import lombok.*;
 import org.hhplus.reserve.Business.Domain.ConcertOptionDomain;
 import org.springframework.beans.BeanUtils;
@@ -26,13 +27,14 @@ public class ConcertOptionEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="concert_option_id")
     private Integer concertOptionId;
+    //@Constraint()
     @ManyToOne
-    @JoinColumn(name = "concert_id", nullable = false)
-    @JsonBackReference // 순환 참조 방지를 위해 직렬화에서 제외
+    @JoinColumn(name = "concert_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private ConcertEntity concert; // concert 테이블과 join 관계
+//    @Column(name="concert_id")
+//    private Integer concertId;
     @OneToMany(mappedBy = "concertOption", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private Set<ConcertSeatEntity> concertSeats; // concertseat 테이블과 join 관계
+    private Set<ConcertSeatEntity> concertSeats; // concert seat 테이블과 join 관계
     @Column(name="concert_date")
     private String ConcertDate;
     @CreatedDate

@@ -65,79 +65,7 @@ class ConcertControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-//        mockMvc = MockMvcBuilders.webAppContextSetup(context)
-//                .addFilters(new CharacterEncodingFilter("UTF-8", true))
-//                .build();
-//
-//        ConcertEntity concert1 = ConcertEntity.builder()
-//                .concertName("대환장 카녜왜스트 내한 공연")
-//                .concertOptions(new HashSet<>())
-//                .build();
-//
-//        ConcertOptionEntity option1 = ConcertOptionEntity.builder()
-//                .concert(concert1)
-//                .ConcertDate("2024-07-16")
-//                .concertSeats(new HashSet<>())
-//                .build();
-//
-//        ConcertOptionEntity option2 = ConcertOptionEntity.builder()
-//                .concert(concert1)
-//                .ConcertDate("2024-07-17")
-//                .concertSeats(new HashSet<>())
-//                .build();
-//
-//        concertJpaRepository.save(concert1); // 먼저 concert1을 저장하여 ID를 생성
-//        // option1을 저장하여 ID를 생성
-//        concertOptionJpaRepository.save(option1);
-//
-//
-//        ConcertSeatEntity seat1 = ConcertSeatEntity.builder()
-//                .concertOption(option1)
-//                .concertSeatNum(1)
-//                .concertSeatPrice(10000)
-//                .concertSeatStatus(ConcertSeatStatus.WAITING)
-//                .build();
-//
-//        ConcertSeatEntity seat2 = ConcertSeatEntity.builder()
-//                .concertOption(option1)
-//                .concertSeatNum(2)
-//                .concertSeatPrice(20000)
-//                .concertSeatStatus(ConcertSeatStatus.WAITING)
-//                .build();
-//        concertSeatJpaRepository.save(seat1); // seat1을 먼저 저장하여 ID를 생성
-//        concertSeatJpaRepository.save(seat2); // 그 다음 seat2를 저장하여 ID를 생성
-//
-//        // option2를 저장하여 ID를 생성
-//        concertOptionJpaRepository.save(option2);
-//
-//        ConcertSeatEntity seat3 = ConcertSeatEntity.builder()
-//                .concertOption(option2)
-//                .concertSeatNum(3)
-//                .concertSeatPrice(40000000)
-//                .concertSeatStatus(ConcertSeatStatus.WAITING)
-//                .build();
-//        concertSeatJpaRepository.save(seat3); // 마지막으로 seat3를 저장하여 ID를 생성
-//
-//        // 추가된 모든 옵션과 좌석을 concert1에 추가
-//        concert1.getConcertOptions().add(option1);
-//        concert1.getConcertOptions().add(option2);
-//
-//        option1.getConcertSeats().add(seat1);
-//        option1.getConcertSeats().add(seat2);
-//        option2.getConcertSeats().add(seat3);
-//
-//        concertJpaRepository.save(concert1);
-
-//
-//          for (int i = 10000; i < 99999999; i++) {
-//                tokenService.applyAuth(i);
-//              }
-//        for (int i = 5812; i < 99999999; i++) {
-//            paymentRepository.register(i,100000);
-//        }
-
     }
-
 
 
     @AfterEach
@@ -149,48 +77,12 @@ class ConcertControllerIntegrationTest {
         }
     }
 
-    @Test
-    @DisplayName("셋팅")
-    void setTest(){
-
-    }
-//    @Test
-//    public void 결재_대용량삽입용_CSV생성() {
-//        //LocalDateTime startAt = LocalDateTime.of(2024, 12, 24, 14, 0);
-//        //LocalDateTime endAt = startAt.plusHours(3);
-//
-//        List<PaymentEntity> payments = LongStream.rangeClosed(1L, 4000000L)
-//                .mapToObj(number -> new PaymentEntity(100000,i,i))
-//                .toList();
-//
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter("payment.csv"))) {
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//
-//            // CSV 헤더 작성
-//            writer.write("concertId,price,purchaseLimit,seatQuantity,startAt,endAt");
-//            writer.newLine();
-//
-//            for (ConcertOption option : payments) {
-//                writer.write(
-//                        option.getConcertId() + "," +
-//                                option.getPrice() + "," +
-//                                option.getPurchaseLimit() + "," +
-//                                option.getSeatQuantity() + "," +
-//                                option.getStartAt().format(formatter) + "," +
-//                                option.getEndAt().format(formatter));
-//                writer.newLine();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
     @Test
     @DisplayName("예약 가능 조회 API - 성공")
     void ReservationAvailableSUCESS() throws Exception{
         Integer userId = 1006;
-        //tokenRepository.save(userId); // 유저 토큰 생성
+        tokenRepository.save(userId); // 유저 토큰 생성
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
                         .header("userId",userId.toString())
                         .contentType(APPLICATION_JSON))
@@ -215,7 +107,7 @@ class ConcertControllerIntegrationTest {
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
         Integer userId = 59;
-        //tokenRepository.save(userId); // 유저 토큰 생성
+       tokenRepository.save(userId); // 유저 토큰 생성
         //paymentRepository.register(userId,100000); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO =
                 new ReservationRequestDTO(userId,"2024-07-16",1,59);

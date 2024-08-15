@@ -24,7 +24,6 @@ public class ConcertEntity {
     String concertName;
 
     @OneToMany(mappedBy = "concert", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference // 순환 참조 방지를 위해 직렬화에서 제외
     private Set<ConcertOptionEntity> concertOptions; // concert_option 테이블과 join 관계
 
     public ConcertDomain toDomain()

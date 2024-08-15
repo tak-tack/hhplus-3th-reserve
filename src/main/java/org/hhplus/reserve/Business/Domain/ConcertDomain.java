@@ -17,7 +17,9 @@ import java.util.stream.Collectors;
 public class ConcertDomain {
     private Integer concertId;
     private String concertName;
+    private Integer concertOptionId;
     private Set<ConcertOptionDomain> concertOptions;
+
 
     public Set<ConcertResponseDTO> toDTO()
     {
@@ -27,7 +29,8 @@ public class ConcertDomain {
                     BeanUtils.copyProperties(this,concertResponseDTO);
                     concertResponseDTO.setConcertDate(option.getConcertDate());
                     concertResponseDTO.setSeats(option.getConcertSeats().stream()
-                            .map(seat -> new ConcertResponseDTO.SeatInfo(seat.getConcertSeatNum(), seat.getConcertSeatPrice(),seat.getConcertSeatStatus()))
+                            .map(seat -> new ConcertResponseDTO.SeatInfo(seat.getConcertSeatNum(),
+                                    seat.getConcertSeatPrice(),seat.getConcertSeatStatus()))
                             .collect(Collectors.toList()));
                     return  concertResponseDTO;
 
