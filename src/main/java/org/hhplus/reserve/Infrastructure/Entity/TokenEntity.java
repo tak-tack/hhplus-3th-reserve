@@ -3,7 +3,7 @@ package org.hhplus.reserve.Infrastructure.Entity;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.*;
-import org.hhplus.reserve.Business.Domain.TokenDomain;
+import org.hhplus.reserve.Business.Domain.User.model.TokenDomain;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.CreatedDate;
 

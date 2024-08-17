@@ -1,8 +1,7 @@
 package org.hhplus.reserve.Business.Service.IntegrationTest;
 
-import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
-import org.hhplus.reserve.Business.Service.PaymentServiceImpl;
+import org.hhplus.reserve.Business.Domain.Payment.PaymentServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
 import org.junit.jupiter.api.DisplayName;

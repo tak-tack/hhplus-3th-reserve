@@ -1,6 +1,6 @@
 package org.hhplus.reserve.Infrastructure.DB.Payment;
 
-import org.hhplus.reserve.Business.Domain.PaymentDomain;
+import org.hhplus.reserve.Business.Domain.Payment.model.PaymentDomain;
 
 import java.util.List;
 

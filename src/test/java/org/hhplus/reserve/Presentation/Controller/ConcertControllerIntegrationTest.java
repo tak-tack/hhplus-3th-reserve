@@ -1,17 +1,12 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
 import org.hhplus.reserve.Infrastructure.DB.Token.TokenRepository;
-import org.hhplus.reserve.Business.Service.TokenService;
+import org.hhplus.reserve.Business.Domain.User.TokenService;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertOptionJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertSeatJpaRepository;
-import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
-import org.hhplus.reserve.Infrastructure.Entity.ConcertOptionEntity;
-import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
-import org.hhplus.reserve.Infrastructure.Entity.PaymentEntity;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,13 +20,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 
-import java.util.HashSet;
 import java.util.concurrent.ScheduledFuture;
-import java.util.stream.LongStream;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

@@ -1,8 +1,11 @@
 package org.hhplus.reserve.Business.Usecase.Facade;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Service.*;
-import org.hhplus.reserve.Business.Usecase.Event.TokenEventPublisher;
+import org.hhplus.reserve.Business.Domain.Concert.ConcertService;
+import org.hhplus.reserve.Business.Domain.Payment.PaymentService;
+import org.hhplus.reserve.Business.Domain.Reservation.ReservationService;
+import org.hhplus.reserve.Business.Domain.User.TokenRedisService;
+import org.hhplus.reserve.Business.Domain.User.Event.TokenEventPublisher;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
@@ -21,7 +24,7 @@ public class ConcertFacade {
     private final ConcertService concertService;
     private final ReservationService reservationService;
     private final PaymentService paymentService;
-    private final TokenEventPublisher eventPublisher;
+    private final TokenEventPublisher TokenEventPublisher;
 
     public List<ConcertResponseDTO> reservationAvailable(){
         log.info("concert facade");
@@ -46,7 +49,7 @@ public class ConcertFacade {
         // 좌석 선점
         concertService.concertSeatUpdateToReserved(reservationResponseDTO.converting());
         // 활성화 토큰 만료 이벤트
-        eventPublisher.success(reservationRequestDTO);
+        TokenEventPublisher.success(reservationRequestDTO);
         return reservationResponseDTO;
     }
 }

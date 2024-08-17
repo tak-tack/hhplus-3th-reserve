@@ -4,7 +4,7 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
-import org.hhplus.reserve.Business.Domain.ReservationDomain;
+import org.hhplus.reserve.Business.Domain.Reservation.model.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.springframework.beans.BeanUtils;
 

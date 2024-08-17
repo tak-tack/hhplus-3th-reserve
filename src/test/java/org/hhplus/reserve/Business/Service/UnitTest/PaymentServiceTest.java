@@ -1,9 +1,8 @@
 package org.hhplus.reserve.Business.Service.UnitTest;
 
-import org.hhplus.reserve.Business.Domain.PaymentDomain;
-import org.hhplus.reserve.Business.Enum.ReservationStatus;
+import org.hhplus.reserve.Business.Domain.Payment.model.PaymentDomain;
 import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
-import org.hhplus.reserve.Business.Service.PaymentServiceImpl;
+import org.hhplus.reserve.Business.Domain.Payment.PaymentServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
 import org.junit.jupiter.api.BeforeEach;

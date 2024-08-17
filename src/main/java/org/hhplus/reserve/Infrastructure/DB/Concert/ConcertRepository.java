@@ -1,6 +1,6 @@
 package org.hhplus.reserve.Infrastructure.DB.Concert;
 
-import org.hhplus.reserve.Business.Domain.ConcertDomain;
+import org.hhplus.reserve.Business.Domain.Concert.model.ConcertDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 
 import java.util.List;

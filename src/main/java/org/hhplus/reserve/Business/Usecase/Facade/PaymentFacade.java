@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Business.Usecase.Facade;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Service.PaymentService;
+import org.hhplus.reserve.Business.Domain.Payment.PaymentService;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
 import org.springframework.stereotype.Service;

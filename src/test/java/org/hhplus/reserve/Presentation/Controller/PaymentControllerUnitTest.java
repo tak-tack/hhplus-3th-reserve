@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hhplus.reserve.Business.Service.TokenService;
+import org.hhplus.reserve.Business.Domain.User.TokenService;
 import org.hhplus.reserve.Business.Usecase.Facade.UserFacade;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;

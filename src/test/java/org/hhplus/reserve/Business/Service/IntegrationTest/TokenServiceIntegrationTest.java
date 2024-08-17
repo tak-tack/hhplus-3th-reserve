@@ -1,6 +1,6 @@
 package org.hhplus.reserve.Business.Service.IntegrationTest;
 
-import org.hhplus.reserve.Business.Service.TokenServiceImpl;
+import org.hhplus.reserve.Business.Domain.User.TokenServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
