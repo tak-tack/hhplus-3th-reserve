@@ -1,6 +1,6 @@
 package org.hhplus.reserve.Infrastructure.DB.Reservation;
 
-import org.hhplus.reserve.Business.Domain.ReservationDomain;
+import org.hhplus.reserve.Business.Domain.Reservation.model.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 
 public interface ReservationRepository {

@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Usecase.Event;
+package org.hhplus.reserve.Business.Domain.User.Event;
 
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.springframework.context.ApplicationEventPublisher;

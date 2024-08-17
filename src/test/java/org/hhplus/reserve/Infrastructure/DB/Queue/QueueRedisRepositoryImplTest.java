@@ -1,6 +1,6 @@
 //package org.hhplus.reserve.Infrastructure.DB.Queue;
 //
-//import org.hhplus.reserve.Business.Domain.QueueDomain;
+//import org.hhplus.reserve.Business.Domain.Queue.model.QueueDomain;
 //import org.hhplus.reserve.Business.Enum.QueueStatus;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Service;
+package org.hhplus.reserve.Business.Domain.User;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Infrastructure.DB.Token.TokenRepository;

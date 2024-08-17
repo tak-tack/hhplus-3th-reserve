@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Model;
+package org.hhplus.reserve.Business.Domain.User.model;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,2 +1,4 @@
-package org.hhplus.reserve.Business.Usecase.message;public class PaymentMessageOutboxWriter {
+package org.hhplus.reserve.Business.Domain.Payment.Message;
+
+public class PaymentMessageOutboxWriter {
 }

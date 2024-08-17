@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Service;
+package org.hhplus.reserve.Business.Domain.User;
 
 import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
 

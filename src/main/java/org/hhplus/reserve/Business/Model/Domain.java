@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Domain;
+package org.hhplus.reserve.Business.Model;
 
 public class Domain {
 }

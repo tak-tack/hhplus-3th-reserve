@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Service;
+package org.hhplus.reserve.Business.Domain.Reservation;
 
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;

@@ -1,9 +1,9 @@
 package org.hhplus.reserve.Business.Service.UnitTest;
 
-import org.hhplus.reserve.Business.Domain.ReservationDomain;
+import org.hhplus.reserve.Business.Domain.Reservation.model.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.hhplus.reserve.Infrastructure.DB.Reservation.ReservationRepository;
-import org.hhplus.reserve.Business.Service.ReservationServiceImpl;
+import org.hhplus.reserve.Business.Domain.Reservation.ReservationServiceImpl;
 import org.hhplus.reserve.Infrastructure.Entity.ReservationEntity;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
@@ -17,8 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Infrastructure.DB.Payment;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Domain.PaymentDomain;
+import org.hhplus.reserve.Business.Domain.Payment.model.PaymentDomain;
 import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
 import org.hhplus.reserve.Infrastructure.Entity.PaymentEntity;

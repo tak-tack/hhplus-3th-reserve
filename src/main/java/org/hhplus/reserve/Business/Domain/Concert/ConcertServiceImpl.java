@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Service;
+package org.hhplus.reserve.Business.Domain.Concert;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;

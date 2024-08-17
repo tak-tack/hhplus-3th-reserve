@@ -1,11 +1,10 @@
 package org.hhplus.reserve.Infrastructure.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.*;
-import org.hhplus.reserve.Business.Domain.ConcertSeatDomain;
+import org.hhplus.reserve.Business.Domain.Concert.model.ConcertSeatDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.CreatedDate;
@@ -31,7 +30,6 @@ public class ConcertSeatEntity {
     @ManyToOne
     @JoinColumn(name = "concert_option_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private ConcertOptionEntity concertOption;
-  //  private Integer concertOptionId;
     @CreatedDate
     private String create_dt;
     @Nullable

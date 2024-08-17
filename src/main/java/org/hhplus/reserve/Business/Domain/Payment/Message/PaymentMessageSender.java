@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Usecase.message;
+package org.hhplus.reserve.Business.Domain.Payment.Message;
 
 public class PaymentMessageSender {
 }

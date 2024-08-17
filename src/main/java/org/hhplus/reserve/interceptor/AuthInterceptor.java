@@ -2,8 +2,8 @@ package org.hhplus.reserve.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.hhplus.reserve.Business.Service.QueueRedisService;
-import org.hhplus.reserve.Business.Service.TokenRedisService;
+import org.hhplus.reserve.Business.Domain.Queue.QueueRedisService;
+import org.hhplus.reserve.Business.Domain.User.TokenRedisService;
 import org.hhplus.reserve.Business.Usecase.Facade.ProcessFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

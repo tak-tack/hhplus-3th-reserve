@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Service;
+package org.hhplus.reserve.Business.Domain.Reservation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

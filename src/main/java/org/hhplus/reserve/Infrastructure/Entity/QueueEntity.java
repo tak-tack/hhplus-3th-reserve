@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hhplus.reserve.Business.Domain.QueueDomain;
+import org.hhplus.reserve.Business.Domain.Queue.model.QueueDomain;
 import org.hhplus.reserve.Business.Enum.QueueStatus;
 import org.springframework.beans.BeanUtils;
 

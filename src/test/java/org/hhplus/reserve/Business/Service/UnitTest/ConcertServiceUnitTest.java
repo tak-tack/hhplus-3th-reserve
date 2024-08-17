@@ -1,12 +1,12 @@
 package org.hhplus.reserve.Business.Service.UnitTest;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.hhplus.reserve.Business.Domain.ConcertDomain;
-import org.hhplus.reserve.Business.Domain.ConcertOptionDomain;
-import org.hhplus.reserve.Business.Domain.ConcertSeatDomain;
+import org.hhplus.reserve.Business.Domain.Concert.model.ConcertDomain;
+import org.hhplus.reserve.Business.Domain.Concert.model.ConcertOptionDomain;
+import org.hhplus.reserve.Business.Domain.Concert.model.ConcertSeatDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertRepository;
-import org.hhplus.reserve.Business.Service.ConcertServiceImpl;
+import org.hhplus.reserve.Business.Domain.Concert.ConcertServiceImpl;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
 import org.junit.jupiter.api.BeforeEach;

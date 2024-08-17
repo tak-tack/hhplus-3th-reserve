@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Model;
+package org.hhplus.reserve.Business.Domain.Concert.model;
 
 import lombok.*;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;

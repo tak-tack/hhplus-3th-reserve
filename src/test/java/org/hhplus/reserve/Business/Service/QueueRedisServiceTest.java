@@ -1,5 +1,6 @@
 package org.hhplus.reserve.Business.Service;
 
+import org.hhplus.reserve.Business.Domain.Queue.QueueRedisService;
 import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRedisRepository;
 import org.hhplus.reserve.Business.Usecase.ScheduledTasks;
 import org.junit.jupiter.api.AfterEach;

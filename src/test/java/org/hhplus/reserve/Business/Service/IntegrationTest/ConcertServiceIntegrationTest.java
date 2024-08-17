@@ -2,9 +2,9 @@ package org.hhplus.reserve.Business.Service.IntegrationTest;
 
 import jakarta.persistence.EntityNotFoundException;
 
-import org.hhplus.reserve.Business.Domain.ConcertOptionDomain;
+import org.hhplus.reserve.Business.Domain.Concert.model.ConcertOptionDomain;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertRepository;
-import org.hhplus.reserve.Business.Service.ConcertServiceImpl;
+import org.hhplus.reserve.Business.Domain.Concert.ConcertServiceImpl;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertRequestDTO;

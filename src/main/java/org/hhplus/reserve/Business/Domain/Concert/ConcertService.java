@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Service;
+package org.hhplus.reserve.Business.Domain.Concert;
 
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;

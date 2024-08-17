@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Service;
+package org.hhplus.reserve.Business.Domain.Payment;
 
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;

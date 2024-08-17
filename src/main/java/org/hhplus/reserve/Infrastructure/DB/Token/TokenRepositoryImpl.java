@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Infrastructure.DB.Token;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Domain.TokenDomain;
+import org.hhplus.reserve.Business.Domain.User.model.TokenDomain;
 import org.hhplus.reserve.Infrastructure.Entity.TokenEntity;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Service;
+package org.hhplus.reserve.Business.Domain.Queue;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRedisRepository;
@@ -13,7 +13,6 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class QueueRedisService {
-    private static final Logger log = LoggerFactory.getLogger(QueueRedisService.class);
     private final QueueRedisRepository queueRedisRepository;
 
     long queueSize = 10;
@@ -34,7 +33,6 @@ public class QueueRedisService {
 //        log.info("pass userId : "+userId);
 //        }
         Long removeCount = queueRedisRepository.removeRange(min,max);
-        //log.info("==================== removeCount ====================  : "+ removeCount);
     }
 
     // 상위 50 대기열 정보 호출

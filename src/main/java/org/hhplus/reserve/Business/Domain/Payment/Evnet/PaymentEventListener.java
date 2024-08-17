@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Usecase.Event;
+package org.hhplus.reserve.Business.Domain.Payment.Evnet;
 
 public class PaymentEventListener {
 }
