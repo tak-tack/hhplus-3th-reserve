@@ -2,7 +2,6 @@ package org.hhplus.reserve.Business.Usecase.Event;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Service.TokenRedisService;
-import org.hhplus.reserve.Business.Service.TokenService;
 import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
