@@ -5,7 +5,7 @@ import org.hhplus.reserve.Business.Domain.Reservation.model.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.hhplus.reserve.Infrastructure.DB.Reservation.ReservationRepository;
 import org.hhplus.reserve.Business.Domain.Reservation.ReservationServiceImpl;
-import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
+import org.hhplus.reserve.Interface.DTO.Reservation.ReservationRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

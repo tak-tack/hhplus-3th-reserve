@@ -9,8 +9,8 @@ import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
 import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
 import org.hhplus.reserve.Infrastructure.Producer.PaymentProducer;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
+import org.hhplus.reserve.Interface.DTO.Payment.PaymentRequestDTO;
+import org.hhplus.reserve.Interface.DTO.Payment.PaymentResponseDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

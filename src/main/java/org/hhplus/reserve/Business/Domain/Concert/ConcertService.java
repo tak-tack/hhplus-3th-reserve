@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Business.Domain.Concert;
 
-import org.hhplus.reserve.Presentation.DTO.Concert.ConcertRequestDTO;
-import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
+import org.hhplus.reserve.Interface.DTO.Concert.ConcertRequestDTO;
+import org.hhplus.reserve.Interface.DTO.Concert.ConcertResponseDTO;
 
 import java.util.List;
 

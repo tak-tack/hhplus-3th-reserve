@@ -2,7 +2,7 @@ package org.hhplus.reserve.Business.Domain.Reservation.model;
 
 import lombok.*;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
-import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationResponseDTO;
+import org.hhplus.reserve.Interface.DTO.Reservation.ReservationResponseDTO;
 import org.springframework.beans.BeanUtils;
 
 @Getter

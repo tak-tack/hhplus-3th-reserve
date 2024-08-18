@@ -7,7 +7,7 @@ import org.hhplus.reserve.Business.Domain.User.TokenService;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertOptionJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertSeatJpaRepository;
-import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
+import org.hhplus.reserve.Interface.DTO.Reservation.ReservationRequestDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

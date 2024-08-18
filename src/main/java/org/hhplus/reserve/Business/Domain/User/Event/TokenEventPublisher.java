@@ -1,6 +1,6 @@
 package org.hhplus.reserve.Business.Domain.User.Event;
 
-import org.hhplus.reserve.Presentation.DTO.Reservation.ReservationRequestDTO;
+import org.hhplus.reserve.Interface.DTO.Reservation.ReservationRequestDTO;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 

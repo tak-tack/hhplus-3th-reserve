@@ -2,7 +2,7 @@ package org.hhplus.reserve.Business.Domain.Queue.model;
 
 import lombok.*;
 import org.hhplus.reserve.Business.Enum.QueueStatus;
-import org.hhplus.reserve.Presentation.DTO.Queue.QueueResponseDTO;
+import org.hhplus.reserve.Interface.DTO.Queue.QueueResponseDTO;
 import org.springframework.beans.BeanUtils;
 
 @Getter

@@ -3,7 +3,7 @@ package org.hhplus.reserve.Presentation.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
 import org.hhplus.reserve.Infrastructure.DB.Token.TokenRepository;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
+import org.hhplus.reserve.Interface.DTO.Payment.PaymentRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

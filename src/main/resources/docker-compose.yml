@@ -27,6 +27,7 @@ services:
     container_name: zookeeper
     ports:
       - "2181:2181"
+  # 카프카 셋팅
   kafka:
     image: wurstmeister/kafka:latest
     container_name: kafka
@@ -37,6 +38,37 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana-provisioning:/etc/grafana/provisioning
+      - ./grafana-dashboard:/dashboard
+    depends_on:
+      - prometheus
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    command:
+      - --web.enable-remote-write-receiver
+      - --enable-feature=native-histograms
+      - --config.file=/etc/prometheus/prometheus.yml
+  k6:
+    image: grafana/k6
+    volumes:
+      - ./scripts:/scripts
+    command: run -o experimental-prometheus-rw /scripts/script.js
+#    command: run -o experimental-prometheus-rw /scripts/AvailableConcert.js
+    environment:
+      - K6_PROMETHEUS_RW_SERVER_URL=http://prometheus:9090/api/v1/write
+      - K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+    depends_on:
+      - prometheus
+
 volumes:
   mysql-data:
   redis_data:

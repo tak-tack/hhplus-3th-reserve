@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
+import org.hhplus.reserve.Interface.DTO.Concert.ConcertResponseDTO;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Set;

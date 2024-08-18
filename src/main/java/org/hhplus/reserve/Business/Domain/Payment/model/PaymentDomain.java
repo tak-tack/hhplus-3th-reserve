@@ -1,7 +1,7 @@
 package org.hhplus.reserve.Business.Domain.Payment.model;
 
 import lombok.*;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
+import org.hhplus.reserve.Interface.DTO.Payment.PaymentResponseDTO;
 import org.springframework.beans.BeanUtils;
 
 @Setter

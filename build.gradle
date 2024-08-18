@@ -18,12 +18,10 @@ repositories {
 }
 
 dependencies {
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
 	// web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	// testing
-	//testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	// Lombok
 	compileOnly ('org.projectlombok:lombok')
@@ -41,7 +39,7 @@ dependencies {
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	// kafka
-	implementation 'org.springframework.kafka:spring-kafka:3.0.11'
+	implementation 'org.springframework.kafka:spring-kafka'
 }
 
 //tasks.named('test') {

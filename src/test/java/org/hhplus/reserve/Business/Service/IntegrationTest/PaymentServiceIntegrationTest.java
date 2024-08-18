@@ -2,8 +2,8 @@ package org.hhplus.reserve.Business.Service.IntegrationTest;
 
 import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
 import org.hhplus.reserve.Business.Domain.Payment.PaymentServiceImpl;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentResponseDTO;
+import org.hhplus.reserve.Interface.DTO.Payment.PaymentRequestDTO;
+import org.hhplus.reserve.Interface.DTO.Payment.PaymentResponseDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
