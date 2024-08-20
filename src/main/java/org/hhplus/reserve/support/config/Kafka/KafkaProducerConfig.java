@@ -2,6 +2,7 @@ package org.hhplus.reserve.support.config.Kafka;
 
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.hhplus.reserve.Business.Domain.Payment.Evnet.PaymentEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -15,25 +16,17 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
-    private final KafkaConfig kafkaConfig;
-
-    public KafkaProducerConfig(KafkaConfig kafkaConfig) {
-        this.kafkaConfig = kafkaConfig;
+    @Bean
+    public ProducerFactory<String, PaymentEvent> producerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // 필요한 설정으로 수정
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
     }
 
     @Bean
-    public ProducerFactory<String, Object> producerFactory() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConfig.getBootstrapServers());
-        props.put(ProducerConfig.ACKS_CONFIG, kafkaConfig.getProducer().getAcks());
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-
-        return new DefaultKafkaProducerFactory<>(props);
-    }
-
-    @Bean
-    public KafkaTemplate<String, Object> kafkaTemplate() {
+    public KafkaTemplate<String, PaymentEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

@@ -18,6 +18,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -61,13 +63,14 @@ class ConcertServiceUnitTest {
 
         List<ConcertDomain> concertDomains = Collections.singletonList(concertDomain);
 
-        when(concertRepository.findByConcertId()).thenReturn(concertId);
+        Pageable pageable = PageRequest.of(0,1000);
+        //when(concertRepository.findByConcertId(pageable).thenReturn(concertId);
         when(concertRepository.findAllConcertWithSeats(concertId)).thenReturn(concertDomains);
 
         List<ConcertResponseDTO> result = concertService.ConcertList();
 
         assertNotNull(result);
-        verify(concertRepository).findByConcertId();
+        verify(concertRepository).findByConcertId(pageable);
         verify(concertRepository).findAllConcertWithSeats(concertId);
     }
     @Test
@@ -78,14 +81,15 @@ class ConcertServiceUnitTest {
         concertId.add(1);
         concertId.add(2);
         concertId.add(3);
-        when(concertRepository.findByConcertId()).thenReturn(concertId);
+        Pageable pageable = PageRequest.of(0,1000);
+        when(concertRepository.findByConcertId(pageable)).thenReturn(concertId);
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
             concertService.ConcertList();
         });
 
         assertEquals("등록된 콘서트가 없습니다.", exception.getMessage());
-        verify(concertRepository).findByConcertId();
+        verify(concertRepository).findByConcertId(pageable);
         verify(concertRepository, never()).findAllConcertWithSeats(concertId);
     }
 

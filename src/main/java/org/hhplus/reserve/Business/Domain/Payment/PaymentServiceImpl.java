@@ -21,6 +21,7 @@ import java.util.List;
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentProducer paymentProducer;
+    //private final PaymentEvent paymentEvent;
     // 예약 좌석 결제
     @Override
     @Transactional
@@ -32,6 +33,7 @@ public class PaymentServiceImpl implements PaymentService {
             PaymentMessage paymentMessage =
             PaymentMessage.builder().userId(userId).paymentAmount(afterUserBalance).build();
             PaymentEvent paymentEvent = new PaymentEvent(this,paymentMessage, EventType.SUCCESS);
+            paymentProducer.sendPaymentEvent(paymentEvent);
         }else{ // 잔액 부족
             throw new CustomException(ErrorCode.INSUFFICIENT_BALANCE);
         }

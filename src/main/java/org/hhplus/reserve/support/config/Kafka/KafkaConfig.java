@@ -23,10 +23,10 @@ public class KafkaConfig {
 
     @Data
     public static class Consumer {
-        private GroupIds groupIds;
+        private GroupId groupId;
 
         @Data
-        public static class GroupIds {
+        public static class GroupId {
             private String success; // 추가된 속성: consumer.group-ids.success
         }
 
