@@ -268,3 +268,216 @@ https://velog.io/@rlaabcd/%ED%95%AD%ED%95%B499-%EC%9D%B8%EB%8D%B1%EC%8B%B1-%EC%8
 <summary>트랜잭션 범위 분석 및 이벤트 아키텍처, MSA </summary>
 https://velog.io/@rlaabcd/%ED%95%AD%ED%95%B499-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EB%B2%94%EC%9C%84-%EB%B6%84%EC%84%9D-%EB%B0%8F-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-MSA-STEP-15
 </details>
+
+<details>
+<summary> 성능 테스트 </summary>
+
+#### 가상 사용자 VUS(Virtual Users) : 100 #### 
+#### 테스트 실행 시간 : 30초 ####
+
+#### 1. K6 성능테스트_예약가능 콘서트 조회 API ####
+
+
+   (1) 테스트 코드
+```javascript
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+// 전역 변수로 설정할 기본값들
+const BASE_URL = 'http://localhost:8080';
+const TOKEN = 'your_token_here';
+const MAX_USER_ID = 50;
+
+export let options = {
+    vus: 100,
+    duration: '30s',
+};
+
+export default function () {
+    // 각 VU에 고유한 userId를 할당
+    // VU 인덱스와 MAX_USER_ID를 조합하여 고유한 userId 생성
+    const userId = (__VU - 1) * 100 + __ITER + 1;
+
+    // 요청 본문에 필요한 데이터를 포함합니다
+    let requestPayload = JSON.stringify({
+        // 요청 데이터 (예시로 token 포함)
+        token: TOKEN,
+    });
+
+    // 요청 헤더에 userId 포함
+    let headers = {
+        'Content-Type': 'application/json',
+        'userId': userId.toString(),
+    };
+
+    let availabilityRes = http.post(`${BASE_URL}/concert/availabilityConcertList`, requestPayload, {
+        headers: headers,
+    });
+
+    //console.log(JSON.stringify(availabilityRes));
+    check(availabilityRes, {
+        'status is 200': (r) => r.status === 200,
+        'response is not empty': (r) => r.body.length > 0,
+    });
+
+    sleep(1);
+}
+```
+
+(2) 결과
+
+![콘서트조회 K6](https://github.com/user-attachments/assets/9afd6888-54f8-4321-b049-412143890de1)
+
+
+#### 2. K6 성능테스트_콘서트 예약 API 결과 ####
+
+(1) 테스트코드
+```javascript
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+// 전역 변수로 설정할 기본값들
+const BASE_URL = 'http://localhost:8080';
+const MAX_USER_ID = 25800;
+const MAX_CONCERT_OPTION_ID = 258;
+
+export let options = {
+  vus: 100,
+  duration: '30s',
+};
+export default function () {
+	  const userId =(__VU - 1) * 100 + __ITER + 1; // // userId 계산
+  const concertOptionId = Math.floor((userId - 1) / 100) + 1; //Math.floor((userId - 1) / 1000) + 1; // concertOptionId 계산
+	// 요청 헤더에 userId 포함
+  let headers = {
+    'Content-Type': 'application/json',
+    'userId': userId.toString(),
+  };
+
+  // 요청 본문에 필요한 데이터를 포함
+  let reservationRequestDTO = JSON.stringify({
+    userId: userId,
+    concertDt: "2024-07-16", // 고정된 날짜
+    concertOptionId: concertOptionId,
+    seatId: userId,
+  });
+
+
+  // 요청 보내기
+  let reservationRes = http.post(`${BASE_URL}/concert/reservation`, reservationRequestDTO, {
+    headers: headers,
+  });
+
+  // 응답 체크
+  check(reservationRes, {
+    'status is 200': (r) => r.status === 200,
+    'response is not empty': (r) => r.body.length > 0,
+  });
+
+  // 대기 시간
+  sleep(0);
+}
+```
+
+(2) 결과
+   ![콘서트예약](https://github.com/user-attachments/assets/4dd80e84-4c3c-4416-a2d7-b1b5788b4db1)
+
+
+#### 3. K6 성능테스트_잔액조회 API 결과 ####
+
+(1) 테스트코드
+```javascript
+import http from 'k6/http';
+import { check, sleep } from 'k6';  // check 함수 임포트
+
+// 전역 변수로 설정할 기본값들
+const BASE_URL = 'http://localhost:8080';
+const TOKEN = 'your_token_here';
+const MAX_USER_ID = 50;
+
+export let options = {
+    vus: 100,
+    duration: '30s',
+};
+
+export default function () {
+    // 각 VU에 고유한 userId를 할당
+    const userId = (__VU - 1) * 100 + __ITER + 1;;
+
+    // 요청 헤더에 userId 포함
+    let headers = {
+        'Content-Type': 'application/json',
+        'userId': userId.toString(),
+    };
+
+    // GET 요청 사용
+    let paymentSelectRes = http.get(`${BASE_URL}/payment/${userId}/balance/select`, {
+        headers: headers,
+    });
+
+    //console.log(JSON.stringify(paymentSelectRes));
+    check(paymentSelectRes, {
+        'status is 200': (r) => r.status === 200,
+        'response is not empty': (r) => r.body.length > 0,
+    });
+
+    sleep(1);
+}
+```
+
+(2) 결과
+
+![잔액조회 K6](https://github.com/user-attachments/assets/57f53939-24c9-45c1-af49-c4a316cf4222)
+
+#### 4. K6 성능테스트_잔액충전 API 결과 ####
+
+(1) 테스트 코드
+```javascript
+import http from 'k6/http';
+import { check, sleep } from 'k6';  // check 함수 임포트
+
+// 전역 변수로 설정할 기본값들
+const BASE_URL = 'http://localhost:8080';
+const TOKEN = 'your_token_here';
+const MAX_USER_ID = 50;
+
+export let options = {
+    vus: 100,
+    duration: '30s',
+};
+
+export default function () {
+    // 각 VU에 고유한 userId를 할당
+    const userId = (__VU - 1) * 100 + __ITER + 1;
+
+    // 요청 본문에 필요한 데이터를 포함
+    let paymentRequestDTO = JSON.stringify({
+        userId: userId,
+        chargeAmount: 100000, // 충전 금액
+    });
+
+    // 요청 헤더에 userId 포함
+    let headers = {
+        'Content-Type': 'application/json',
+        'userId': userId.toString(),
+    };
+
+    // GET 요청 사용
+    let paymentChargeRes = http.post(`${BASE_URL}/payment/${userId}/balance/charge`,paymentRequestDTO, {
+        headers: headers,
+    });
+
+    console.log(JSON.stringify(paymentChargeRes));
+    check(paymentChargeRes, {
+        'status is 200': (r) => r.status === 200,
+        'response is not empty': (r) => r.body.length > 0,
+    });
+
+    sleep(1);
+}
+```
+
+(2) 결과
+   ![잔액충전 K6](https://github.com/user-attachments/assets/77c41588-f696-4d01-a9ac-f63aeaec986a)
+
+</details>

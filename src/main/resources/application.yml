@@ -13,7 +13,7 @@ spring:
         format_sql: false
     show-sql: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   data:
     redis:
       host: localhost
@@ -36,6 +36,7 @@ spring:
       payment-success: PAYMENT_SUCCESS
     admin:
       auto-create: true
+
 
 logging:
   level:

@@ -31,8 +31,8 @@ public class PaymentIntegrationControllerTest {
     @DisplayName("잔액 조회 API - 성공")
     void BalanceSelectSUCESS() throws Exception{
         Integer userId = 1;
-        tokenRepository.save(userId); // 유저 토큰 생성
-        paymentRepository.register(1,200000);
+        //tokenRepository.save(userId); // 유저 토큰 생성
+        //paymentRepository.register(1,200000);
         mockMvc.perform(get("/payment/{userId}/balance/select",1)
                         .header("userId",userId.toString())
                         .contentType(APPLICATION_JSON))
@@ -56,10 +56,10 @@ public class PaymentIntegrationControllerTest {
     @Test
     @DisplayName("잔액 충전 API - 성공")
     void BalanceChargeSUCESS() throws Exception{
-        Integer userId = 3;
-        tokenRepository.save(userId); // 유저 토큰 생성
-        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(3,10000);
-        paymentRepository.register(3,10000);
+        Integer userId = 1;
+        //tokenRepository.save(userId); // 유저 토큰 생성
+        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(1,10000);
+        //paymentRepository.register(3,10000);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/payment/{userId}/balance/charge",paymentRequestDTO.getUserId())
                         .header("userId",userId.toString())

@@ -59,7 +59,7 @@ services:
     image: grafana/k6
     volumes:
       - ./scripts:/scripts
-    command: run -o experimental-prometheus-rw /scripts/script.js
+    command: run -o experimental-prometheus-rw /scripts/PaymentSelect.js
 #    command: run -o experimental-prometheus-rw /scripts/AvailableConcert.js
     environment:
       - K6_PROMETHEUS_RW_SERVER_URL=http://prometheus:9090/api/v1/write

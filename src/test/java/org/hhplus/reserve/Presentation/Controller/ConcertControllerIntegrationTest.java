@@ -72,7 +72,7 @@ class ConcertControllerIntegrationTest {
     @Test
     @DisplayName("예약 가능 조회 API - 성공")
     void ReservationAvailableSUCESS() throws Exception{
-        Integer userId = 1006;
+        Integer userId = 95;
         //tokenRepository.save(userId); // 유저 토큰 생성
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
                         .header("userId",userId.toString())
