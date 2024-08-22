@@ -9,6 +9,7 @@ import org.hhplus.reserve.Interface.DTO.Concert.ConcertRequestDTO;
 import org.hhplus.reserve.Interface.DTO.Concert.ConcertResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
