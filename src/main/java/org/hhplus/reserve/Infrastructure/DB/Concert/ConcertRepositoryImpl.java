@@ -1,13 +1,14 @@
 package org.hhplus.reserve.Infrastructure.DB.Concert;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Domain.ConcertDomain;
+import org.hhplus.reserve.Business.Domain.Concert.model.ConcertDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.hhplus.reserve.Business.Usecase.CustomException;
 import org.hhplus.reserve.Business.Usecase.ErrorCode;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,8 +21,9 @@ public class ConcertRepositoryImpl implements ConcertRepository {
     private final ConcertJpaRepository concertJpaRepository;
 
     @Override
-    public List<Integer> findByConcertId() {
-        return concertJpaRepository.findConcertId().orElseThrow(() -> new CustomException(ErrorCode.CONCERT_NOT_FOUND));
+    public List<Integer> findByConcertId(Pageable pageable) {
+        // 페이징 처리 추가
+        return concertJpaRepository.findConcertId(pageable).orElseThrow(() -> new CustomException(ErrorCode.CONCERT_NOT_FOUND));
     }
 
     @Override

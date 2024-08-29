@@ -1,5 +1,6 @@
 package org.hhplus.reserve.Business.Service;
 
+import org.hhplus.reserve.Business.Domain.User.TokenRedisService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

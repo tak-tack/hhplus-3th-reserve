@@ -1,11 +1,10 @@
 package org.hhplus.reserve.Infrastructure.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.*;
-import org.hhplus.reserve.Business.Domain.ConcertSeatDomain;
+import org.hhplus.reserve.Business.Domain.Concert.model.ConcertSeatDomain;
 import org.hhplus.reserve.Business.Enum.ConcertSeatStatus;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.CreatedDate;
@@ -29,8 +28,7 @@ public class ConcertSeatEntity {
     @Enumerated(EnumType.STRING)
     private ConcertSeatStatus concertSeatStatus;
     @ManyToOne
-    @JoinColumn(name = "concert_option_id", nullable = false)
-    @JsonBackReference // 순환 참조 방지를 위해 직렬화에서 제외
+    @JoinColumn(name = "concert_option_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private ConcertOptionEntity concertOption;
     @CreatedDate
     private String create_dt;

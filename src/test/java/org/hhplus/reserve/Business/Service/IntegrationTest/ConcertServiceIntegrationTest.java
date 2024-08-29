@@ -2,13 +2,13 @@ package org.hhplus.reserve.Business.Service.IntegrationTest;
 
 import jakarta.persistence.EntityNotFoundException;
 
-import org.hhplus.reserve.Business.Domain.ConcertOptionDomain;
+import org.hhplus.reserve.Business.Domain.Concert.model.ConcertOptionDomain;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertRepository;
-import org.hhplus.reserve.Business.Service.ConcertServiceImpl;
+import org.hhplus.reserve.Business.Domain.Concert.ConcertServiceImpl;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.Entity.ConcertSeatEntity;
-import org.hhplus.reserve.Presentation.DTO.Concert.ConcertRequestDTO;
-import org.hhplus.reserve.Presentation.DTO.Concert.ConcertResponseDTO;
+import org.hhplus.reserve.Interface.DTO.Concert.ConcertRequestDTO;
+import org.hhplus.reserve.Interface.DTO.Concert.ConcertResponseDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +71,7 @@ class ConcertServiceIntegrationTest {
     void ConcertSeatPriceSUCESS() {
         Integer concertSeatId = 1;
         Integer concertOptionId = 1;
-        Integer seatPrice = 100;
+        Integer seatPrice = 100000;
         // 테스트 데이터를 DB에 저장
         // 예: concertRepository.saveSeatPrice(concertSeatId, seatPrice);
         ConcertRequestDTO concertRequestDTO = new ConcertRequestDTO();

@@ -1,6 +1,6 @@
 package org.hhplus.reserve.Infrastructure.DB.Token;
 
-import org.hhplus.reserve.Business.Domain.TokenDomain;
+import org.hhplus.reserve.Business.Domain.User.model.TokenDomain;
 import java.util.Optional;
 
 public interface TokenRepository {

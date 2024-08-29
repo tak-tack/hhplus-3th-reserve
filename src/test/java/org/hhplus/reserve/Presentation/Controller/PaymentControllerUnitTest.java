@@ -1,10 +1,11 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hhplus.reserve.Business.Service.TokenService;
+import org.hhplus.reserve.Business.Domain.User.TokenService;
 import org.hhplus.reserve.Business.Usecase.Facade.UserFacade;
-import org.hhplus.reserve.Presentation.DTO.Payment.PaymentRequestDTO;
-import org.hhplus.reserve.Presentation.DTO.Token.TokenResponseDTO;
+import org.hhplus.reserve.Interface.Controller.PaymentController;
+import org.hhplus.reserve.Interface.DTO.Payment.PaymentRequestDTO;
+import org.hhplus.reserve.Interface.DTO.Token.TokenResponseDTO;
 import org.hhplus.reserve.interceptor.AuthInterceptor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,11 +1,9 @@
 package org.hhplus.reserve.Infrastructure.DB.Reservation;
 
 import lombok.RequiredArgsConstructor;
-import org.hhplus.reserve.Business.Domain.ReservationDomain;
+import org.hhplus.reserve.Business.Domain.Reservation.model.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor

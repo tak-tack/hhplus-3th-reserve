@@ -2,7 +2,7 @@ package org.hhplus.reserve.Infrastructure.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hhplus.reserve.Business.Domain.PaymentDomain;
+import org.hhplus.reserve.Business.Domain.Payment.model.PaymentDomain;
 import org.springframework.beans.BeanUtils;
 
 @Setter
