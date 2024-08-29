@@ -294,8 +294,6 @@ export let options = {
 };
 
 export default function () {
-    // 각 VU에 고유한 userId를 할당
-    // VU 인덱스와 MAX_USER_ID를 조합하여 고유한 userId 생성
     const userId = (__VU - 1) * 100 + __ITER + 1;
 
     // 요청 본문에 필요한 데이터를 포함합니다
@@ -346,8 +344,8 @@ export let options = {
   duration: '30s',
 };
 export default function () {
-	  const userId =(__VU - 1) * 100 + __ITER + 1; // // userId 계산
-  const concertOptionId = Math.floor((userId - 1) / 100) + 1; //Math.floor((userId - 1) / 1000) + 1; // concertOptionId 계산
+	  const userId =(__VU - 1) * 100 + __ITER + 1; 
+  const concertOptionId = Math.floor((userId - 1) / 100) + 1;  
 	// 요청 헤더에 userId 포함
   let headers = {
     'Content-Type': 'application/json',
@@ -388,7 +386,7 @@ export default function () {
 (1) 테스트코드
 ```javascript
 import http from 'k6/http';
-import { check, sleep } from 'k6';  // check 함수 임포트
+import { check, sleep } from 'k6'; 
 
 // 전역 변수로 설정할 기본값들
 const BASE_URL = 'http://localhost:8080';
@@ -402,7 +400,7 @@ export let options = {
 
 export default function () {
     // 각 VU에 고유한 userId를 할당
-    const userId = (__VU - 1) * 100 + __ITER + 1;;
+    const userId = (__VU - 1) * 100 + __ITER + 1;
 
     // 요청 헤더에 userId 포함
     let headers = {
@@ -410,12 +408,10 @@ export default function () {
         'userId': userId.toString(),
     };
 
-    // GET 요청 사용
     let paymentSelectRes = http.get(`${BASE_URL}/payment/${userId}/balance/select`, {
         headers: headers,
     });
 
-    //console.log(JSON.stringify(paymentSelectRes));
     check(paymentSelectRes, {
         'status is 200': (r) => r.status === 200,
         'response is not empty': (r) => r.body.length > 0,
@@ -434,7 +430,7 @@ export default function () {
 (1) 테스트 코드
 ```javascript
 import http from 'k6/http';
-import { check, sleep } from 'k6';  // check 함수 임포트
+import { check, sleep } from 'k6'; 
 
 // 전역 변수로 설정할 기본값들
 const BASE_URL = 'http://localhost:8080';
@@ -480,4 +476,91 @@ export default function () {
 (2) 결과
    ![잔액충전 K6](https://github.com/user-attachments/assets/77c41588-f696-4d01-a9ac-f63aeaec986a)
 
+</details>
+
+<details>
+<summary> 장애 시나리오 </summary>
+1. 부하 테스트를 통한 성능
+
+(1) 예약가능 콘서트 조회 API
+
+- **동시 사용자 수 (VUs)**: 100명
+- **테스트 시간**: 30초
+- **총 요청 수**: 1589번
+
+
+| 지표                        | 평균 값                | 최소 값  | 최대 값  | 90th Percentile | 95th Percentile |
+|-----------------------------|------------------------|----------|----------|-----------------|-----------------|
+| **TPS (초당 트랜잭션 수)**  | **52.97 TPS**          | -        | -        | -               | -               |
+| **연결 시간**               | 79.73ms                | 0ms      | 417ms    | 115ms           | 133ms           |
+| **요청 대기 시간**          | 933.84ms               | 0ms      | 414.92ms | 1140ms          | 1330ms          |
+| **전체 요청 시간**          | 936.71ms               | 417ms    | 2.22s    | 1.15s           | 1.33s           |
+| **반복 수행 시간**          | 1.94s                  | 1.43s    | 3.23s    | 2.15s           | 2.34s           |
+
+
+
+
+(2) 콘서트 예약 API 
+
+- **동시 사용자 수 (VUs)**: 100명
+- **테스트 시간**: 30초
+- **총 요청 수**: 2618번
+
+
+| 지표                        | 평균 값                | 최소 값  | 최대 값  | 90th Percentile | 95th Percentile |
+|-----------------------------|------------------------|----------|----------|-----------------|-----------------|
+| **TPS (초당 트랜잭션 수)**  | **85.15 TPS**          | -        | -        | -               | -               |
+| **연결 시간**               | 13.47µs                | 0ms      | 2.99ms   | 0ms             | 0ms             |
+| **요청 대기 시간**          | 1.16s                  | 377.54ms | 1.96s    | 1.34s           | 1.43s           |
+| **전체 요청 시간**          | 1.16s                  | 377.54ms | 1.96s    | 1.34s           | 1.43s           |
+| **반복 수행 시간**          | 1.16s                  | 378.07ms | 1.96s    | 1.34s           | 1.43s           |
+
+
+(3) 잔액조회 API
+
+- **동시 사용자 수 (VUs)**: 100명
+- **테스트 시간**: 30초
+- **총 요청 수**: 2312번
+
+
+| 지표                        | 평균 값                | 최소 값  | 최대 값  | 90th Percentile | 95th Percentile |
+|-----------------------------|------------------------|----------|----------|-----------------|-----------------|
+| **TPS (초당 트랜잭션 수)**  | **73.97 TPS**          | -        | -        | -               | -               |
+| **연결 시간**               | 40.61µs                | 0ms      | 1.19ms   | 0ms             | 0ms             |
+| **요청 대기 시간**          | 317.22ms               | 60ms     | 1.63s    | 710.26ms        | 860.71ms        |
+| **전체 요청 시간**          | 317.32ms               | 60ms     | 1.63s    | 710.26ms        | 860.71ms        |
+| **반복 수행 시간**          | 1.32s                  | 1.06s    | 2.65s    | 1.72s           | 1.86s           |
+
+
+
+(4) 잔액충전 API
+
+- **동시 사용자 수 (VUs)**: 100명
+- **테스트 시간**: 30초
+- **총 요청 수**: 2431번
+
+| 지표                        | 평균 값                | 최소 값  | 최대 값  | 90th Percentile | 95th Percentile |
+|-----------------------------|------------------------|----------|----------|-----------------|-----------------|
+| **TPS (초당 트랜잭션 수)**  | **78.14 TPS**          | -        | -        | -               | -               |
+| **연결 시간**               | 19.33µs                | 0ms      | 1.5ms    | 0ms             | 0ms             |
+| **요청 대기 시간**          | 249.33ms               | 69.41ms  | 1.16s    | 529.03ms        | 790ms           |
+| **전체 요청 시간**          | 249.43ms               | 69.41ms  | 1.16s    | 529.03ms        | 790ms           |
+| **반복 수행 시간**          | 1.25s                  | 1.07s    | 2.17s    | 1.54s           | 1.8s            |
+
+
+2. 테스트 시나리오 설정
+- 동시 사용자 테스트: 동시 접속 사용자 수를 증가시키며 시스템의 안정성 및 응답 시간을 측정.
+- 트랜잭션 부하 테스트: 초당 발생하는 트랜잭션 수를 조정하여 시스템의 트랜잭션 처리 능력을 평가.
+- 데이터 처리량 테스트: 데이터 입출력 처리량이 증가할 때 시스템 성능의 변화를 관찰.
+- 스트레스 테스트: 설정된 최대 부하를 초과하여 시스템이 과부하 상황에서 어떻게 반응하는지 확인.
+
+3. 기능 개선 및 최적화
+
+(1) 데이터베이스 최적화
+- 쿼리 최적화: 복잡한 쿼리를 단순화하고, 쿼리 인덱스를 최적화
+- 캐싱 전략 도입: 자주 조회되는 데이터를 캐시 처리하여 데이터베이스 부하 감소
+
+(2) 메모리 관리 개선
+
+- Token 만료 처리(Redis) : 콘서트예약 성공 또는 스케줄링을 통해 토큰 만료 구현
 </details>
