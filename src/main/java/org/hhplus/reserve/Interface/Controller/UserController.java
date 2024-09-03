@@ -2,7 +2,6 @@ package org.hhplus.reserve.Interface.Controller;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Domain.User.TokenRedisService;
-import org.hhplus.reserve.Business.Usecase.Facade.UserFacade;
 import org.hhplus.reserve.Interface.DTO.Token.TokenRequestDTO;
 import org.hhplus.reserve.Interface.DTO.Token.TokenResponseDTO;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserFacade userFacade;
+    //private final UserFacade userFacade;
     private final TokenRedisService tokenRedisService;
     /*
 토큰 저장 API
@@ -24,8 +23,8 @@ public class UserController {
     /*
     토큰 인증 발급 API
      */
-    @PostMapping("/authentication")
-    public TokenResponseDTO authentication(@RequestBody TokenRequestDTO tokenRequestDTO){
-        return userFacade.authenticationApplication(tokenRequestDTO);
-    }
+//    @PostMapping("/authentication")
+//    public TokenResponseDTO authentication(@RequestBody TokenRequestDTO tokenRequestDTO){
+//        //return userFacade.authenticationApplication(tokenRequestDTO);
+//    }
 }

@@ -16,31 +16,28 @@ public class ActiveTokenRedisRepositoryImpl implements ActiveTokenRedisRepositor
 
     @Override
     // 토큰 저장
-    public void register(String userId){
+    public void register(String userUuid){
         // 저장과 유효기간 두 기능의 원자성을 위해 파이프라인 설정
         redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
             // connection 을 StringRedisConnection 으로 변환하여 사용
             StringRedisConnection stringRedisConn = (StringRedisConnection) connection;
-
             // Set 에 userId 추가
-            stringRedisConn.sAdd(ACTIVE_TOKENS_KEY, userId);
-
+            stringRedisConn.sAdd(ACTIVE_TOKENS_KEY, userUuid);
             // 키에 유효기간 설정 (예: 10분)
             stringRedisConn.expire(ACTIVE_TOKENS_KEY, 600);
-
             return null; // 파이프라인에서는 반환값이 필요 없으므로 null 반환
         });
     }
 
     @Override
     // 활성화 토큰 만료
-    public void remove(String userId){
-        redisTemplate.opsForSet().remove(ACTIVE_TOKENS_KEY,userId);
+    public void remove(String userUuid){
+        redisTemplate.opsForSet().remove(ACTIVE_TOKENS_KEY,userUuid);
     }
 
     @Override
-    public boolean check(String userId){
-        return redisTemplate.opsForSet().isMember(ACTIVE_TOKENS_KEY,userId);
+    public boolean check(String userUuid){
+        return redisTemplate.opsForSet().isMember(ACTIVE_TOKENS_KEY,userUuid);
     }
 
     @Override

@@ -1,11 +1,10 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hhplus.reserve.Business.Domain.User.TokenService;
-import org.hhplus.reserve.Business.Usecase.Facade.UserFacade;
+import org.hhplus.reserve.Business.Domain.User.TokenRedisService;
+import org.hhplus.reserve.Business.Usecase.Facade.ConcertFacade;
 import org.hhplus.reserve.Interface.Controller.ConcertController;
 import org.hhplus.reserve.Interface.DTO.Reservation.ReservationRequestDTO;
-import org.hhplus.reserve.Interface.DTO.Token.TokenResponseDTO;
 import org.hhplus.reserve.interceptor.AuthInterceptor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,24 +32,20 @@ public class ConcertControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private UserFacade userFacade;
-    @MockBean
     private AuthInterceptor authInterceptor;
     @MockBean
-    private TokenService tokenService; // TokenService 모킹
+    private TokenRedisService tokenRedisService; // TokenService 모킹
+    @MockBean
+    private ConcertFacade concertFacade;
 
 
     @Test
     @DisplayName("예약 가능 조회 API")
     void ReservationAvailableSUCESS() throws Exception{
-          UUID uuid = UUID.randomUUID();
-        Integer userId = 1005;
-        Mockito.when(tokenService.checkAuth(Mockito.anyInt())).thenReturn(
-                TokenResponseDTO.builder().userId(1).user_UUID(uuid).create_dt("2024-07-25").build());
+          UUID userUuid = UUID.randomUUID();
         Mockito.when(authInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
-        ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
-                        .header("userId",userId.toString())
+                        .header("UUID",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -61,8 +56,6 @@ public class ConcertControllerUnitTest {
     @DisplayName("콘서트 예약 API")
     void ReservationSUCESS() throws Exception{
         UUID uuid = UUID.randomUUID();
-        Mockito.when(tokenService.checkAuth(Mockito.anyInt())).thenReturn(
-                TokenResponseDTO.builder().userId(1).user_UUID(uuid).create_dt("2024-07-25").build());
         Mockito.when(authInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
         ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(1,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();

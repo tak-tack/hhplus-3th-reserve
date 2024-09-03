@@ -25,12 +25,12 @@ public class ProcessFacade {
     private static final int MAX_ACTIVE_USERS = 10000; // 최대 활성 사용자 수
 
     @Transactional
-    public boolean waitingQueue(String userId) throws InterruptedException {
+    public boolean waitingQueue(String userUuid) throws InterruptedException {
         log.info("waitingQueue start");
-        queueRedisService.saveQueue(Integer.parseInt(userId)); // 1차 대기열 진입
+        queueRedisService.saveQueue(userUuid); // 1차 대기열 진입
 
         while (true) {
-            Long rank = queueRedisService.getQueueRank(userId);
+            Long rank = queueRedisService.getQueueRank(userUuid);
             if (rank == null) {
                 log.info("waitingQueue end");
                 return true; // 1차 대기열 통과

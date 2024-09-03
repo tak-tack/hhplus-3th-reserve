@@ -1,11 +1,8 @@
 package org.hhplus.reserve.Presentation.Controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hhplus.reserve.Business.Domain.User.TokenService;
-import org.hhplus.reserve.Business.Usecase.Facade.UserFacade;
 import org.hhplus.reserve.Interface.Controller.PaymentController;
 import org.hhplus.reserve.Interface.DTO.Payment.PaymentRequestDTO;
-import org.hhplus.reserve.Interface.DTO.Token.TokenResponseDTO;
 import org.hhplus.reserve.interceptor.AuthInterceptor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,10 +28,6 @@ public class PaymentControllerUnitTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
-    private UserFacade userFacade;
-    @MockBean
-    private TokenService tokenService; // TokenService 모킹
     @Autowired
     private ObjectMapper objectMapper;
     @MockBean
@@ -44,8 +37,6 @@ public class PaymentControllerUnitTest {
     @DisplayName("잔액 조회 API")
     void BalanceSelectSUCESS() throws Exception{
         UUID uuid = UUID.randomUUID();
-        Mockito.when(tokenService.checkAuth(Mockito.anyInt())).thenReturn(
-                TokenResponseDTO.builder().userId(1).user_UUID(uuid).create_dt("2024-07-25").build());
         Mockito.when(authInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
         mockMvc.perform(get("/payment/{userId}/balance/select",1)
                         .contentType(APPLICATION_JSON))
@@ -58,8 +49,6 @@ public class PaymentControllerUnitTest {
     void BalanceChargeSUCESS() throws Exception{
         //tkenService.applyAuth(1);
         UUID uuid = UUID.randomUUID();
-        Mockito.when(tokenService.checkAuth(Mockito.anyInt())).thenReturn(
-                TokenResponseDTO.builder().userId(1).user_UUID(uuid).create_dt("2024-07-25").build());
         PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(1,1000);
         mockMvc.perform(post("/payment/{userId}/balance/charge",paymentRequestDTO.getUserId()).content(
                                 objectMapper.writeValueAsString(paymentRequestDTO))

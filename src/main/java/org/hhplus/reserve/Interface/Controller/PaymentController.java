@@ -2,7 +2,6 @@ package org.hhplus.reserve.Interface.Controller;
 
 import lombok.RequiredArgsConstructor;
 import org.hhplus.reserve.Business.Usecase.Facade.PaymentFacade;
-import org.hhplus.reserve.Business.Usecase.Facade.UserFacade;
 import org.hhplus.reserve.Interface.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Interface.DTO.Payment.PaymentResponseDTO;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,7 @@ import java.util.List;
 @RequestMapping("/payment")
 @RequiredArgsConstructor
 public class PaymentController {
-    private final UserFacade userFacade;
+    //private final UserFacade userFacade;
     private final PaymentFacade paymentFacade;
     /*
      **잔액 충전 / 조회 API**

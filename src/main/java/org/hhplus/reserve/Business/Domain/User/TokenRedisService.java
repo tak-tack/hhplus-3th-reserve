@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class TokenRedisService {
@@ -20,24 +22,24 @@ public class TokenRedisService {
 
     @Transactional
     // 토큰 발급
-    public void saveToken(String userId) {
-        if (tokenRepository.exist(Integer.parseInt(userId)).isPresent()) { // 중복 체크
-            throw new CustomException(ErrorCode.USER_DUPLICATED, userId);
+    public void saveToken(String userUuid) {
+        if (tokenRepository.exist(userUuid).isPresent()) { // 중복 체크
+            throw new CustomException(ErrorCode.USER_DUPLICATED, userUuid);
         } else {
-            tokenRepository.save(Integer.parseInt(userId));
+            tokenRepository.save(UUID.fromString(userUuid));
         }
     }
 
     // 토큰 발급 검증
-    public boolean checkToken(String userId) {
-              return tokenRepository.exist(Integer.parseInt(userId)).isPresent();
+    public boolean checkToken(String userUuid) {
+              return tokenRepository.exist(userUuid).isPresent();
 
     }
 
     // 토큰 활성화
     @Transactional
-    public void activeToken(String userId) {
-            activeTokenRedisRepository.register(userId);
+    public void activeToken(String userUuid) {
+            activeTokenRedisRepository.register(userUuid);
 
     }
 
@@ -49,13 +51,13 @@ public class TokenRedisService {
 
     // 토큰 활성화 상태 확인
     @Transactional
-    public boolean validateActiveToken(String userId) {
-        return activeTokenRedisRepository.check(userId);
+    public boolean validateActiveToken(String userUuid) {
+        return activeTokenRedisRepository.check(userUuid);
     }
 
     //토큰 비활성화
-    public void deactivateToken(String useId) {
-        activeTokenRedisRepository.remove(useId);
+    public void deactivateToken(String userUuid) {
+        activeTokenRedisRepository.remove(userUuid);
     }
 
 }

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.UUID;
+
 
 @Component
 public class AuthInterceptor  implements HandlerInterceptor {
@@ -26,34 +28,29 @@ public class AuthInterceptor  implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String userId = request.getHeader("userId"); // userId 획득
-        log.info("요청 userId : " + userId);
-        if (userId != null) {
+        String userUuid = request.getHeader("UUID");
+        if (userUuid != null) {
             try {
-                if (tokenRedisService.checkToken(userId)) {
-                    log.info("유효한 고객입니다. 고객 번호: " + userId);
-                    //queueRedisService.saveQueue(Integer.parseInt(userId)); // 1차 대기열 진입
-
+                if (tokenRedisService.checkToken(userUuid)) {
+                    log.info("유효한 고객입니다. 고객 번호: " + userUuid);
+                }else {
+                    log.info("없는 고객입니다. 토큰 발급 진행합니다. 고객 번호: " + userUuid);
+                    tokenRedisService.saveToken(userUuid);
+                }
                     // 1차 대기열에서 대기
-                    if (!processFacade.waitingQueue(userId)) {
+                    if (!processFacade.waitingQueue(userUuid)) {
                         response.sendError(HttpServletResponse.SC_FORBIDDEN, "다시 시도 해주세요.");
                         return false;
                     }
                     // 2차 대기열 처리
-                    if (!processFacade.activeQueue(userId)) {
+                    if (!processFacade.activeQueue(userUuid)) {
                         response.sendError(HttpServletResponse.SC_FORBIDDEN, "다시 시도 해주세요.");
                         return false;
                     }
-//                    processFacade.waitingQueue(userId);
-//                    processFacade.activeQueue(userId);
-                    log.info("토큰 활성화 완료. 고객 번호: " + userId);
+                    log.info("토큰 활성화 완료. 고객 번호: " + userUuid);
                     return true;
-                }else{
-                    log.info("존재하지 않은 고객입니다. 고객 번호: " + userId);
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "존재하지 않은 고객입니다.");
-                }
             } catch (NumberFormatException e) {
-                log.info("유효하지 않은 고객입니다. 고객 번호: " + userId);
+                log.info("유효하지 않은 고객입니다. 고객 번호: " + userUuid);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않은 고객입니다.");
             }
         }

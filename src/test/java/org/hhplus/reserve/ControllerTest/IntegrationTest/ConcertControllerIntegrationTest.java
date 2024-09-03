@@ -1,9 +1,8 @@
-package org.hhplus.reserve.Presentation.Controller;
+package org.hhplus.reserve.ControllerTest.IntegrationTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hhplus.reserve.Infrastructure.DB.Payment.PaymentRepository;
 import org.hhplus.reserve.Infrastructure.DB.Token.TokenRepository;
-import org.hhplus.reserve.Business.Domain.User.TokenService;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertOptionJpaRepository;
 import org.hhplus.reserve.Infrastructure.DB.Concert.ConcertSeatJpaRepository;
@@ -22,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -41,8 +41,6 @@ class ConcertControllerIntegrationTest {
     private WebApplicationContext context;
     @Autowired
     private TokenRepository tokenRepository;
-    @Autowired
-    private TokenService tokenService;
     @Autowired
     private ConcertJpaRepository concertJpaRepository;
     @Autowired
@@ -72,10 +70,9 @@ class ConcertControllerIntegrationTest {
     @Test
     @DisplayName("예약 가능 조회 API - 성공")
     void ReservationAvailableSUCESS() throws Exception{
-        Integer userId = 1006;
-        //tokenRepository.save(userId); // 유저 토큰 생성
+        UUID userUuid = UUID.randomUUID();
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
-                        .header("userId",userId.toString())
+                        .header("UUID",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -83,12 +80,12 @@ class ConcertControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("예약 가능 조회 API - 실패 - CASE : 비인가 고객")
+    @DisplayName("예약 가능 조회 API - 실패 - CASE : 비인가 고객") // 수정예정
     void ReservationAvailableFAIL1() throws Exception{
-        Integer userId = 1;
-        tokenRepository.save(2);
+        UUID userUuid = UUID.randomUUID();
+        //tokenRepository.save(2);
         mockMvc.perform(MockMvcRequestBuilders.post("/concert/availabilityConcertList")
-                        .header("userId",userId.toString())
+                        .header("UUID",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -98,14 +95,14 @@ class ConcertControllerIntegrationTest {
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
         Integer userId = 33;
-       //tokenRepository.save(userId); // 유저 토큰 생성
-        //paymentRepository.register(userId,100000); // 유저 결재포인트 생성
+        paymentRepository.register(userId,100000); // 유저 결재포인트 생성
+        UUID userUuid = UUID.randomUUID();
         ReservationRequestDTO reservationRequestDTO =
                 new ReservationRequestDTO(userId,"2024-07-16",1,59);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))
-                        .header("userId",userId.toString())
+                        .header("UUID",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -115,13 +112,12 @@ class ConcertControllerIntegrationTest {
     @DisplayName("콘서트 예약 API - 실패 - CASE : 중복된 유저")
     void ReservationFAIL1() throws Exception{
         Integer userId = 59;
-        //okenRepository.save(userId); // 유저 토큰 생성
         paymentRepository.register(userId,100); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(userId,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))
-                        .header("userId",userId.toString())
+                        .header("UUID",userId.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -132,13 +128,13 @@ class ConcertControllerIntegrationTest {
     @DisplayName("콘서트 예약 API - 실패 - CASE : 잔액부족")
     void ReservationFAIL2() throws Exception{
         Integer userId = 67;
-        tokenRepository.save(userId); // 유저 토큰 생성
+        //tokenRepository.save(userId); // 유저 토큰 생성
         paymentRepository.register(userId,100); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(67,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))
-                        .header("userId",userId.toString())
+                        .header("UUID",userId.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

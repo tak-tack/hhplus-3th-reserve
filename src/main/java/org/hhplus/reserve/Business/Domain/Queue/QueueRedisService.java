@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 
 @Service
@@ -21,9 +22,9 @@ public class QueueRedisService {
 
 
     // 대기열 등록
-    public void saveQueue(Integer userId){
+    public void saveQueue(String userUuid){
         Long score = Instant.now().toEpochMilli();
-        queueRedisRepository.register(userId.toString(),score);
+        queueRedisRepository.register(userUuid,score);
     }
 
     // 대기열

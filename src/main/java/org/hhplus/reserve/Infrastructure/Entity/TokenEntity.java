@@ -34,7 +34,7 @@ public class TokenEntity implements CommonEntity<TokenDomain> {
 
     //   domain > entity converting
         public TokenEntity(TokenDomain tokenDomain){
-            BeanUtils.copyProperties(tokenDomain,this);
+        BeanUtils.copyProperties(tokenDomain,this);
        }
 
     // entity > domain converting

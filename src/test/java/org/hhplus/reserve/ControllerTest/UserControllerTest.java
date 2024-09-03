@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Presentation.Controller;
+package org.hhplus.reserve.ControllerTest;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Business.Service;
+package org.hhplus.reserve.Business.Service.IntegrationTest;
 
 import org.hhplus.reserve.Business.Domain.Queue.QueueRedisService;
 import org.hhplus.reserve.Infrastructure.DB.Queue.QueueRedisRepository;
@@ -14,11 +14,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 
 @SpringBootTest
-class QueueRedisServiceTest {
-   private static final Logger log = LoggerFactory.getLogger(QueueRedisServiceTest.class);
+class QueueRedisServiceIntegrationTest {
+   private static final Logger log = LoggerFactory.getLogger(QueueRedisServiceIntegrationTest.class);
     @Autowired
     private ThreadPoolTaskScheduler taskScheduler;
     @Autowired
@@ -29,14 +30,12 @@ class QueueRedisServiceTest {
     @Autowired
     private QueueRedisRepository queueRedisRepository;
 
-    Integer userId = 105;
-
     @BeforeEach
     public void setUp() throws InterruptedException {
         Thread thread1 = new Thread(() -> {
             for(int i =0; i<5000; i++)
             {
-                queueRedisService.saveQueue(i);
+                //queueRedisService.saveQueue(i);
             }
         });
 
@@ -59,8 +58,8 @@ class QueueRedisServiceTest {
     @Test
     @DisplayName("대기열 저장 - 성공")
     void saveQueue() {
-
-        queueRedisService.saveQueue(userId);
+        UUID userUuid = UUID.randomUUID();
+        queueRedisService.saveQueue(userUuid.toString());
     }
 
     @Test

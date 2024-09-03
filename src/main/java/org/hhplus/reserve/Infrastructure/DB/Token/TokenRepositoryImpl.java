@@ -6,6 +6,7 @@ import org.hhplus.reserve.Infrastructure.Entity.TokenEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -14,28 +15,28 @@ public class TokenRepositoryImpl implements TokenRepository {
 
     // 토큰 발급
     @Override
-    public TokenDomain save(Integer userId){
+    public TokenDomain save(UUID userUuid){
         TokenEntity tokenEntity =tokenJpaRepository.save(
-                TokenEntity.builder().userId(userId).build());
+                TokenEntity.builder().user_UUID(userUuid).build());
         return tokenEntity.toDomain();
     }
 
     // 토큰 중복 확인
     @Override
-    public Optional<Integer> exist(Integer userId){
-        return tokenJpaRepository.existsByUserId(userId);
+    public Optional<UUID> exist(String userUuid){
+        return tokenJpaRepository.existsByUserUUID(userUuid);
     }
 
     // 토큰 요청
     @Override
-    public TokenDomain select(Integer userId){
-        return tokenJpaRepository.findByUserId(userId).toDomain();
+    public TokenDomain select(UUID userUuid){
+        return tokenJpaRepository.findByUserId(userUuid).toDomain();
     }
 
     //토큰만료
     @Override
-    public void delete(Integer userId){
-        tokenJpaRepository.deleteByUserId(userId);
+    public void delete(UUID userUuid){
+        tokenJpaRepository.deleteByUserId(userUuid);
     }
 
 }
