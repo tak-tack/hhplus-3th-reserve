@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,13 +26,13 @@ public class PaymentServiceImpl implements PaymentService {
     // 예약 좌석 결제
     @Override
     @Transactional
-    public void reservationPayment(Integer userId, Integer seatPrice){
-        Integer userBalance = paymentRepository.findUserAmountByUserId(userId); // user 의 잔액 조회
+    public void reservationPayment(/*Integer userId*/ UUID userUuid, Integer seatPrice){
+        Integer userBalance = paymentRepository.findUserAmountByUserId(userUuid); // user 의 잔액 조회
         if(userBalance >= seatPrice){
             Integer afterUserBalance =  userBalance-seatPrice;
-            paymentRepository.update(afterUserBalance,userId);
+            paymentRepository.update(afterUserBalance,userUuid);
             PaymentMessage paymentMessage =
-            PaymentMessage.builder().userId(userId).paymentAmount(afterUserBalance).build();
+            PaymentMessage.builder().userUuid(userUuid).paymentAmount(afterUserBalance).build();
             PaymentEvent paymentEvent = new PaymentEvent(this,paymentMessage, EventType.SUCCESS);
             paymentProducer.sendPaymentEvent(paymentEvent);
         }else{ // 잔액 부족

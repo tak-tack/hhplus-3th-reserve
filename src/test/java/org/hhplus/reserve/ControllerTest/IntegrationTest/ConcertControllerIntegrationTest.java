@@ -94,11 +94,11 @@ class ConcertControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 성공")
     void ReservationSUCESS() throws Exception{
-        Integer userId = 33;
-        paymentRepository.register(userId,100000); // 유저 결재포인트 생성
+        //Integer userId = 33;
         UUID userUuid = UUID.randomUUID();
+        paymentRepository.register(userUuid,100000); // 유저 결재포인트 생성
         ReservationRequestDTO reservationRequestDTO =
-                new ReservationRequestDTO(userId,"2024-07-16",1,59);
+                new ReservationRequestDTO(userUuid,"2024-07-16",1,59);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))

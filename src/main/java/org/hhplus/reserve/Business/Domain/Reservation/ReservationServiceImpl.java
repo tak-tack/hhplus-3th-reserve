@@ -26,10 +26,10 @@ public class ReservationServiceImpl implements ReservationService {
                     ReservationStatus.RSERVATION_WATING.name(),
                     reservationRequestDTO.getSeatId(),
                     createDt,
-                    reservationRequestDTO.getUserId()
+                    reservationRequestDTO.getUserUuid()
                     );
             return reservationRepository.find(
-                    reservationRequestDTO.getUserId(),
+                    reservationRequestDTO.getUserUuid(),
                     ReservationStatus.RSERVATION_WATING).toDTO();
     }
     //콘서트 예약 완료. 상태변경

@@ -41,7 +41,8 @@ public class ConcertFacade {
         concertService.concertSeatUpdateToGetting(reservationResponseDTO.converting());
         // 결재 API 진입
                 paymentService.reservationPayment(
-                reservationRequestDTO.getUserId(),
+                //reservationRequestDTO.getUserId(),
+                        reservationRequestDTO.getUserUuid(),
                 concertService.concertSeatPrice(reservationResponseDTO.converting()) // seatPrice
                 );
         // 콘서트 좌석 예약 완료

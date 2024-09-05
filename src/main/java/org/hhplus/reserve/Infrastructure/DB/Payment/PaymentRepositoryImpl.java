@@ -23,7 +23,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     @Override
     @Transactional
     public Integer findUserAmountByUserId(Integer userId) {
-        return paymentJpaRepository.findUserAmountByUserId(userId).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND,userId.toString()));
+        return paymentJpaRepository.findUserAmountByUserId(userId).orElseThrow(()
+                -> new CustomException(ErrorCode.USER_NOT_FOUND,userId.toString()));
     }
 
     // userId의 데이터 조회

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ReservationJpaRepository extends JpaRepository<ReservationEntity, Integer> {
 
@@ -16,13 +17,13 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationEntit
     @Query(value="INSERT into dba.reservation (reservation_id,concert_option_id" +
             ", reservation_status" +
             ", seat_id" +
-            ", user_id" +
+            ", userUuid" +
             ", create_dt" +
-            ", modify_dt) values (default,:concertOptionId, :reservationStatus, :seatId, :userId, :createDt , :modifyDt)",nativeQuery = true)
+            ", modify_dt) values (default,:concertOptionId, :reservationStatus, :seatId, :userUuid, :createDt , :modifyDt)",nativeQuery = true)
     void register(@Param("concertOptionId") Integer concertOptionId,
                   @Param("reservationStatus") String reservationStatus,
                   @Param("seatId") Integer seatId,
-                  @Param("userId") Integer userId,
+                  @Param("userId") UUID userUuid,
                   @Param("createDt") String createDt,
                   @Param("modifyDt") String modifyDt);
 
@@ -31,6 +32,6 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationEntit
     void update(@Param("reservationStatus") String reservationStatus,@Param("modifyDt") String modifyDt,@Param("reservationId") Integer reservationId);
 
     //@Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT r FROM ReservationEntity r WHERE r.userId = :userId AND r.reservationStatus = :reservationStatus")
-    Optional<ReservationEntity> findByUserId(@Param("userId") Integer userId,@Param("reservationStatus")ReservationStatus reservationStatus);
+    @Query("SELECT r FROM ReservationEntity r WHERE r.userUuid = :userUuid AND r.reservationStatus = :reservationStatus")
+    Optional<ReservationEntity> findByUserId(@Param("userUuid") UUID userUuid,@Param("reservationStatus")ReservationStatus reservationStatus);
 }

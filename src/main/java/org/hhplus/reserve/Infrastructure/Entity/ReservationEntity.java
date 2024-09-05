@@ -8,6 +8,8 @@ import org.hhplus.reserve.Business.Domain.Reservation.model.ReservationDomain;
 import org.hhplus.reserve.Business.Enum.ReservationStatus;
 import org.springframework.beans.BeanUtils;
 
+import java.util.UUID;
+
 @Setter
 @Getter
 @Entity
@@ -21,7 +23,8 @@ public class ReservationEntity {
     private Integer reservationId;
     private Integer concertOptionId;
     private Integer seatId;
-    private Integer userId;
+    //private Integer userId;
+    private UUID userUuid;
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
     private String createDt;
