@@ -5,6 +5,8 @@ import lombok.*;
 import org.hhplus.reserve.Business.Domain.Payment.model.PaymentDomain;
 import org.springframework.beans.BeanUtils;
 
+import java.util.UUID;
+
 @Setter
 @Getter
 @Builder
@@ -17,7 +19,8 @@ public class PaymentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer paymentId;
     @Column(unique = true) // 중복 미허용
-    private Integer userId;
+    //private Integer userId;
+    private UUID userUuid;
     private Integer paymentAmount;
 
     public PaymentDomain toDomain(){

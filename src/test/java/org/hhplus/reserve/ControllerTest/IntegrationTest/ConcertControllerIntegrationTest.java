@@ -111,13 +111,15 @@ class ConcertControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 실패 - CASE : 중복된 유저")
     void ReservationFAIL1() throws Exception{
-        Integer userId = 59;
-        paymentRepository.register(userId,100); // 유저 결재포인트 생성
-        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(userId,"2024-07-16",1,1);
+        //Integer userId = 59;
+        UUID userUuid = UUID.randomUUID();
+        UUID userUuidFail = UUID.randomUUID();
+        paymentRepository.register(userUuid,100); // 유저 결재포인트 생성
+        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(userUuidFail,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))
-                        .header("UUID",userId.toString())
+                        .header("UUID",userUuidFail.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -127,14 +129,15 @@ class ConcertControllerIntegrationTest {
     @Test
     @DisplayName("콘서트 예약 API - 실패 - CASE : 잔액부족")
     void ReservationFAIL2() throws Exception{
-        Integer userId = 67;
+        //Integer userId = 67;
         //tokenRepository.save(userId); // 유저 토큰 생성
-        paymentRepository.register(userId,100); // 유저 결재포인트 생성
-        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(67,"2024-07-16",1,1);
+        UUID userUuid = UUID.randomUUID();
+        paymentRepository.register(userUuid,100); // 유저 결재포인트 생성
+        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(userUuid,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))
-                        .header("UUID",userId.toString())
+                        .header("UUID",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

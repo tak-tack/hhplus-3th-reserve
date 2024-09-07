@@ -22,7 +22,6 @@ import java.util.UUID;
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentProducer paymentProducer;
-    //private final PaymentEvent paymentEvent;
     // 예약 좌석 결제
     @Override
     @Transactional
@@ -42,17 +41,17 @@ public class PaymentServiceImpl implements PaymentService {
     // 유저 잔액 조회
     @Override
     @Transactional
-    public List<PaymentResponseDTO> userPaymentFind(Integer userId){
-        return paymentRepository.findUserByUserId(userId).stream().map(PaymentDomain::toDTO).toList();
+    public List<PaymentResponseDTO> userPaymentFind(UUID userUuid){
+        return paymentRepository.findUserByUserId(userUuid).stream().map(PaymentDomain::toDTO).toList();
     }
     // 유저 잔액 충전
     @Override
     @Transactional
     public List<PaymentResponseDTO> userPaymentCharge(PaymentRequestDTO paymentRequestDTO){
         Integer userBalance =
-                paymentRepository.findUserAmountByUserId(paymentRequestDTO.getUserId());
-        paymentRepository.update(userBalance + paymentRequestDTO.getChargeAmount(),paymentRequestDTO.getUserId());
-        return paymentRepository.findUserByUserId(paymentRequestDTO.getUserId()).stream().map(PaymentDomain::toDTO).toList();
+                paymentRepository.findUserAmountByUserId(paymentRequestDTO.getUserUuid());
+        paymentRepository.update(userBalance + paymentRequestDTO.getChargeAmount(),paymentRequestDTO.getUserUuid());
+        return paymentRepository.findUserByUserId(paymentRequestDTO.getUserUuid()).stream().map(PaymentDomain::toDTO).toList();
     }
 
 

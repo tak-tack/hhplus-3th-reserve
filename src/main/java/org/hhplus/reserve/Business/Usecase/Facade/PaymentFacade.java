@@ -7,15 +7,16 @@ import org.hhplus.reserve.Interface.DTO.Payment.PaymentResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentFacade {
     private final PaymentService paymentService;
     // 유저 잔액 조회
-    public List<PaymentResponseDTO> userPaymentSelect(Integer userId)
+    public List<PaymentResponseDTO> userPaymentSelect(UUID userUuid)
     {
-        return paymentService.userPaymentFind(userId);
+        return paymentService.userPaymentFind(userUuid);
     } // 잔액조회
     // 유저 잔액 충전 후 조회
     public List<PaymentResponseDTO> userPaymentCharge(PaymentRequestDTO paymentRequestDTO)

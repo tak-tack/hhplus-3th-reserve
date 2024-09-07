@@ -17,13 +17,13 @@ public interface ReservationJpaRepository extends JpaRepository<ReservationEntit
     @Query(value="INSERT into dba.reservation (reservation_id,concert_option_id" +
             ", reservation_status" +
             ", seat_id" +
-            ", userUuid" +
+            ", user_uuid" +
             ", create_dt" +
             ", modify_dt) values (default,:concertOptionId, :reservationStatus, :seatId, :userUuid, :createDt , :modifyDt)",nativeQuery = true)
     void register(@Param("concertOptionId") Integer concertOptionId,
                   @Param("reservationStatus") String reservationStatus,
                   @Param("seatId") Integer seatId,
-                  @Param("userId") UUID userUuid,
+                  @Param("userUuid") UUID userUuid,
                   @Param("createDt") String createDt,
                   @Param("modifyDt") String modifyDt);
 

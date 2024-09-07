@@ -4,10 +4,11 @@ import org.hhplus.reserve.Interface.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.Interface.DTO.Payment.PaymentResponseDTO;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface PaymentService {
-    void reservationPayment(Integer userId, Integer seatPrice);
-    List<PaymentResponseDTO> userPaymentFind(Integer userId);
+    void reservationPayment(UUID userUuid, Integer seatPrice);
+    List<PaymentResponseDTO> userPaymentFind(UUID userUuid);
     List<PaymentResponseDTO> userPaymentCharge(PaymentRequestDTO paymentRequestDTO);
 
 }

@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -27,29 +29,30 @@ class ReservationServiceIntegrationTest {
     @Test
     @DisplayName("임시예약서비스 - 성공")
     void testTemporaryReserve() {
+        UUID userUuid = UUID.randomUUID();
         ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO();
         reservationRequestDTO.setConcertOptionId(1);
         reservationRequestDTO.setSeatId(1);
-        reservationRequestDTO.setUserId(1);
+        reservationRequestDTO.setUserUuid(userUuid);
         reservationService.temporaryReserve(reservationRequestDTO);
 
-        ReservationDomain reservation = reservationRepository.find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING);
+        ReservationDomain reservation = reservationRepository.find(reservationRequestDTO.getUserUuid(),ReservationStatus.RSERVATION_WATING);
         assertNotNull(reservation);
 
-        assertEquals(reservationRequestDTO.getUserId(), reservation.getUserId());
+        assertEquals(reservationRequestDTO.getUserUuid(), reservation.getUserId());
         assertEquals(ReservationStatus.RSERVATION_WATING, reservation.getReservationStatus());
     }
 
     @Test
     @DisplayName("예약 상태 변경 - 성공")
     void testReserve() {
-        Integer userId = 1;
+        UUID userUuid = UUID.randomUUID();
         Integer reservationId = 1;
 
         reservationService.reserve(reservationId);
 
         // 예약 상태가 업데이트 되었는지 확인
-        ReservationDomain reservation = reservationRepository.find(userId,ReservationStatus.RSERVATION_WATING);
+        ReservationDomain reservation = reservationRepository.find(userUuid,ReservationStatus.RSERVATION_WATING);
         assertNotNull(reservation);
             assertEquals(ReservationStatus.RESERVATION_FINISHED, reservation.getReservationStatus());
 
