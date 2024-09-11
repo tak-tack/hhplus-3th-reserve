@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,32 +23,32 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 
     @Override
     @Transactional
-    public Integer findUserAmountByUserId(Integer userId) {
-        return paymentJpaRepository.findUserAmountByUserId(userId).orElseThrow(()
-                -> new CustomException(ErrorCode.USER_NOT_FOUND,userId.toString()));
+    public Integer findUserAmountByUserId(UUID userUuid) {
+        return paymentJpaRepository.findUserAmountByUserId(userUuid).orElseThrow(()
+                -> new CustomException(ErrorCode.USER_NOT_FOUND,userUuid.toString()));
     }
 
     // userId의 데이터 조회
     @Override
     @Transactional
-    public List<PaymentDomain> findUserByUserId(Integer userId) {
-        return paymentJpaRepository.findUserByUserId(userId).filter(list -> !list.isEmpty())
-                .orElseThrow(() -> new RuntimeException("No payments found for user ID: " + userId))
+    public List<PaymentDomain> findUserByUserId(UUID userUuid) {
+        return paymentJpaRepository.findUserByUserId(userUuid).filter(list -> !list.isEmpty())
+                .orElseThrow(() -> new RuntimeException("No payments found for user ID: " + userUuid))
                 .stream().map(PaymentEntity::toDomain).toList();
     }
 
     // payment update
     @Override
     @Transactional
-    public void update(Integer paymentAmount, Integer userId) {
-        paymentJpaRepository.update(paymentAmount, userId);
+    public void update(Integer paymentAmount, UUID userUuid) {
+        paymentJpaRepository.update(paymentAmount, userUuid);
     }
 
     // test 를 위한 등록
     @Override
     @Transactional
-    public void register(Integer userId, Integer paymentAmount) {
-        paymentJpaRepository.Register(userId, paymentAmount);
+    public void register(UUID userUuid, Integer paymentAmount) {
+        paymentJpaRepository.Register(userUuid, paymentAmount);
     }
 
 }
