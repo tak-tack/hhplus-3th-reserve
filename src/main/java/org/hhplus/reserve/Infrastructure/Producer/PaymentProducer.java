@@ -12,7 +12,7 @@ public class PaymentProducer {
     private final KafkaTemplate<String, PaymentEvent> kafkaTemplate;
 
     public void sendPaymentEvent(PaymentEvent paymentEvent){
-        kafkaTemplate.send(TOPIC,paymentEvent.getPaymentMessage().getUserId().toString(),paymentEvent);
+        kafkaTemplate.send(TOPIC,paymentEvent.getPaymentMessage().getUserUuid().toString(),paymentEvent);
     }
 
 }

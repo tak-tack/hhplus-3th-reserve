@@ -22,7 +22,6 @@ import java.util.UUID;
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentProducer paymentProducer;
-    //private final PaymentEvent paymentEvent;
     // 예약 좌석 결제
     @Override
     @Transactional

@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -37,24 +38,25 @@ class ReservationServiceUnitTest {
     @Test
     @DisplayName("콘서트 임시 예약")
     void testTemporaryReserve() {
+        UUID userUuid = UUID.randomUUID();
         ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO();
         reservationRequestDTO.setConcertOptionId(1);
         reservationRequestDTO.setSeatId(1);
-        reservationRequestDTO.setUserId(1);
+        reservationRequestDTO.setUserUuid(userUuid);
 
         String createDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
         ReservationDomain reservationDomain = ReservationEntity.builder().
-                concertOptionId(1).seatId(1).userId(1).build().toDomain();
+                concertOptionId(1).seatId(1).userUuid(userUuid).build().toDomain();
 
         doNothing().when(reservationRepository).register(
                 reservationRequestDTO.getConcertOptionId(),
                 ReservationStatus.RSERVATION_WATING.name(),
                 reservationRequestDTO.getSeatId(),
                 createDt,
-                reservationRequestDTO.getUserId()
+                reservationRequestDTO.getUserUuid()
         );
-        when(reservationRepository.find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING)).thenReturn(reservationDomain);
+        when(reservationRepository.find(reservationRequestDTO.getUserUuid(),ReservationStatus.RSERVATION_WATING)).thenReturn(reservationDomain);
 
         ReservationResponseDTO result = reservationService.temporaryReserve(reservationRequestDTO);
 
@@ -64,9 +66,9 @@ class ReservationServiceUnitTest {
                 ReservationStatus.RSERVATION_WATING.name(),
                 reservationRequestDTO.getSeatId(),
                 createDt,
-                reservationRequestDTO.getUserId()
+                reservationRequestDTO.getUserUuid()
         );
-        verify(reservationRepository).find(reservationRequestDTO.getUserId(),ReservationStatus.RSERVATION_WATING);
+        verify(reservationRepository).find(reservationRequestDTO.getUserUuid(),ReservationStatus.RSERVATION_WATING);
     }
 
     @Test

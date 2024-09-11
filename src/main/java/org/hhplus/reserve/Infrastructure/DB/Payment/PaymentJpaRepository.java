@@ -8,23 +8,24 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface PaymentJpaRepository extends JpaRepository<PaymentEntity,Integer> {
 
     // 결재 API 를 위한 잔액만 조회
-    @Query("SELECT p.paymentAmount FROM PaymentEntity p WHERE p.userId = :userId")
-    Optional<Integer> findUserAmountByUserId(@Param("userId") Integer userId);
+    @Query("SELECT p.paymentAmount FROM PaymentEntity p WHERE p.userUuid = :userUuid")
+    Optional<Integer> findUserAmountByUserId(@Param("userUuid") UUID userUuid);
 
     // 유저 잔액 조회
     // Entity 객체로 반환
-    @Query("SELECT p FROM PaymentEntity p WHERE p.userId = :userId")
-    Optional<List<PaymentEntity>> findUserByUserId(@Param("userId") Integer userId);
+    @Query("SELECT p FROM PaymentEntity p WHERE p.userUuid = :userUuid")
+    Optional<List<PaymentEntity>> findUserByUserId(@Param("userUuid") UUID userUuid);
 
     @Modifying
-    @Query(value = "UPDATE dba.payment p SET p.payment_amount = :paymentAmount WHERE p.user_id =:userId",nativeQuery = true)
-    void update(@Param("paymentAmount") Integer paymentAmount, @Param("userId") Integer userId);
+    @Query(value = "UPDATE dba.payment p SET p.payment_amount = :paymentAmount WHERE p.userUuid =:userUuid",nativeQuery = true)
+    void update(@Param("paymentAmount") Integer paymentAmount, @Param("userUuid") UUID userUuid);
 
     @Modifying
-    @Query(value="INSERT INTO dba.payment (payment_id,user_id,payment_amount) values(default,:userId,:paymentAmount) ",nativeQuery = true)
-    void Register(@Param("userId")Integer userId, @Param("paymentAmount")Integer paymentAmount);
+    @Query(value="INSERT INTO dba.payment (payment_id,userUuid,payment_amount) values(default,:userUuid,:paymentAmount) ",nativeQuery = true)
+    void Register(@Param("userUuid")UUID userId, @Param("paymentAmount")Integer paymentAmount);
 }

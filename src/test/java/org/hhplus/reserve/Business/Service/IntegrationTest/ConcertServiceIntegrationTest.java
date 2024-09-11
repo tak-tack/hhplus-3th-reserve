@@ -73,7 +73,7 @@ class ConcertServiceIntegrationTest {
         Integer concertOptionId = 1;
         Integer seatPrice = 100000;
         // 테스트 데이터를 DB에 저장
-        // 예: concertRepository.saveSeatPrice(concertSeatId, seatPrice);
+        //concertRepository.saveSeatPrice(concertSeatId, seatPrice);
         ConcertRequestDTO concertRequestDTO = new ConcertRequestDTO();
         concertRequestDTO.setSeatId(concertSeatId);
         concertRequestDTO.setConcertOptionId(concertOptionId);

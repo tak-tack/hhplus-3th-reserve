@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,11 +32,12 @@ public class PaymentIntegrationControllerTest {
     @Test
     @DisplayName("잔액 조회 API - 성공")
     void BalanceSelectSUCESS() throws Exception{
-        Integer userId = 1;
+        UUID userUuid = UUID.randomUUID();
+        //Integer userId = 1;
         //tokenRepository.save(userId); // 유저 토큰 생성
-        paymentRepository.register(1,200000);
+        paymentRepository.register(userUuid,200000);
         mockMvc.perform(get("/payment/{userId}/balance/select",1)
-                        .header("userId",userId.toString())
+                        .header("userId",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -43,11 +46,12 @@ public class PaymentIntegrationControllerTest {
     @Test
     @DisplayName("잔액 조회 API - 실패 - 찾을수없는 사용자")
     void BalanceSelectFAIL1() throws Exception{
+        UUID userUuid = UUID.randomUUID();
         Integer userId = 1;
         //tokenRepository.save(2); // 유저 토큰 생성
-        paymentRepository.register(1,200000);
+        paymentRepository.register(userUuid,200000);
         mockMvc.perform(get("/payment/{userId}/balance/select",3)
-                        .header("userId",userId.toString())
+                        .header("userUuid",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

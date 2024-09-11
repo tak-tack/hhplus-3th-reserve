@@ -1,4 +1,4 @@
-package org.hhplus.reserve.Presentation.Controller;
+package org.hhplus.reserve.ControllerTest.UnitTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hhplus.reserve.Business.Domain.User.TokenRedisService;
@@ -55,9 +55,9 @@ public class ConcertControllerUnitTest {
     @Test
     @DisplayName("콘서트 예약 API")
     void ReservationSUCESS() throws Exception{
-        UUID uuid = UUID.randomUUID();
+        UUID userUuid = UUID.randomUUID();
         Mockito.when(authInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
-        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(1,"2024-07-16",1,1);
+        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO(userUuid,"2024-07-16",1,1);
         ObjectMapper objectMapper = new ObjectMapper();
         mockMvc.perform(post("/concert/reservation").content(
                                 objectMapper.writeValueAsString(reservationRequestDTO))

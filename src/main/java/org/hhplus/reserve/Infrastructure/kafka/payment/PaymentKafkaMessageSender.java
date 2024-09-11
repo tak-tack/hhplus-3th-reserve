@@ -13,12 +13,12 @@ public class PaymentKafkaMessageSender {
      public void sendPaymentSuccessMessage(PaymentMessage paymentMessage){
          // key : paymentId, message_value : paymentMessage
          kafkaTemplate.send("payment_success_topic",
-                 paymentMessage.getUserId().toString(),
+                 paymentMessage.getUserUuid().toString(),
                  paymentMessage.getPaymentAmount().toString());
      }
      public void sendPaymentFailureMessage(PaymentMessage paymentMessage){
          kafkaTemplate.send("payment_failure_topic",
-                 paymentMessage.getUserId().toString(),
+                 paymentMessage.getUserUuid().toString(),
                  paymentMessage.getPaymentAmount().toString());
      }
 }
