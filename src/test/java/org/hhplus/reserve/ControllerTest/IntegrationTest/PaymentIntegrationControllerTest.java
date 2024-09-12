@@ -33,11 +33,9 @@ public class PaymentIntegrationControllerTest {
     @DisplayName("잔액 조회 API - 성공")
     void BalanceSelectSUCESS() throws Exception{
         UUID userUuid = UUID.randomUUID();
-        //Integer userId = 1;
-        //tokenRepository.save(userId); // 유저 토큰 생성
         paymentRepository.register(userUuid,200000);
-        mockMvc.perform(get("/payment/{userId}/balance/select",1)
-                        .header("userId",userUuid.toString())
+        mockMvc.perform(get("/payment/{userUuid}/balance/select",userUuid)
+                        .header("UUID",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -61,11 +59,11 @@ public class PaymentIntegrationControllerTest {
     @DisplayName("잔액 충전 API - 성공")
     void BalanceChargeSUCESS() throws Exception{
         Integer userId = 3;
-        //tokenRepository.save(userId); // 유저 토큰 생성
-        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(3,10000);
-        paymentRepository.register(3,10000);
+        UUID userUuid = UUID.randomUUID();
+        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(userUuid,10000);
+        paymentRepository.register(userUuid,10000);
         ObjectMapper objectMapper = new ObjectMapper();
-        mockMvc.perform(post("/payment/{userId}/balance/charge",paymentRequestDTO.getUserId())
+        mockMvc.perform(post("/payment/{userId}/balance/charge",paymentRequestDTO.getUserUuid())
                         .header("userId",userId.toString())
                         .content(objectMapper.writeValueAsString(paymentRequestDTO)) // for @RequestBody
                         .contentType(APPLICATION_JSON))
@@ -79,11 +77,13 @@ public class PaymentIntegrationControllerTest {
     @DisplayName("잔액 충전 API - 실패 - 찾을 수 없는 사용자")
     void BalanceChargeFAIL() throws Exception{
         Integer userId = 4;
+        UUID userUuid = UUID.randomUUID();
         //tokenRepository.save(5); // 유저 토큰 생성
-        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(4,10000);
-        paymentRepository.register(4,10000);
+
+        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(userUuid,10000);
+        paymentRepository.register(userUuid,10000);
         ObjectMapper objectMapper = new ObjectMapper();
-        mockMvc.perform(post("/payment/{userId}/balance/charge",paymentRequestDTO.getUserId())
+        mockMvc.perform(post("/payment/{userId}/balance/charge",paymentRequestDTO.getUserUuid())
                         .header("userId",userId.toString())
                         .content(objectMapper.writeValueAsString(paymentRequestDTO)) // for @RequestBody
                         .contentType(APPLICATION_JSON))

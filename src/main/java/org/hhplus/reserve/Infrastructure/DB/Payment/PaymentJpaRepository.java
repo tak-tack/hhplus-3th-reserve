@@ -22,10 +22,10 @@ public interface PaymentJpaRepository extends JpaRepository<PaymentEntity,Intege
     Optional<List<PaymentEntity>> findUserByUserId(@Param("userUuid") UUID userUuid);
 
     @Modifying
-    @Query(value = "UPDATE dba.payment p SET p.payment_amount = :paymentAmount WHERE p.userUuid =:userUuid",nativeQuery = true)
+    @Query(value = "UPDATE dba.payment p SET p.payment_amount = :paymentAmount WHERE p.user_uuid =:userUuid",nativeQuery = true)
     void update(@Param("paymentAmount") Integer paymentAmount, @Param("userUuid") UUID userUuid);
 
     @Modifying
-    @Query(value="INSERT INTO dba.payment (payment_id,userUuid,payment_amount) values(default,:userUuid,:paymentAmount) ",nativeQuery = true)
+    @Query(value="INSERT INTO dba.payment (payment_id,user_uuid,payment_amount) values(default,:userUuid,:paymentAmount) ",nativeQuery = true)
     void Register(@Param("userUuid")UUID userId, @Param("paymentAmount")Integer paymentAmount);
 }

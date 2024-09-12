@@ -1,6 +1,7 @@
-package org.hhplus.reserve.Presentation.Controller;
+package org.hhplus.reserve.ControllerTest.UnitTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hhplus.reserve.Business.Usecase.Facade.PaymentFacade;
 import org.hhplus.reserve.Interface.Controller.PaymentController;
 import org.hhplus.reserve.Interface.DTO.Payment.PaymentRequestDTO;
 import org.hhplus.reserve.interceptor.AuthInterceptor;
@@ -32,13 +33,16 @@ public class PaymentControllerUnitTest {
     private ObjectMapper objectMapper;
     @MockBean
     private AuthInterceptor authInterceptor;
+    @MockBean
+    private PaymentFacade paymentFacade;
 
     @Test
     @DisplayName("잔액 조회 API")
     void BalanceSelectSUCESS() throws Exception{
-        UUID uuid = UUID.randomUUID();
+        UUID userUuid = UUID.randomUUID();
         Mockito.when(authInterceptor.preHandle(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(true);
-        mockMvc.perform(get("/payment/{userId}/balance/select",1)
+        mockMvc.perform(get("/payment/{userUuid}/balance/select",userUuid)
+                        .header("UUID",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -47,11 +51,11 @@ public class PaymentControllerUnitTest {
     @Test
     @DisplayName("잔액 충전 API")
     void BalanceChargeSUCESS() throws Exception{
-        //tkenService.applyAuth(1);
-        UUID uuid = UUID.randomUUID();
-        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(1,1000);
-        mockMvc.perform(post("/payment/{userId}/balance/charge",paymentRequestDTO.getUserId()).content(
+        UUID userUuid = UUID.randomUUID();
+        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(userUuid,1000);
+        mockMvc.perform(post("/payment/{userUuid}/balance/charge",paymentRequestDTO.getUserUuid()).content(
                                 objectMapper.writeValueAsString(paymentRequestDTO))
+                        .header("UUID",userUuid.toString())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());

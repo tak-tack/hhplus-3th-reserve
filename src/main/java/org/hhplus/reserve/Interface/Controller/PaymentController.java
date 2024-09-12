@@ -18,7 +18,7 @@ public class PaymentController {
     /*
      **잔액 충전 / 조회 API**
      */
-    @GetMapping("/{userId}/balance/select")
+    @GetMapping("/{userUuid}/balance/select")
     public List<PaymentResponseDTO> BalanceSelect(@PathVariable(name="userUuid") UUID userUuid){
         return paymentFacade.userPaymentSelect(userUuid);
     }

@@ -19,7 +19,6 @@ public class PaymentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer paymentId;
     @Column(unique = true) // 중복 미허용
-    //private Integer userId;
     private UUID userUuid;
     private Integer paymentAmount;
 

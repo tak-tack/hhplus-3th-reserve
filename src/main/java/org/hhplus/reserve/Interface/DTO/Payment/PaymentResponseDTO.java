@@ -2,6 +2,8 @@ package org.hhplus.reserve.Interface.DTO.Payment;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @ToString
@@ -10,6 +12,6 @@ import lombok.*;
 @NoArgsConstructor
 public class PaymentResponseDTO {
     private Integer paymentId;
-    private Integer userId;
+    private UUID userUuid;
     private Integer paymentAmount;
 }

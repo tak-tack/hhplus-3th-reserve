@@ -25,7 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
     // 예약 좌석 결제
     @Override
     @Transactional
-    public void reservationPayment(/*Integer userId*/ UUID userUuid, Integer seatPrice){
+    public void reservationPayment(UUID userUuid, Integer seatPrice){
         Integer userBalance = paymentRepository.findUserAmountByUserId(userUuid); // user 의 잔액 조회
         if(userBalance >= seatPrice){
             Integer afterUserBalance =  userBalance-seatPrice;

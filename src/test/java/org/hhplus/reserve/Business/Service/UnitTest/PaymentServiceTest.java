@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -36,58 +37,61 @@ class PaymentServiceTest {
     @Test
     @DisplayName("좌석 결재 테스트 성공")
     void reservationPaymentSUCESS() {
-        Integer userId = 1;
+        //Integer userId = 1;
+        UUID userUuid = UUID.randomUUID();
         Integer seatPrice = 10000;
         Integer userBalance = 20000;
 
-        when(paymentRepository.findUserAmountByUserId(userId)).thenReturn(userBalance);
+        when(paymentRepository.findUserAmountByUserId(userUuid)).thenReturn(userBalance);
 
-        paymentService.reservationPayment(userId, seatPrice);
+        paymentService.reservationPayment(userUuid, seatPrice);
 
-        verify(paymentRepository).update(userBalance - seatPrice, userId);
+        verify(paymentRepository).update(userBalance - seatPrice, userUuid);
     }
 
     @Test
     @DisplayName("좌석 결재 테스트 실패 - 잔액 부족")
     void reservationPaymentFAIL1() {
-        Integer userId = 1;
         Integer seatPrice = 30000;
         Integer userBalance = 20000;
+        UUID userUuid = UUID.randomUUID();
 
-        when(paymentRepository.findUserAmountByUserId(userId)).thenReturn(userBalance);
+        when(paymentRepository.findUserAmountByUserId(userUuid)).thenReturn(userBalance);
 
-        paymentService.reservationPayment(userId, seatPrice);
+        paymentService.reservationPayment(userUuid, seatPrice);
 
-        verify(paymentRepository).update(userBalance - seatPrice, userId);
+        verify(paymentRepository).update(userBalance - seatPrice, userUuid);
      }
 
     @Test
     @DisplayName("유저 잔액 조회 - 성공")
     void userPaymentFind() {
-        Integer userId = 1;
+        //Integer userId = 1;
+        UUID userUuid = UUID.randomUUID();
         List<PaymentDomain> paymentDomains = Collections.singletonList(new PaymentDomain());
 
-        when(paymentRepository.findUserByUserId(userId)).thenReturn(paymentDomains);
+        when(paymentRepository.findUserByUserId(userUuid)).thenReturn(paymentDomains);
 
-        List<PaymentResponseDTO> result = paymentService.userPaymentFind(userId);
+        List<PaymentResponseDTO> result = paymentService.userPaymentFind(userUuid);
 
         assertNotNull(result);
-        verify(paymentRepository).findUserByUserId(userId);
+        verify(paymentRepository).findUserByUserId(userUuid);
     }
 
     @Test
     @DisplayName("유저 잔액 충전 - 성공")
     void userPaymentCharge() {
-        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(1, 100);
+        UUID userUuid = UUID.randomUUID();
+        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO(userUuid, 100);
         Integer userBalance = 50;
 
-        when(paymentRepository.findUserAmountByUserId(paymentRequestDTO.getUserId())).thenReturn(userBalance);
-        when(paymentRepository.findUserByUserId(paymentRequestDTO.getUserId())).thenReturn(Collections.singletonList(new PaymentDomain()));
+        when(paymentRepository.findUserAmountByUserId(paymentRequestDTO.getUserUuid())).thenReturn(userBalance);
+        when(paymentRepository.findUserByUserId(paymentRequestDTO.getUserUuid())).thenReturn(Collections.singletonList(new PaymentDomain()));
 
         List<PaymentResponseDTO> result = paymentService.userPaymentCharge(paymentRequestDTO);
 
-        verify(paymentRepository).update(userBalance + paymentRequestDTO.getChargeAmount(), paymentRequestDTO.getUserId());
-        verify(paymentRepository).findUserByUserId(paymentRequestDTO.getUserId());
+        verify(paymentRepository).update(userBalance + paymentRequestDTO.getChargeAmount(), paymentRequestDTO.getUserUuid());
+        verify(paymentRepository).findUserByUserId(paymentRequestDTO.getUserUuid());
 
         assertNotNull(result);
     }
