@@ -22,6 +22,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	// testing
+	// JUnit 5 의존성
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	// Lombok
 	compileOnly ('org.projectlombok:lombok')

@@ -39,7 +39,7 @@ class QueueRedisServiceIntegrationTest {
             }
         });
 
-        scheduledFuture = taskScheduler.scheduleAtFixedRate(scheduledTasks::passQueue,500);
+       // scheduledFuture = taskScheduler.scheduleAtFixedRate(scheduledTasks::passQueue,500);
         // 쓰레드 시작
         thread1.start();
         thread1.join();

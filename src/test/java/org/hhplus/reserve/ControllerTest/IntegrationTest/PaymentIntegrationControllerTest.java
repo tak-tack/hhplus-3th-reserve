@@ -45,8 +45,6 @@ public class PaymentIntegrationControllerTest {
     @DisplayName("잔액 조회 API - 실패 - 찾을수없는 사용자")
     void BalanceSelectFAIL1() throws Exception{
         UUID userUuid = UUID.randomUUID();
-        Integer userId = 1;
-        //tokenRepository.save(2); // 유저 토큰 생성
         paymentRepository.register(userUuid,200000);
         mockMvc.perform(get("/payment/{userId}/balance/select",3)
                         .header("userUuid",userUuid.toString())
