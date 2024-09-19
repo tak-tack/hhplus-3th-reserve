@@ -100,7 +100,7 @@ sequenceDiagram
 
 ## <예약 가능 날짜/좌석 API>
 
-
+ 
 
 ```mermaid
 sequenceDiagram
